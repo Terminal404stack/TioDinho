@@ -1,0 +1,137 @@
+name: CI e deploy — Ser Capoeira
+
+on:
+  push:
+    branches:
+      - claude/quirky-volta-t94mlm
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sercapoeira-deploy
+  cancel-in-progress: false
+
+jobs:
+  validar-e-publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+
+      - name: Instalar Playwright para os testes
+        run: npm install --no-save --no-package-lock playwright
+
+      - name: Instalar Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Executar testes funcionais e pentest
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8080 --bind 127.0.0.1 >/tmp/sercapoeira-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:8080/index.html >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl --fail --silent http://127.0.0.1:8080/index.html >/dev/null
+
+          node tools/testes.js | tee /tmp/sercapoeira-testes.log
+          if ! grep -Eq 'FALHAS: 0$' /tmp/sercapoeira-testes.log; then
+            echo "::error::Os testes funcionais apresentaram falhas."
+            exit 1
+          fi
+
+          node tools/pentest.js | tee /tmp/sercapoeira-pentest.log
+          if grep -Eq '^FALHA ' /tmp/sercapoeira-pentest.log; then
+            echo "::error::O pentest encontrou falhas."
+            exit 1
+          fi
+
+      - name: Verificar se os segredos de deploy foram configurados
+        id: deploy_config
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        shell: bash
+        run: |
+          if [[ -n "$DEPLOY_SSH_KEY" && -n "$DEPLOY_KNOWN_HOSTS" ]]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Testes passaram, mas o deploy ainda não foi ativado. Configure DEPLOY_SSH_KEY e DEPLOY_KNOWN_HOSTS nos Secrets do repositório."
+          fi
+
+      - name: Preparar autenticação SSH
+        if: steps.deploy_config.outputs.ready == 'true'
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -d -m 700 "$HOME/.ssh"
+          printf '%s\n' "$DEPLOY_SSH_KEY" > "$HOME/.ssh/id_ed25519"
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/id_ed25519" "$HOME/.ssh/known_hosts"
+
+      - name: Publicar versão imutável no servidor
+        if: steps.deploy_config.outputs.ready == 'true'
+        shell: bash
+        env:
+          DEPLOY_HOST: 204.157.108.41
+          DEPLOY_USER: deploy-sercapoeira
+          DEPLOY_BASE: /var/www/sercapoeira
+        run: |
+          set -euo pipefail
+          if [[ ! "$GITHUB_SHA" =~ ^[a-f0-9]{40}$ ]]; then
+            echo "::error::SHA do commit inválido."
+            exit 1
+          fi
+
+          destination="$DEPLOY_USER@$DEPLOY_HOST"
+          release_dir="$DEPLOY_BASE/releases/$GITHUB_SHA"
+          ssh_opts=(-i "$HOME/.ssh/id_ed25519" -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$HOME/.ssh/known_hosts")
+
+          ssh "${ssh_opts[@]}" "$destination" "mkdir -p '$release_dir'"
+
+          tar \
+            --exclude='./.git' \
+            --exclude='./.github' \
+            --exclude='./.claude' \
+            --exclude='./.gitignore' \
+            --exclude='./docs' \
+            --exclude='./tools' \
+            --exclude='./CLAUDE.md' \
+            --exclude='./README.md' \
+            --exclude='./_config.yml' \
+            --exclude='./assets/img/fotos/originais' \
+            --exclude='./assets/img/logo/antiga' \
+            --exclude='./assets/img/logo/ser-capoeira-original.png' \
+            --exclude='./assets/img/logo/ser-capoeira.png' \
+            --exclude='./assets/img/logo/ser-capoeira-clara.png' \
+            --exclude='./assets/img/logo/ser-capoeira-emblema.png' \
+            --exclude='./assets/img/creditos/terminal404-original.png' \
+            --exclude='./assets/img/favicon/favicon-16x16.png' \
+            --exclude='./assets/img/favicon/favicon-32x32.png' \
+            --exclude='./assets/img/favicon/favicon-48x48.png' \
+            -czf - . | ssh "${ssh_opts[@]}" "$destination" "tar -xzf - -C '$release_dir'"
+
+          ssh "${ssh_opts[@]}" "$destination" "set -eu; test -s '$release_dir/index.html'; find '$release_dir' -type d -exec chmod 2750 {} +; find '$release_dir' -type f -exec chmod 0640 {} +; ln -sfn '$release_dir' '$DEPLOY_BASE/.current-next-$GITHUB_RUN_ID'; mv -Tf '$DEPLOY_BASE/.current-next-$GITHUB_RUN_ID' '$DEPLOY_BASE/current'; echo 'Publicação ativada: $GITHUB_SHA'"
+
+      - name: Registrar conclusão sem deploy (segredos pendentes)
+        if: steps.deploy_config.outputs.ready != 'true'
+        run: echo "CI concluída. A publicação será ativada assim que os dois Secrets SSH forem cadastrados."
