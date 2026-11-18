@@ -2,6 +2,19 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-18 — Logo nítida, pentest e remoção do formulário
+- Logo borrada: mestre só tem 703 px; derivados eram WebP com perda (q92) com alfa desfocado, e a
+  seção do nome ampliava a imagem em telas 2x. Refeito: fundo removido em 2x com redução Lanczos
+  (sem blur), WebP **lossless**, srcset 1x/2x (cabeçalho 240/360, rodapé 360/540, selo 128/192,
+  nome 350/703 com máx. 350 px de CSS). Pedido de logo em alta resolução está em pendências.
+- Pentest (`tools/pentest.js`, 62 verificações, 0 falhas; testes em `tools/`): XSS por URL, localStorage,
+  DevTools × outro visitante, CSP, clickjacking. Adicionados: CSP + referrer (meta), anti-iframe
+  (`protegerMoldura`), `_config.yml` excluindo `docs/`, `CLAUDE.md` e `README.md` do Pages.
+  Relatório em `docs/seguranca.md`.
+- Formulário do Contato removido (HTML, `iniciarFormulario`, CSS `.formulario/.campo*`). A seção
+  Canais virou coluna única (`.contato-unico`).
+- Testes 482/482; Lighthouse 94–99 / 100 / 100 / 100.
+
 ## 2026-11-18 — Logo PNG no cabeçalho e rodapé, foto do professor, auditoria completa
 - `ser-capoeira-clara.png` (+ webp 240/480): texto branco **só na região das palavras**. Recolorir
   todos os neutros deixou o contorno escuro das formas 3D branco (erro). Halos externos e o miolo

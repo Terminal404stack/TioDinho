@@ -1,0 +1,7 @@
+# GitHub Pages (Jekyll): não publicar arquivos internos do projeto.
+# Pastas e arquivos que começam com "." (como .claude/ e .git/) já não são publicados.
+exclude:
+  - docs/
+  - CLAUDE.md
+  - README.md
+  - tools/

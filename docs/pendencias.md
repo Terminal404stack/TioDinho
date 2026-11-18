@@ -19,3 +19,4 @@ indica onde entra quando for confirmado.
 | 12 | Domínio definitivo (também para `sitemap.xml` e `canonical`) | `og:image` usa caminho relativo; com o domínio, trocar por URL absoluta e adicionar `og:url`/`canonical` | `<head>` das 6 páginas |
 | 13 | Foto do Professor Dinho | **Recebida** em 18/11/2026, no topo da página Sobre (`professor-dinho-*`) | — |
 | 14 | Data de fundação / história detalhada | Não exibida | `sobre.html` |
+| 15 | **Logo em alta resolução** | A imagem enviada tem só 703 px de largura útil. Os arquivos foram refeitos sem perda e nunca são ampliados, mas para nitidez máxima em telas grandes, pedir a logo em **SVG/PDF ou PNG com 2000 px ou mais** | `assets/img/logo/` (regerar derivados) |

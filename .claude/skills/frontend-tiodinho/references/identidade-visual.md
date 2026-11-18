@@ -6,7 +6,9 @@
 - `ser-capoeira-{160,320,640}.webp`: usar no site (cabeçalho e selo 160/320, seção do nome 640).
 - `ser-capoeira-emblema.png`: recorte com mão, arcos e "Ser", usado nos favicons pequenos.
 - **Fundo claro:** logo original (`ser-capoeira-*.webp`, texto preto).
-- **Fundo escuro** (cabeçalho, rodapé): `ser-capoeira-clara.png` / `-clara-240.webp` / `-clara-480.webp`,
+- **Nitidez:** derivados em **WebP lossless** com `srcset` 1x/2x; **nunca exibir maior que metade da largura do arquivo** (máx. 703 px → 350 px de CSS). Sem blur no alfa (borda suave por supersampling 2x). Script: `tools/logo-nitida.py`.
+- Arquivos: original 128/192/350/703; clara 240/360/540.
+- **Fundo escuro** (cabeçalho, rodapé): `ser-capoeira-clara.png` e `-clara-240/360/540.webp`,
   com "CAPOEIRA inclusiva" em branco e halos removidos. Sem fundo, sem pílula: o usuário quer a logo "100% PNG".
 - Elementos reaproveitáveis: peças de quebra-cabeça coloridas, arco azul, arco verde, símbolo de
   acessibilidade.

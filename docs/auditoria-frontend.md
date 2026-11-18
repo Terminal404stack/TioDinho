@@ -14,7 +14,7 @@ Relatório completo com capturas (privado): https://claude.ai/artifact/TJczcnfqE
 Rolagem lateral, links e recursos (106), erros de console, imagens, elementos vazios, seções vazias,
 `alt` ausente/duplicado/genérico, links sem destino, âncoras quebradas, textos cortados, alvos de
 toque, contraste de todos os textos, teclado, menu, galeria, pausa das animações, sem JavaScript,
-formulário, PIX, 404 e simetria do cabeçalho.
+formulário (removido depois, ver `seguranca.md`), PIX, 404 e simetria do cabeçalho.
 
 ## Encontrado e corrigido
 - Números decorativos dos cartões de competências com contraste 1.58:1 → 3.8:1.

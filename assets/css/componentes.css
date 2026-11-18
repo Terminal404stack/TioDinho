@@ -587,32 +587,6 @@
   .voltar-topo.visivel { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
   .voltar-topo svg { width: 22px; height: 22px; }
 
-  /* ---------- Formulário ---------- */
-  .formulario { display: grid; gap: 20px; }
-  .campo { display: grid; gap: 8px; }
-  .campo label { font-weight: 700; }
-  .campo .dica { font-size: var(--fs-pequeno); color: var(--fg-suave); }
-  .campo input, .campo textarea, .campo select {
-    width: 100%;
-    min-height: 52px;
-    padding: 12px 16px;
-    border-radius: var(--raio-pequeno);
-    border: 2px solid #8a8fa3;
-    background: #fff;
-    color: var(--cor-tinta);
-  }
-  .campo textarea { min-height: 140px; resize: vertical; }
-  .campo input:focus-visible, .campo textarea:focus-visible, .campo select:focus-visible { border-color: var(--cor-azul); outline: 3px solid var(--cor-azul); outline-offset: 1px; }
-  .campo__erro { display: none; align-items: center; gap: 8px; color: var(--cor-vermelho-escuro); font-weight: 700; font-size: var(--fs-pequeno); }
-  .campo__erro svg { width: 18px; height: 18px; }
-  .campo.invalido .campo__erro { display: flex; }
-  .campo.invalido input, .campo.invalido textarea { border-color: var(--cor-vermelho-escuro); }
-  .formulario__acoes { display: flex; flex-wrap: wrap; gap: 12px; }
-  .grupo-opcoes { border: 0; padding: 0; display: grid; gap: 10px; }
-  .grupo-opcoes legend { font-weight: 700; margin-bottom: 8px; }
-  .opcao { display: flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; }
-  .opcao input { width: 22px; height: 22px; accent-color: var(--cor-azul); }
-
   .painel {
     padding: clamp(24px, 4vw, 48px);
     border-radius: var(--raio-grande);
@@ -699,9 +673,6 @@
   .pix { display: grid; gap: 14px; }
   .pix__chave code { display: block; padding: 12px 16px; border-radius: var(--raio-pequeno); background: var(--cor-superficie-suave); font-size: 1.1rem; overflow-wrap: anywhere; }
 
-  .aviso--compacto { margin-bottom: 20px; }
-  .aviso--compacto p { font-size: var(--fs-pequeno); }
-  .painel__titulo { font-size: var(--fs-h3); margin-bottom: 16px; }
 }
 
 @layer componentes {
@@ -792,7 +763,8 @@
   .nome__grid { display: grid; gap: clamp(32px, 5vw, 64px); align-items: center; }
 
   @media (min-width: 900px) { .nome__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); } }
-  .nome__logo { margin: 0; justify-self: center; width: min(100%, 460px); }
+  /* Máximo 350px: o arquivo tem 703px, então em tela 2x a logo nunca é ampliada (não borra) */
+  .nome__logo { margin: 0; justify-self: center; width: min(100%, 350px); }
   .nome__logo img { width: 100%; height: auto; }
   .nome__lista { list-style: none; padding: 0; display: grid; gap: clamp(22px, 3vw, 36px); }
   .nome__item {
@@ -841,7 +813,21 @@
   .lista-404 a { font-size: 1.15rem; }
 }
 
+
 @layer componentes {
-  /* E-mail é longo: fonte menor para caber numa linha na coluna do contato */
-  .contato__valor--longo { font-size: clamp(1.05rem, 1.45vw, 1.45rem); }
+  /* Aviso quando o site é exibido dentro de outra página (clickjacking) */
+  .aviso-moldura {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-content: center;
+    gap: 16px;
+    padding: 24px;
+    background: var(--cor-noite);
+    color: #fff;
+    text-align: center;
+    font-weight: 700;
+  }
+  .aviso-moldura a { color: var(--cor-amarelo); }
 }

@@ -286,16 +286,13 @@
     .hero-pagina__foto { justify-self: end; }
   }
 
-  /* Sem JavaScript: navegação visível e simples em todas as larguras */
-  html:not(.no-js) .so-sem-js { display: none; }
-  html.no-js .so-com-js { display: none; }
 
   /* Duas fotos lado a lado */
   .dupla-fotos { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px, 2vw, 24px); align-items: start; }
   .dupla-fotos > :last-child { margin-top: clamp(24px, 5vw, 64px); }
 
   /* Contato */
-  .contato-grid { align-items: start; }
+  .contato-unico { max-width: 820px; }
   .pecas-grandes { width: min(60vw, 260px); justify-self: center; }
   .pecas-grandes svg { width: 100%; height: auto; }
   .rodape__local { display: flex; align-items: center; gap: 10px; min-height: 44px; }

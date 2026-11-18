@@ -8,7 +8,6 @@ import './animacoes.js';
 import './galeria.js';
 
 const WHATSAPP = '5532984473310';
-const EMAIL = 'dinh28_jf@yahoo.com.br';
 
 /* ---------- Região de anúncio global (aria-live) ---------- */
 const anunciar = (() => {
@@ -189,53 +188,25 @@ function iniciarPixCopiaCola() {
   });
 }
 
-/* ---------- Gerador de mensagem (contato) — nada é enviado pelo site ---------- */
-function iniciarFormulario() {
-  const form = document.getElementById('form-mensagem');
-  if (!form) return;
-  const saida = document.getElementById('form-feedback');
-  const campos = ['nome', 'mensagem'].map((n) => form.elements[n]);
-
-  const validar = () => {
-    let primeiroInvalido = null;
-    campos.forEach((campo) => {
-      const invalido = !campo.value.trim();
-      const caixa = campo.closest('.campo');
-      caixa.classList.toggle('invalido', invalido);
-      campo.setAttribute('aria-invalid', String(invalido));
-      if (invalido && !primeiroInvalido) primeiroInvalido = campo;
-    });
-    return primeiroInvalido;
-  };
-  campos.forEach((c) => c.addEventListener('input', () => {
-    if (c.closest('.campo').classList.contains('invalido') && c.value.trim()) {
-      c.closest('.campo').classList.remove('invalido');
-      c.setAttribute('aria-invalid', 'false');
-    }
-  }));
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const invalido = validar();
-    if (invalido) {
-      saida.textContent = 'Preencha os campos indicados para montar sua mensagem.';
-      invalido.focus();
-      return;
-    }
-    const canal = e.submitter?.value || 'whatsapp';
-    const nome = form.elements.nome.value.trim();
-    const assunto = form.elements.assunto.value;
-    const mensagem = form.elements.mensagem.value.trim();
-    const texto = `Olá, Professor Dinho! Meu nome é ${nome}.\nAssunto: ${assunto}.\n\n${mensagem}`;
-
-    if (canal === 'email') {
-      window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(`${assunto} — contato pelo site`)}&body=${encodeURIComponent(texto)}`;
-      saida.textContent = 'Abrimos o seu aplicativo de e-mail com a mensagem pronta. Ela só será enviada quando você confirmar o envio por lá.';
-    } else {
-      window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(texto)}`, '_blank', 'noopener');
-      saida.textContent = 'Abrimos o WhatsApp com a mensagem pronta em uma nova aba. Ela só será enviada quando você tocar em enviar por lá.';
-    }
-  });
+/* ---------- Proteção contra o site ser exibido dentro de outra página (clickjacking) ----------
+   O GitHub Pages não permite o cabeçalho X-Frame-Options; então, se a página estiver dentro de um
+   iframe de outro site, cobrimos o conteúdo com um aviso e um link para abrir o site original. */
+function protegerMoldura() {
+  let emoldurado = false;
+  try { emoldurado = window.top !== window.self; } catch { emoldurado = true; }
+  if (!emoldurado) return;
+  const aviso = document.createElement('div');
+  aviso.className = 'aviso-moldura';
+  aviso.setAttribute('role', 'alert');
+  const texto = document.createElement('p');
+  texto.textContent = 'Esta página está sendo exibida dentro de outro site.';
+  const link = document.createElement('a');
+  link.href = window.location.href;
+  link.target = '_top';
+  link.rel = 'noopener';
+  link.textContent = 'Abrir o site oficial do Ser Capoeira Inclusiva Adaptada';
+  aviso.append(texto, link);
+  document.body.append(aviso);
 }
 
 /* ---------- Ano no rodapé ---------- */
@@ -243,11 +214,11 @@ function iniciarAno() {
   document.querySelectorAll('[data-ano]').forEach((el) => { el.textContent = String(new Date().getFullYear()); });
 }
 
+protegerMoldura();
 iniciarMenu();
 iniciarRolagem();
 iniciarWhatsapp();
 iniciarCompartilhar();
 iniciarPix();
 iniciarPixCopiaCola();
-iniciarFormulario();
 iniciarAno();
