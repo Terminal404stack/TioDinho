@@ -34,13 +34,13 @@
   --cor-vermelho: #e3141b;
   --cor-vermelho-escuro: #c40f15;
   --cor-amarelo: #fbbf0a;
-  --cor-verde: #22a336;
-  --cor-verde-escuro: #17802a;
-  --cor-azul: #0a6fe0;
-  --cor-azul-escuro: #0857b8;
+  --cor-verde: #0e9611;
+  --cor-verde-escuro: #1f7a1f;
+  --cor-azul: #0228ab;
+  --cor-azul-escuro: #011f92;
 
   /* Estrutura */
-  --cor-noite: #0f1a3a;
+  --cor-noite: #0a1540;
   --cor-tinta: #0b0b14;
   --cor-prata: #c9ced6;
 
@@ -77,7 +77,7 @@
   --raio-grande: 28px;
   --raio-folha: clamp(18px, 3vw, 44px);
   --secao-padding: clamp(72px, 10vw, 160px);
-  --altura-header: 76px;
+  --altura-header: 96px;
 
   /* Fontes */
   --fonte-titulo: "Montserrat", "Arial Black", "Helvetica Neue", Arial, sans-serif;

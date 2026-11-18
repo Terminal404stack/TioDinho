@@ -22,7 +22,7 @@
     --foco: var(--cor-amarelo);
   }
   .cabecalho.compacto {
-    background: rgba(15, 26, 58, .9);
+    background: rgba(10, 21, 64, .9);
     border-bottom-color: var(--cor-borda-escura);
     box-shadow: 0 8px 30px rgba(0, 0, 0, .18);
   }
@@ -38,7 +38,7 @@
     min-height: var(--altura-header);
     transition: min-height var(--dur-media) var(--ease-padrao);
   }
-  .cabecalho.compacto .cabecalho__barra { min-height: 64px; }
+  .cabecalho.compacto .cabecalho__barra { min-height: 80px; }
 
   .marca {
     display: inline-flex;
@@ -48,12 +48,18 @@
     text-decoration: none;
     min-height: 44px;
     flex-shrink: 0;
+    /* Logo sobre "pílula" branca: o texto preto da logo precisa de fundo claro */
+    padding: 4px 14px;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .18);
   }
-  .marca img { width: 52px; height: 52px; transition: width var(--dur-media) var(--ease-padrao), height var(--dur-media) var(--ease-padrao); }
-  .cabecalho.compacto .marca img { width: 44px; height: 44px; }
-  .marca__texto { display: grid; line-height: 1.05; }
-  .marca__nome { font-family: var(--fonte-titulo); font-style: italic; font-weight: 800; font-size: 1.05rem; }
-  .marca__sub { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--cor-prata); }
+  .marca__logo {
+    width: 104px;
+    height: auto;
+    transition: width var(--dur-media) var(--ease-padrao);
+  }
+  .cabecalho.compacto .marca__logo { width: 84px; }
 
   .nav-principal { display: none; }
   .nav-principal ul { display: flex; align-items: center; gap: clamp(4px, 1vw, 14px); list-style: none; padding: 0; }
@@ -90,10 +96,6 @@
   }
 
   .cabecalho__acoes { display: flex; align-items: center; gap: 8px; }
-
-  @media (max-width: 420px) {
-    .marca__sub { display: none; }
-  }
 
   /* ---------- Menu mobile (tela cheia) ---------- */
   .menu-mobile {
@@ -223,7 +225,13 @@
 
   @media (min-width: 1024px) { .rodape__grid { grid-template-columns: 1.6fr 1fr 1.2fr; } }
   .rodape__marca { display: grid; gap: 16px; align-content: start; }
-  .rodape__marca img { width: 96px; height: 96px; }
+  .rodape__logo {
+    justify-self: start;
+    padding: 12px 20px;
+    border-radius: var(--raio-medio);
+    background: #fff;
+  }
+  .rodape__logo img { width: 150px; height: auto; }
   .rodape__marca p { color: #c3c9d9; max-width: 42ch; }
   .rodape h2 {
     font-family: var(--fonte-texto);

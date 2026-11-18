@@ -180,7 +180,7 @@
     position: absolute;
     inset: auto 0 0;
     height: 30%;
-    background: linear-gradient(to top, rgba(15, 26, 58, .55), transparent);
+    background: linear-gradient(to top, rgba(10, 21, 64, .55), transparent);
     pointer-events: none;
   }
   figure.foto { display: grid; gap: 12px; }
@@ -213,7 +213,7 @@
     line-height: 1.2;
     box-shadow: 0 14px 30px rgba(0, 0, 0, .3);
   }
-  .selo img { width: 44px; height: 44px; }
+  .selo img { width: 64px; height: auto; }
 
   /* Faixa ondulada (swoosh da logo) sob o título dos heros */
   .swoosh-titulo {
@@ -724,8 +724,8 @@
   @media (max-width: 360px) {
     .botao-menu { padding: 0 13px; }
     .botao-menu__texto { display: none; }
-    .marca { gap: 8px; }
-    .marca img { width: 44px; height: 44px; }
+    .marca { padding: 4px 10px; }
+    .marca__logo { width: 84px; }
   }
 }
 
@@ -785,4 +785,53 @@
   .pix__copia { display: grid; gap: 10px; padding-top: 16px; border-top: 1px solid var(--cor-borda); }
   .pix__dica { font-size: var(--fs-pequeno); color: var(--cor-texto-secundario); }
   .contato__valor a { overflow-wrap: normal; }
+}
+
+@layer componentes {
+  /* ---------- O significado do nome (Início) ---------- */
+  .nome__grid { display: grid; gap: clamp(32px, 5vw, 64px); align-items: center; }
+
+  @media (min-width: 900px) { .nome__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); } }
+  .nome__logo { margin: 0; justify-self: center; width: min(100%, 460px); }
+  .nome__logo img { width: 100%; height: auto; }
+  .nome__lista { list-style: none; padding: 0; display: grid; gap: clamp(22px, 3vw, 36px); }
+  .nome__item {
+    --cor-item: var(--cor-azul);
+    position: relative;
+    display: grid;
+    gap: 6px;
+    padding-left: 22px;
+    border-left: 4px dotted var(--cor-item);
+  }
+  .nome__item::before {
+    content: "";
+    position: absolute;
+    left: -10px;
+    top: .35em;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--cor-item);
+    box-shadow: 0 0 0 4px var(--bg);
+  }
+  .nome__item--capoeira { --cor-item: var(--cor-tinta); }
+  .nome__item--inclusiva { --cor-item: var(--cor-verde-escuro); }
+  .nome__palavra {
+    font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+    color: var(--cor-item);
+  }
+  .nome__item--capoeira .nome__palavra { font-style: normal; text-transform: uppercase; letter-spacing: .02em; }
+  .nome__item p { color: var(--cor-texto-secundario); font-size: 1.08rem; }
+
+  /* Linhas pontilhadas ligando a logo aos textos (só no computador) */
+  @media (min-width: 900px) {
+    .nome__item::after {
+      content: "";
+      position: absolute;
+      right: calc(100% + 14px);
+      top: calc(.35em + 7px);
+      width: clamp(24px, 4vw, 64px);
+      border-top: 4px dotted var(--cor-item);
+    }
+  }
 }

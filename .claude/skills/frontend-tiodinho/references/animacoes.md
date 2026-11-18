@@ -1,4 +1,4 @@
-# Animações — site de instituição de caridade (Tio Dinho)
+# Animações do site Ser Capoeira Inclusiva Adaptada
 
 Pesquisa (nov/2026) resumida em regras. Fontes no fim.
 

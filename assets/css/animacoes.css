@@ -36,10 +36,10 @@
       transform-origin: center;
       animation: encaixa 900ms var(--ease-saida) both;
     }
-    html.anima .entrada-pecas .peca--1 { --dx: -14px; --dy: 14px; animation-delay: 500ms; }
-    html.anima .entrada-pecas .peca--2 { --dx: -14px; --dy: -14px; animation-delay: 620ms; }
-    html.anima .entrada-pecas .peca--3 { --dx: 14px; --dy: -14px; animation-delay: 740ms; }
-    html.anima .entrada-pecas .peca--4 { --dx: 14px; --dy: 14px; animation-delay: 860ms; }
+    html.anima .entrada-pecas .peca--1 { --dx: -14px; --dy: -14px; animation-delay: 500ms; }
+    html.anima .entrada-pecas .peca--2 { --dx: 14px; --dy: -14px; animation-delay: 620ms; }
+    html.anima .entrada-pecas .peca--3 { --dx: 14px; --dy: 14px; animation-delay: 740ms; }
+    html.anima .entrada-pecas .peca--4 { --dx: -14px; --dy: 14px; animation-delay: 860ms; }
 
     html.anima .swoosh-titulo path {
       stroke-dasharray: 1;
@@ -193,4 +193,12 @@ html.movimento-pausado::view-transition-group(*),
 html.movimento-pausado::view-transition-old(*),
 html.movimento-pausado::view-transition-new(*) {
   animation: none !important;
+}
+
+@layer animacoes {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Linha pontilhada do "significado do nome" se estende uma vez */
+    html.anima .nome__item::after { transform-origin: right; transition: transform 700ms var(--ease-saida) 250ms; }
+    html.anima.anima-pronto .nome__item:not(.visivel)::after { transform: scaleX(0); }
+  }
 }

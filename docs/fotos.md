@@ -14,7 +14,7 @@ Versões otimizadas: `otimizadas/destaque-alegria-na-roda-{853,600,400}.{webp,jp
 ## Sugestão de uso das demais (ainda não otimizadas)
 | Seção | Fotos | Por quê |
 |---|---|---|
-| Sobre o Tio Dinho | 16 (abraço com sinal de joinha), 26 (retrato com berimbau) | vínculo afetivo; apresenta o mestre |
+| Sobre o Professor Dinho | 16 (abraço com sinal de joinha), 26 (retrato com berimbau) | vínculo afetivo; apresenta o mestre |
 | Aulas / ginga | 09 (mestre conduzindo o aluno no movimento), 02 (menino na ginga com a turma) | capoeira em ação |
 | Música | 11, 13 (atabaque), 06 (criança com instrumento), 21, 25 | instrumentos e participação |
 | Nossa família / grupo | 20 (panorâmica horizontal), 23 (turma sentada no tatame), 10 | comunidade |

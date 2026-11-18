@@ -1,9 +1,9 @@
 ---
 name: frontend-tiodinho
-description: Front-end do site da instituição Tio Dinho (Capoeira Inclusiva Adaptada) — página estática e animada em HTML5, CSS3 e JavaScript puro. Use sempre que for criar ou alterar HTML, CSS, JS, animações, favicon, logo, fotos, fontes, cores, acessibilidade ou desempenho deste repositório, ou quando o usuário enviar novas fotos para o site.
+description: Front-end do site Ser Capoeira Inclusiva Adaptada (Professor Dinho, Juiz de Fora) — página estática e animada em HTML5, CSS3 e JavaScript puro. Use sempre que for criar ou alterar HTML, CSS, JS, animações, favicon, logo, fotos, fontes, cores, acessibilidade ou desempenho deste repositório, ou quando o usuário enviar novas fotos para o site.
 ---
 
-# Front-end Tio Dinho
+# Front-end Ser Capoeira Inclusiva Adaptada
 
 Site de uma instituição de caridade de **capoeira inclusiva** (pessoas com deficiência, autismo, famílias).
 O público inclui pessoas sensíveis a movimento e a estímulos — **acessibilidade vem antes do efeito visual**.

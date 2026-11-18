@@ -1,4 +1,4 @@
-# Tio Dinho — Capoeira Inclusiva Adaptada
+# Ser Capoeira Inclusiva Adaptada (repositório TioDinho)
 
 Site institucional estático e animado de uma instituição de caridade (capoeira inclusiva para pessoas
 com deficiência, autismo e famílias). Somente **HTML5 + CSS3 + JavaScript puro** — sem framework, sem build.
@@ -20,7 +20,7 @@ assets/css/              estilos (tokens em :root)
 assets/js/               scripts (módulos ES, sem dependências)
 assets/fonts/            fontes woff2 auto-hospedadas
 assets/icons/            ícones SVG da interface
-assets/img/logo/         logo-original.webp (enviada), logo-tio-dinho.png (fundo removido, mestre), .webp otimizadas
+assets/img/logo/         logo oficial "Ser Capoeira inclusiva": ser-capoeira.png (mestre), -160/-320/-640.webp, emblema; antiga/ só histórico
 assets/img/favicon/      favicon.svg, PNGs 16–512, apple-touch-icon, maskable
 assets/img/fotos/originais/   fotos enviadas pelo usuário (sem mexer)
 assets/img/fotos/otimizadas/  versões WebP/JPEG redimensionadas usadas no site
@@ -32,4 +32,5 @@ docs/                    conteúdo institucional, pendências, fotos
 M1 concluído: site multipágina (6 páginas) completo e testado. Nome público: **Ser Capoeira Inclusiva Adaptada**
 (Professor Dinho — Elizomar Nascimento, Juiz de Fora — MG). Conteúdo em `docs/conteudo-institucional.md`;
 o que falta confirmar em `docs/pendencias.md`. **Nunca inventar** PIX, datas, números, endereço ou certificados.
+Logo oficial: **Ser Capoeira inclusiva** (texto preto: sempre sobre fundo claro). Foto do Professor Dinho a receber (marcador `FOTO-PROFESSOR` em `sobre.html`).
 Rodar local: `python3 -m http.server 8080` na raiz (o sprite SVG não funciona via file://).

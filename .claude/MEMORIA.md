@@ -2,6 +2,22 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-18 — Nova identidade: logo oficial "Ser Capoeira inclusiva"
+**Feito**
+- A logo "Tio Dinho" estava errada (pedido do Professor Dinho). Logo nova sem o fundo branco (flood-fill)
+  → `ser-capoeira.png` + webp 160/320/640. A antiga foi para `assets/img/logo/antiga/`; `favicon.svg`
+  (losango) removido.
+- Favicon 16–96 do emblema (mão + arcos + "Ser"); ícones grandes, OG e maskable com a logo inteira
+  sobre branco.
+- Cores tiradas da logo: azul `#0228ab`, azul-escuro `#011f92`, verde `#0e9611`, verde-escuro
+  `#1f7a1f`, noite `#0a1540`.
+- Logo no cabeçalho e no rodapé dentro de "pílula" branca (o texto da logo é preto). Cabeçalho com 96px.
+- Peças decorativas viraram peças de quebra-cabeça (4 grupos SVG; ordem de desenho invertida para
+  os encaixes aparecerem).
+- Página Início: nova seção (01) "O significado do nome" (Ser / Capoeira / Inclusiva, texto do
+  professor) com linhas pontilhadas. As outras seções foram renumeradas de (02) a (06).
+- Marcador `FOTO-PROFESSOR` em `sobre.html` para trocar pela foto que ele vai enviar.
+
 ## 2026-11-18 — Revisão crítica dos textos
 - Removido texto inventado (ex.: "jogar capoeira e celebrar a diversidade", "responde pessoalmente",
   descrições de atividades não confirmadas, legenda "afeto no centro de cada encontro", seção "missão"

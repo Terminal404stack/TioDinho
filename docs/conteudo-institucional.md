@@ -5,7 +5,12 @@ ortografia, pontuação e clareza, sem alterar fatos. **Não acrescentar dados q
 
 ## Nome público
 **Ser Capoeira Inclusiva Adaptada** (forma curta: Ser Capoeira).
-A logo traz o nome "Tio Dinho" e é mantida sem alterações gráficas.
+Logo oficial: **Ser Capoeira inclusiva** (enviada em 18/11/2026; substitui a logo antiga "Tio Dinho").
+
+## O significado do nome (texto do Professor Dinho, página Início)
+- **Ser:** Refere-se à sua identidade, essência, valores, crenças e autoconsciência. É quem você é e no que você acredita sobre si mesmo.
+- **Capoeira:** A capoeira é uma expressão cultural afro-brasileira que mistura arte marcial, dança, acrobacias, música e tradição. É reconhecida como Patrimônio Cultural Imaterial da Humanidade pela UNESCO e Patrimônio Cultural do Brasil pelo IPHAN.
+- **Inclusiva:** Inclusiva quando deixamos de enxergar apenas o diagnóstico e passamos a reconhecer a pessoa, suas potencialidades, suas necessidades e suas infinitas possibilidades de aprender.
 
 ## Apresentação
 O Ser Capoeira nasceu para ser uma ferramenta de inclusão, promovendo a integração de crianças, jovens

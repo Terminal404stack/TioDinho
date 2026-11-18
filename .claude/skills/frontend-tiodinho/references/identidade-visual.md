@@ -1,58 +1,56 @@
 # Identidade visual
 
-## Logo
-- `assets/img/logo/logo-original.webp` — como foi enviada (xadrez de transparência **pintado**, não usar no site).
-- `assets/img/logo/logo-tio-dinho.png` — mestre com fundo transparente (1247×1247). Fonte para gerar derivados.
-- `assets/img/logo/logo-tio-dinho.webp` (1024) e `logo-tio-dinho-512.webp` — usar no site.
-- Elementos da logo reaproveitáveis em animações/ícones: 4 peças de quebra-cabeça (inclusão/autismo),
-  capoeirista em movimento (vermelho), berimbau (amarelo), cadeirante (verde), três pessoas unidas (azul),
-  faixa ondulada verde-amarela, texto prateado cromado com contorno preto.
+## Logo oficial: Ser Capoeira inclusiva (desde 18/11/2026)
+- `assets/img/logo/ser-capoeira-original.png`: como foi enviada (fundo branco).
+- `assets/img/logo/ser-capoeira.png`: mestre com fundo transparente (701×543). Fonte para os derivados.
+- `ser-capoeira-{160,320,640}.webp`: usar no site (cabeçalho e selo 160/320, seção do nome 640).
+- `ser-capoeira-emblema.png`: recorte com mão, arcos e "Ser", usado nos favicons pequenos.
+- **O texto da logo é preto: use sempre sobre fundo branco ou claro.** No cabeçalho e no rodapé
+  (fundo azul-noite) ela fica numa "pílula" branca (`.marca`, `.rodape__logo`).
+- Elementos reaproveitáveis: peças de quebra-cabeça coloridas, arco azul, arco verde, símbolo de
+  acessibilidade.
+- Logo antiga ("Tio Dinho") guardada em `assets/img/logo/antiga/`, só como histórico. **Não usar.**
 
-## Cores (tokens para `:root`) — contraste medido (WCAG)
+## Cores (tokens para `:root`), com contraste medido (WCAG)
 | Token | Hex | Branco | Tinta #0b0b14 | Uso |
 |---|---|---|---|---|
 | `--cor-vermelho` | `#e3141b` | 4.79 ✅ | 4.09 | botões, destaques |
 | `--cor-vermelho-escuro` | `#c40f15` | 6.13 ✅ | — | texto/hover |
 | `--cor-amarelo` | `#fbbf0a` | 1.67 ❌ | 11.71 ✅ | **só fundo com texto escuro**; nunca texto sobre branco |
-| `--cor-verde` | `#22a336` | 3.30 ⚠️ (só texto ≥ 24px/bold 19px) | 5.93 ✅ | ícones, fundos com texto escuro |
-| `--cor-verde-escuro` | `#17802a` | 5.05 ✅ | — | botões com texto branco |
-| `--cor-azul` | `#0a6fe0` | 4.81 ✅ | 4.07 | links, botões |
-| `--cor-azul-escuro` | `#0857b8` | 6.85 ✅ | — | hover de links |
-| `--cor-noite` | `#0f1a3a` | 17.08 ✅ | — | fundo escuro do topo/rodapé, `theme-color` |
+| `--cor-verde` | `#0e9611` (logo) | 3.6 ⚠️ (só texto grande) | — | ícones, decoração |
+| `--cor-verde-escuro` | `#1f7a1f` | 5.44 ✅ | — | botões e textos verdes |
+| `--cor-azul` | `#0228ab` (logo) | 9.4 ✅ | — | links, botões |
+| `--cor-azul-escuro` | `#011f92` | 12+ ✅ | — | hover |
+| `--cor-noite` | `#0a1540` | 17.6 ✅ | — | topo, rodapé, `theme-color` |
 | `--cor-tinta` | `#0b0b14` | 19.59 ✅ | — | texto principal |
-| `--cor-prata` | `#c9ced6` | — | — | bordas, detalhes "cromados" |
+| `--cor-prata` | `#c9ced6` | — | — | bordas, detalhes |
 | `--cor-fundo` | `#fffdf7` | — | — | fundo claro levemente quente |
 
-Ordem das peças (usar igual em divisores, cards, confete): **vermelho → amarelo → verde → azul**.
+Ordem das peças de quebra-cabeça decorativas: **vermelho → amarelo → verde → azul**.
 
 ## Tipografia (auto-hospedar woff2 em `assets/fonts/`, `font-display: swap`)
-- Títulos: **Montserrat 800 itálico** (ecoa o "TIO DINHO" da logo). Subtítulos em caixa alta com
-  `letter-spacing: .08em` ecoam "CAPOEIRA INCLUSIVA ADAPTADA".
+- Títulos: **Montserrat 800 itálico**. Rótulos em caixa alta com `letter-spacing: .08em`.
 - Texto: **Atkinson Hyperlegible Next** (feita para baixa visão) 400/700, base 18px, `line-height: 1.6`.
-- Auto-hospedar evita enviar IP do visitante ao Google (LGPD) e acelera o carregamento.
+- Auto-hospedar evita enviar o IP do visitante ao Google (LGPD) e acelera o carregamento.
 
-## Favicon — já gerado
+## Favicon, a partir da logo oficial
 | Arquivo | Origem |
 |---|---|
-| `favicon.ico` (raiz) | 16 e 32 da marca simplificada + 48 da logo |
-| `assets/img/favicon/favicon.svg` | marca simplificada (losango 4 peças) — escala perfeita |
-| `favicon-16x16.png`, `favicon-32x32.png` | renderizados do SVG |
-| `favicon-48x48.png`, `favicon-96x96.png` | logo completa |
-| `apple-touch-icon.png` (180, fundo branco) | logo completa |
-| `android-chrome-192x192.png`, `-512x512.png` | logo completa, transparente |
-| `maskable-icon-512x512.png` | logo em 80 % sobre `#0f1a3a` (zona segura) |
+| `favicon.ico` (raiz) | 16/32/48 do emblema |
+| `favicon-16x16.png` … `favicon-96x96.png` | emblema (mão + arcos + "Ser"), transparente |
+| `apple-touch-icon.png` (180) | logo inteira sobre branco |
+| `android-chrome-192x192.png`, `-512x512.png` | logo inteira sobre branco |
+| `maskable-icon-512x512.png` | logo em 78 % sobre branco (zona segura) |
 | `site.webmanifest` (raiz) | nomes, cores e ícones |
 
-Trecho do `<head>` (copiar quando o `index.html` for criado):
+Trecho do `<head>`:
 ```html
 <link rel="icon" href="favicon.ico" sizes="32x32">
-<link rel="icon" href="assets/img/favicon/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon/favicon-96x96.png" type="image/png" sizes="96x96">
 <link rel="apple-touch-icon" href="assets/img/favicon/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
-<meta name="theme-color" content="#0f1a3a">
+<meta name="theme-color" content="#0a1540">
 ```
-Se o site ficar num subdiretório (ex.: GitHub Pages de projeto), trocar `/` inicial por caminho relativo.
 
 ## Fotos (quando o usuário enviar)
 1. Salvar como vieram em `assets/img/fotos/originais/` (não editar).
