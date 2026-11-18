@@ -23,6 +23,18 @@ Versões otimizadas: `otimizadas/destaque-alegria-na-roda-{853,600,400}.{webp,jp
 | Galeria geral | 03, 08, 14, 15, 19 | complemento |
 | Evitar | 04 (baixa resolução), 22 (marca d'água de data do celular) | qualidade |
 
-## Pendências
-- Confirmar autorização de uso de imagem de todas as crianças e pessoas com deficiência (ECA + LGPD).
-- As camisas trazem "Ser Capoeira Inclusiva": confirmar a relação com o nome "Tio Dinho" para os textos.
+## Fotos usadas no site (M1)
+Derivadas em `otimizadas/foto-NN-480.{webp,jpg}` e `foto-NN-g.{webp,jpg}` (até 1200 px, sem EXIF).
+| Página | Fotos |
+|---|---|
+| Início | hero `destaque-alegria-na-roda` (05), 16, 09, 20 |
+| Sobre | 02, 26 |
+| Capoeira Inclusiva | 06 (topo), 13, 21 |
+| Projetos | 18 + galeria: 05, 01, 08, 02, 07, 12, 10, 23, 15, 19, 11, 06 |
+| Ajude | 08 |
+Não usadas: 03, 04 (baixa resolução), 14, 17, 22 (data impressa), 24, 25.
+Imagem de compartilhamento: `assets/img/og/og-padrao.jpg` (logo, sem pessoas).
+
+## Autorização
+Autorização de uso das imagens informada pelo responsável em 18/11/2026. Recomenda-se arquivar os
+termos assinados (ver `docs/pendencias.md`). Os textos alternativos não citam nomes de pessoas.

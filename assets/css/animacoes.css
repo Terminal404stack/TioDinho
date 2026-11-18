@@ -1,0 +1,172 @@
+/* =========================================================
+   animacoes.css
+   Todo movimento só existe quando <html> tem a classe "anima":
+   - definida por um script inline no <head> (antes da pintura),
+   - somente se prefers-reduced-motion = no-preference
+     e o botão "Pausar animações" não estiver ativo.
+   Sem JS ou com movimento reduzido: tudo aparece imediatamente.
+   ========================================================= */
+@layer animacoes {
+
+  /* ---------- Movimento reduzido / pausado / sem JS ---------- */
+  html:not(.anima) *,
+  html:not(.anima) *::before,
+  html:not(.anima) *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html.anima { scroll-behavior: smooth; }
+
+    /* ---------- Entrada do topo (CSS puro, uma vez) ---------- */
+    html.anima .entrada {
+      animation: entrada var(--dur-entrada) var(--ease-saida) both;
+      animation-delay: calc(120ms + var(--d, 0) * 110ms);
+    }
+    html.anima .entrada-foto {
+      animation: revela-foto var(--dur-destaque) var(--ease-saida) both 150ms;
+    }
+    html.anima .entrada-pecas .peca {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: encaixa 900ms var(--ease-saida) both;
+    }
+    html.anima .entrada-pecas .peca--1 { --dx: -14px; --dy: 14px; animation-delay: 500ms; }
+    html.anima .entrada-pecas .peca--2 { --dx: -14px; --dy: -14px; animation-delay: 620ms; }
+    html.anima .entrada-pecas .peca--3 { --dx: 14px; --dy: -14px; animation-delay: 740ms; }
+    html.anima .entrada-pecas .peca--4 { --dx: 14px; --dy: 14px; animation-delay: 860ms; }
+
+    html.anima .swoosh path {
+      stroke-dasharray: 1;
+      animation: desenha 1100ms var(--ease-saida) both 400ms;
+    }
+
+    /* ---------- Revelação ao rolar (IntersectionObserver, uma vez) ---------- */
+    html.anima [data-anima] {
+      transition: opacity var(--dur-entrada) var(--ease-saida),
+                  transform var(--dur-entrada) var(--ease-saida),
+                  clip-path var(--dur-destaque) var(--ease-saida);
+      transition-delay: calc(var(--i, 0) * var(--stagger));
+    }
+    html.anima.anima-pronto [data-anima]:not(.visivel) {
+      opacity: 0;
+      transform: translateY(var(--desloc));
+    }
+    html.anima.anima-pronto [data-anima="foto"]:not(.visivel) {
+      opacity: 1;
+      transform: none;
+      clip-path: inset(100% 0 0 0);
+    }
+    html.anima [data-anima="foto"] { clip-path: inset(0); }
+
+    /* Marca-texto cresce quando o título aparece */
+    html.anima [data-anima] .marca-texto::before {
+      transition: transform 900ms var(--ease-saida) 250ms;
+      transform-origin: left;
+    }
+    html.anima.anima-pronto [data-anima]:not(.visivel) .marca-texto::before {
+      transform: rotate(-1.2deg) scaleX(0);
+    }
+
+    /* Botão de doar: "batimento" 2 vezes ao entrar na tela — nunca infinito */
+    html.anima .batimento.visivel {
+      animation: batimento 900ms var(--ease-padrao) 2 600ms;
+    }
+
+    /* Berimbau: a corda "vibra" no hover/foco do card */
+    html.anima .card:hover .berimbau,
+    html.anima .card:focus-within .berimbau {
+      animation: vibra 100ms linear 3;
+    }
+
+    /* ---------- Princípios de animação aplicados às microinterações ---------- */
+    /* Squash & stretch + follow through: o botão "amassa" ao pressionar e volta com leve sobra */
+    html.anima .botao {
+      transition: transform 380ms var(--ease-elastico),
+                  box-shadow var(--dur-media) var(--ease-padrao),
+                  color var(--dur-media) var(--ease-padrao);
+    }
+    html.anima .botao:active { transform: scale(1.03, .94); transition-duration: 90ms; }
+
+    /* Ação secundária: o ícone acompanha o preenchimento do botão */
+    html.anima .botao svg { transition: transform 380ms var(--ease-elastico); }
+    html.anima .botao:hover svg, html.anima .botao:focus-visible svg { transform: scale(1.12); }
+
+    /* Antecipação: a seta recua antes de avançar */
+    html.anima .link-seta:hover svg, html.anima .link-seta:focus-visible svg {
+      animation: antecipa 420ms var(--ease-padrao) both;
+    }
+
+    /* Cartões sobem com assentamento suave (slow in/out + follow through) */
+    html.anima .card--interativo { transition: transform 420ms var(--ease-elastico), box-shadow var(--dur-media) var(--ease-padrao); }
+
+    /* Menu mobile abre como uma cortina */
+    html.anima .menu-mobile:not([hidden]) {
+      animation: cortina 450ms var(--ease-saida) both;
+    }
+    html.anima .menu-mobile:not([hidden]) li {
+      animation: entrada 450ms var(--ease-saida) both;
+      animation-delay: calc(120ms + var(--i, 0) * 45ms);
+    }
+
+    /* Lightbox */
+    html.anima .lightbox[open] { animation: aparece 220ms var(--ease-padrao) both; }
+    html.anima .lightbox[open]::backdrop { animation: aparece 220ms var(--ease-padrao) both; }
+  }
+
+  @keyframes entrada {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @keyframes revela-foto {
+    from { clip-path: inset(100% 0 0 0); }
+    to { clip-path: inset(0); }
+  }
+
+  /* Arcos + follow through: a peça chega girando em curva, passa do ponto e assenta */
+  @keyframes encaixa {
+    0% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(-28deg) scale(.7); }
+    45% { opacity: 1; transform: translate(calc(var(--dx) * .35), calc(var(--dy) * -.15)) rotate(-8deg) scale(.95); }
+    75% { transform: translate(calc(var(--dx) * -.06), calc(var(--dy) * -.06)) rotate(3deg) scale(1.04); }
+    100% { opacity: 1; transform: none; }
+  }
+
+  @keyframes antecipa {
+    0% { transform: translateX(0); }
+    30% { transform: translateX(-3px); }
+    100% { transform: translateX(4px); }
+  }
+
+  @keyframes desenha {
+    from { stroke-dashoffset: 1; }
+    to { stroke-dashoffset: 0; }
+  }
+
+  @keyframes batimento {
+    0%, 100% { transform: scale(1); }
+    30% { transform: scale(1.04); }
+    60% { transform: scale(.99); }
+  }
+
+  @keyframes vibra {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(1deg); }
+    75% { transform: rotate(-1deg); }
+  }
+
+  @keyframes cortina {
+    from { clip-path: inset(0 0 100% 0); }
+    to { clip-path: inset(0); }
+  }
+
+  @keyframes aparece {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}

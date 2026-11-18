@@ -1,0 +1,21 @@
+# Pendências institucionais
+
+Itens que dependem do responsável (Professor Dinho). Nada disso foi inventado no site; cada ponto
+indica onde entra quando for confirmado.
+
+| # | Pendência | Situação no site | Onde atualizar |
+|---|---|---|---|
+| 1 | **Termos de autorização de imagem** | Autorização informada verbalmente pelo responsável em 18/11/2026 (ele e as crianças). Recomendado guardar os termos assinados pelos responsáveis legais (ECA/LGPD). | — |
+| 2 | **Chave PIX** — ⚠️ conferir | QR Code **publicado** em `ajude.html` a pedido do usuário (18/11/2026), arquivo `assets/img/pix/qrcode-pix.png`. A chave dentro do QR é `dinho28_jf@yahoo.com.br` (com "o"); o e-mail de contato informado é `dinh28_jf@yahoo.com.br` (sem "o"). Confirmar qual está certo. Chave em texto + botão Copiar continuam ocultos. | Chave: `data-pix="CHAVE"` no bloco `.pix`; QR: substituir o arquivo |
+| 3 | Demais dados de doação (titular, banco, valores sugeridos) | Não exibidos | `ajude.html` → seção Doações |
+| 4 | Endereço completo / locais e horários das aulas | Só "Juiz de Fora — MG"; visitante é orientado a perguntar no WhatsApp | `contato.html` e rodapé |
+| 5 | Datas da Tardezinha Inclusiva e outros eventos | "Data a confirmar" / "Datas e detalhes em breve" | `projetos.html` |
+| 6 | Números de impacto (alunos, anos de projeto, eventos) | Não exibidos (contadores animados previstos na skill) | `index.html` |
+| 7 | Certificações / formação do Professor Dinho | Não exibidas | `sobre.html` |
+| 8 | Parceiros e apoiadores | "Parceiros em breve" | `projetos.html` |
+| 9 | Prestação de contas / destinação de recursos | "Em preparação" | `ajude.html` → Transparência |
+| 10 | Política de privacidade e textos legais | Não criados (o site não coleta dados, não usa cookies nem analytics; guarda apenas a preferência "Pausar animações" no navegador). VLibras é carregado só após clique. | Criar página com validação institucional |
+| 11 | CNPJ / dados jurídicos (se houver) | Não exibidos | Rodapé |
+| 12 | Domínio definitivo | `og:image` usa caminho relativo; com o domínio, trocar por URL absoluta e adicionar `og:url`/`canonical` | `<head>` das 6 páginas |
+| 13 | Nome da logo ("Tio Dinho") × nome público ("Ser Capoeira Inclusiva Adaptada") | Logo mantida; textos usam o nome público | Confirmar se haverá versão da logo com o nome do projeto |
+| 14 | Data de fundação / história detalhada | Não exibida | `sobre.html` |

@@ -1,0 +1,230 @@
+/* =========================================================
+   main.js — menu, cabeçalho, voltar ao topo, WhatsApp,
+   compartilhar, gerador de mensagem e copiar PIX.
+   O conteúdo existe sem JS; aqui só há aprimoramentos.
+   ========================================================= */
+import './acessibilidade.js';
+import './animacoes.js';
+import './galeria.js';
+
+const WHATSAPP = '5532984473310';
+const EMAIL = 'dinh28_jf@yahoo.com.br';
+
+/* ---------- Região de anúncio global (aria-live) ---------- */
+const anunciar = (() => {
+  let regiao = document.getElementById('anuncio-global');
+  if (!regiao) {
+    regiao = document.createElement('div');
+    regiao.id = 'anuncio-global';
+    regiao.className = 'visualmente-oculto';
+    regiao.setAttribute('aria-live', 'polite');
+    document.body.append(regiao);
+  }
+  return (texto) => {
+    regiao.textContent = '';
+    window.setTimeout(() => { regiao.textContent = texto; }, 60);
+  };
+})();
+window.sciaAnunciar = anunciar;
+
+/* ---------- Menu mobile ---------- */
+function iniciarMenu() {
+  const botao = document.querySelector('.botao-menu');
+  const painel = document.getElementById('menu-mobile');
+  if (!botao || !painel) return;
+  const cabecalho = botao.closest('header');
+  const foraDoCabecalho = () => [...document.body.children].filter((el) => el !== cabecalho && el.tagName !== 'SCRIPT');
+  const rotulo = botao.querySelector('.botao-menu__texto');
+
+  const abrir = () => {
+    painel.hidden = false;
+    botao.setAttribute('aria-expanded', 'true');
+    botao.setAttribute('aria-label', 'Fechar menu');
+    if (rotulo) rotulo.textContent = 'Fechar';
+    document.documentElement.classList.add('menu-aberto');
+    foraDoCabecalho().forEach((el) => { el.inert = true; });
+    painel.querySelector('a')?.focus();
+  };
+  const fechar = (devolverFoco = true) => {
+    painel.hidden = true;
+    botao.setAttribute('aria-expanded', 'false');
+    botao.setAttribute('aria-label', 'Abrir menu');
+    if (rotulo) rotulo.textContent = 'Menu';
+    document.documentElement.classList.remove('menu-aberto');
+    foraDoCabecalho().forEach((el) => { el.inert = false; });
+    if (devolverFoco) botao.focus();
+  };
+
+  painel.querySelectorAll('li').forEach((li, i) => li.style.setProperty('--i', i));
+  botao.addEventListener('click', () => (painel.hidden ? abrir() : fechar()));
+  painel.addEventListener('click', (e) => { if (e.target.closest('a')) fechar(false); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !painel.hidden) fechar();
+  });
+  window.matchMedia('(min-width: 1100px)').addEventListener('change', (e) => {
+    if (e.matches && !painel.hidden) fechar(false);
+  });
+}
+
+/* ---------- Cabeçalho compacto e voltar ao topo ---------- */
+function iniciarRolagem() {
+  const cabecalho = document.querySelector('.cabecalho');
+  const topo = document.querySelector('.voltar-topo');
+  const sentinela = (top) => {
+    const s = document.createElement('div');
+    s.setAttribute('aria-hidden', 'true');
+    s.style.cssText = `position:absolute;top:${top};left:0;width:1px;height:1px;pointer-events:none;`;
+    document.body.prepend(s);
+    return s;
+  };
+  if (!('IntersectionObserver' in window)) return;
+  if (cabecalho) {
+    new IntersectionObserver(([e]) => cabecalho.classList.toggle('compacto', !e.isIntersecting && e.boundingClientRect.top < 0))
+      .observe(sentinela('70px'));
+  }
+  if (topo) {
+    new IntersectionObserver(([e]) => topo.classList.toggle('visivel', !e.isIntersecting && e.boundingClientRect.top < 0))
+      .observe(sentinela('140vh'));
+    topo.addEventListener('click', (e) => {
+      e.preventDefault();
+      const alvo = document.getElementById('conteudo');
+      window.scrollTo({ top: 0 });
+      alvo?.focus({ preventScroll: true });
+    });
+  }
+}
+
+/* ---------- WhatsApp com mensagem pré-preenchida ---------- */
+function iniciarWhatsapp() {
+  document.querySelectorAll('a[data-whatsapp]').forEach((a) => {
+    const msg = a.dataset.whatsapp.trim();
+    if (msg) a.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  });
+}
+
+/* ---------- Compartilhar a página ---------- */
+function iniciarCompartilhar() {
+  document.querySelectorAll('[data-compartilhar]').forEach((botao) => {
+    botao.hidden = false;
+    const saida = document.getElementById(botao.getAttribute('aria-describedby') || '') || null;
+    botao.addEventListener('click', async () => {
+      const dados = {
+        title: 'Ser Capoeira Inclusiva Adaptada',
+        text: 'Conheça o Ser Capoeira Inclusiva Adaptada — capoeira para todos, em Juiz de Fora (MG).',
+        url: botao.dataset.url || window.location.href,
+      };
+      if (navigator.share) {
+        try { await navigator.share(dados); return; } catch (err) { if (err.name === 'AbortError') return; }
+      }
+      try {
+        await navigator.clipboard.writeText(dados.url);
+        const texto = 'Link copiado. Agora é só colar onde quiser compartilhar.';
+        if (saida) saida.textContent = texto;
+        anunciar(texto);
+      } catch {
+        const texto = `Copie este link para compartilhar: ${dados.url}`;
+        if (saida) saida.textContent = texto;
+        anunciar(texto);
+      }
+    });
+  });
+}
+
+/* ---------- PIX: QR Code e chave aparecem só depois de confirmados ----------
+   data-pix="chave"           → mostra a chave e ativa "Copiar chave PIX"
+   data-pix-qr="caminho.png"  → troca o espaço reservado pela imagem do QR Code */
+function iniciarPix() {
+  document.querySelectorAll('[data-pix]').forEach((bloco) => {
+    const qr = (bloco.dataset.pixQr || '').trim();
+    if (qr) {
+      const img = document.createElement('img');
+      img.className = 'pix-qr__img';
+      img.src = qr;
+      img.width = 400;
+      img.height = 400;
+      img.alt = 'QR Code para doação via PIX ao Ser Capoeira Inclusiva Adaptada';
+      const vazio = bloco.querySelector('[data-pix-qr-vazio]');
+      vazio?.replaceWith(img);
+    }
+
+    const chave = (bloco.dataset.pix || '').trim();
+    if (!chave) return; // chave ainda não confirmada
+    const dados = bloco.querySelector('[data-pix-dados]');
+    if (dados) dados.hidden = false;
+    bloco.querySelectorAll('[data-pix-valor]').forEach((el) => { el.textContent = chave; });
+    const botao = bloco.querySelector('[data-pix-copiar]');
+    const saida = bloco.querySelector('[data-pix-feedback]');
+    botao?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(chave);
+        botao.querySelector('span').textContent = 'Copiado!';
+        if (saida) saida.textContent = 'Chave PIX copiada.';
+        window.setTimeout(() => { botao.querySelector('span').textContent = 'Copiar chave PIX'; }, 2000);
+      } catch {
+        if (saida) saida.textContent = 'Não foi possível copiar automaticamente. Selecione a chave acima e copie.';
+      }
+    });
+  });
+}
+
+/* ---------- Gerador de mensagem (contato) — nada é enviado pelo site ---------- */
+function iniciarFormulario() {
+  const form = document.getElementById('form-mensagem');
+  if (!form) return;
+  const saida = document.getElementById('form-feedback');
+  const campos = ['nome', 'mensagem'].map((n) => form.elements[n]);
+
+  const validar = () => {
+    let primeiroInvalido = null;
+    campos.forEach((campo) => {
+      const invalido = !campo.value.trim();
+      const caixa = campo.closest('.campo');
+      caixa.classList.toggle('invalido', invalido);
+      campo.setAttribute('aria-invalid', String(invalido));
+      if (invalido && !primeiroInvalido) primeiroInvalido = campo;
+    });
+    return primeiroInvalido;
+  };
+  campos.forEach((c) => c.addEventListener('input', () => {
+    if (c.closest('.campo').classList.contains('invalido') && c.value.trim()) {
+      c.closest('.campo').classList.remove('invalido');
+      c.setAttribute('aria-invalid', 'false');
+    }
+  }));
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const invalido = validar();
+    if (invalido) {
+      saida.textContent = 'Preencha os campos indicados para montar sua mensagem.';
+      invalido.focus();
+      return;
+    }
+    const canal = e.submitter?.value || 'whatsapp';
+    const nome = form.elements.nome.value.trim();
+    const assunto = form.elements.assunto.value;
+    const mensagem = form.elements.mensagem.value.trim();
+    const texto = `Olá, Professor Dinho! Meu nome é ${nome}.\nAssunto: ${assunto}.\n\n${mensagem}`;
+
+    if (canal === 'email') {
+      window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(`${assunto} — contato pelo site`)}&body=${encodeURIComponent(texto)}`;
+      saida.textContent = 'Abrimos o seu aplicativo de e-mail com a mensagem pronta. Ela só será enviada quando você confirmar o envio por lá.';
+    } else {
+      window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(texto)}`, '_blank', 'noopener');
+      saida.textContent = 'Abrimos o WhatsApp com a mensagem pronta em uma nova aba. Ela só será enviada quando você tocar em enviar por lá.';
+    }
+  });
+}
+
+/* ---------- Ano no rodapé ---------- */
+function iniciarAno() {
+  document.querySelectorAll('[data-ano]').forEach((el) => { el.textContent = String(new Date().getFullYear()); });
+}
+
+iniciarMenu();
+iniciarRolagem();
+iniciarWhatsapp();
+iniciarCompartilhar();
+iniciarPix();
+iniciarFormulario();
+iniciarAno();

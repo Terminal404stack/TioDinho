@@ -15,6 +15,7 @@ O público inclui pessoas sensíveis a movimento e a estímulos — **acessibili
 | Tarefa | Arquivo |
 |---|---|
 | Qualquer animação, transição ou microinteração | `references/animacoes.md` |
+| 12 princípios da animação + leis de UX (Fitts, Hick, Miller, Jakob, Doherty, Postel) | `references/principios-animacao-ux.md` |
 | Cores, fontes, logo, favicon, `<head>`, fotos | `references/identidade-visual.md` |
 | Qual ferramenta / skill / plugin usar e como | `references/ferramentas-e-plugins.md` |
 | Revisar antes de entregar ou commitar | `references/checklist-qualidade.md` |

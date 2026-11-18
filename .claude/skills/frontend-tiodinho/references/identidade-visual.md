@@ -45,11 +45,11 @@ Ordem das peças (usar igual em divisores, cards, confete): **vermelho → amare
 
 Trecho do `<head>` (copiar quando o `index.html` for criado):
 ```html
-<link rel="icon" href="/favicon.ico" sizes="32x32">
-<link rel="icon" href="/assets/img/favicon/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="/assets/img/favicon/favicon-96x96.png" type="image/png" sizes="96x96">
-<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
-<link rel="manifest" href="/site.webmanifest">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="assets/img/favicon/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/img/favicon/favicon-96x96.png" type="image/png" sizes="96x96">
+<link rel="apple-touch-icon" href="assets/img/favicon/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#0f1a3a">
 ```
 Se o site ficar num subdiretório (ex.: GitHub Pages de projeto), trocar `/` inicial por caminho relativo.

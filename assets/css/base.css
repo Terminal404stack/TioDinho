@@ -1,0 +1,196 @@
+/* =========================================================
+   Ser Capoeira Inclusiva Adaptada — base.css
+   Tokens, fontes, reset e tipografia
+   ========================================================= */
+@layer reset, base, layout, componentes, animacoes, utilidades;
+
+/* ---------- Fontes auto-hospedadas (subconjunto latin cobre o português) ---------- */
+@font-face {
+  font-family: "Montserrat";
+  font-style: italic;
+  font-weight: 800;
+  font-display: swap;
+  src: url("../fonts/montserrat-latin-800-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Atkinson Hyperlegible Next";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/atkinson-hyperlegible-next-latin-400-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Atkinson Hyperlegible Next";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/atkinson-hyperlegible-next-latin-700-normal.woff2") format("woff2");
+}
+
+:root {
+  /* Marca */
+  --cor-vermelho: #e3141b;
+  --cor-vermelho-escuro: #c40f15;
+  --cor-amarelo: #fbbf0a;
+  --cor-verde: #22a336;
+  --cor-verde-escuro: #17802a;
+  --cor-azul: #0a6fe0;
+  --cor-azul-escuro: #0857b8;
+
+  /* Estrutura */
+  --cor-noite: #0f1a3a;
+  --cor-tinta: #0b0b14;
+  --cor-prata: #c9ced6;
+
+  /* Superfícies */
+  --cor-fundo: #fffdf7;
+  --cor-superficie: #ffffff;
+  --cor-superficie-suave: #f5f3ed;
+
+  /* Tipografia */
+  --cor-texto: #0b0b14;
+  --cor-texto-secundario: #505465;
+  --cor-texto-claro: #ffffff;
+
+  /* Bordas e estados */
+  --cor-borda: rgba(11, 11, 20, 0.12);
+  --cor-borda-escura: rgba(255, 255, 255, 0.16);
+
+  /* Animações */
+  --dur-rapida: 150ms;
+  --dur-media: 300ms;
+  --dur-entrada: 600ms;
+  --dur-destaque: 1000ms;
+  --ease-saida: cubic-bezier(.22, 1, .36, 1);
+  --ease-padrao: cubic-bezier(.4, 0, .2, 1);
+  --ease-elastico: cubic-bezier(.34, 1.56, .64, 1); /* follow through: passa um pouco e assenta */
+  --stagger: 80ms;
+  --desloc: 20px;
+
+  /* Layout */
+  --largura-conteudo: 1200px;
+  --gutter: clamp(18px, 4vw, 64px);
+  --raio-pequeno: 8px;
+  --raio-medio: 16px;
+  --raio-grande: 28px;
+  --raio-folha: clamp(18px, 3vw, 44px);
+  --secao-padding: clamp(72px, 10vw, 160px);
+  --altura-header: 76px;
+
+  /* Fontes */
+  --fonte-titulo: "Montserrat", "Arial Black", "Helvetica Neue", Arial, sans-serif;
+  --fonte-texto: "Atkinson Hyperlegible Next", "Segoe UI", Roboto, Arial, sans-serif;
+
+  /* Escala fluida */
+  --fs-hero: clamp(2.5rem, 6vw + .5rem, 5.75rem);
+  --fs-h1: clamp(2.3rem, 5vw + .4rem, 4.75rem);
+  --fs-h2: clamp(1.9rem, 3.4vw + .4rem, 3.4rem);
+  --fs-h3: clamp(1.3rem, 1.2vw + .9rem, 1.75rem);
+  --fs-lead: clamp(1.15rem, .6vw + 1rem, 1.4rem);
+  --fs-corpo: 1.125rem;
+  --fs-pequeno: .95rem;
+  --fs-rotulo: .8125rem;
+
+  /* Tema padrão (claro) */
+  --bg: var(--cor-fundo);
+  --fg: var(--cor-texto);
+  --fg-suave: var(--cor-texto-secundario);
+  --linha: var(--cor-borda);
+  --link: var(--cor-azul-escuro);
+  --foco: var(--cor-azul);
+  --acento: var(--cor-vermelho);
+}
+
+/* ---------- Temas por seção ---------- */
+[data-tema="claro"] { --bg: var(--cor-fundo); --fg: var(--cor-texto); --fg-suave: var(--cor-texto-secundario); --linha: var(--cor-borda); --link: var(--cor-azul-escuro); --foco: var(--cor-azul); }
+[data-tema="suave"] { --bg: var(--cor-superficie-suave); --fg: var(--cor-texto); --fg-suave: var(--cor-texto-secundario); --linha: var(--cor-borda); --link: var(--cor-azul-escuro); --foco: var(--cor-azul); }
+[data-tema="noite"] { --bg: var(--cor-noite); --fg: var(--cor-texto-claro); --fg-suave: #c3c9d9; --linha: var(--cor-borda-escura); --link: #9cc7ff; --foco: var(--cor-amarelo); }
+[data-tema="amarelo"] { --bg: var(--cor-amarelo); --fg: var(--cor-tinta); --fg-suave: #2b2a22; --linha: rgba(11, 11, 20, .2); --link: var(--cor-tinta); --foco: var(--cor-tinta); }
+
+[data-acento="vermelho"] { --acento: var(--cor-vermelho); }
+[data-acento="amarelo"] { --acento: var(--cor-amarelo); }
+[data-acento="verde"] { --acento: var(--cor-verde); }
+[data-acento="azul"] { --acento: var(--cor-azul); }
+
+@layer reset {
+  *, *::before, *::after { box-sizing: border-box; }
+  * { margin: 0; }
+  /* stylelint-disable-next-line property-no-vendor-prefix -- Safari iOS ainda exige o prefixo */
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { min-height: 100vh; }
+  img, picture, svg, video { display: block; max-width: 100%; }
+  img { height: auto; }
+  input, button, textarea, select { font: inherit; color: inherit; }
+  button { cursor: pointer; background: none; border: 0; padding: 0; }
+  ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
+  p, h1, h2, h3, h4, li, dd, blockquote { overflow-wrap: break-word; }
+  dialog { padding: 0; border: 0; }
+}
+
+@layer base {
+  html {
+    scroll-padding-top: calc(var(--altura-header) + 16px);
+    background: var(--cor-noite);
+  }
+  body {
+    font-family: var(--fonte-texto);
+    font-size: var(--fs-corpo);
+    line-height: 1.6;
+    color: var(--fg);
+    background: var(--cor-fundo);
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, .titulo {
+    font-family: var(--fonte-titulo);
+    font-style: italic;
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  h1 { font-size: var(--fs-h1); }
+  h2 { font-size: var(--fs-h2); }
+  h3 { font-size: var(--fs-h3); line-height: 1.15; }
+  p { text-wrap: pretty; max-width: 68ch; }
+  strong { font-weight: 700; }
+  a { color: var(--link); text-underline-offset: .18em; text-decoration-thickness: .08em; }
+  a:hover { text-decoration-thickness: .14em; }
+
+  :focus-visible {
+    outline: 3px solid var(--foco);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection { background: var(--cor-amarelo); color: var(--cor-tinta); }
+}
+
+@layer utilidades {
+  .visualmente-oculto {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0);
+    white-space: nowrap; border: 0;
+  }
+  .pular-conteudo {
+    position: fixed;
+    top: 12px; left: 12px;
+    z-index: 1000;
+    padding: 12px 20px;
+    background: var(--cor-amarelo);
+    color: var(--cor-tinta);
+    font-weight: 700;
+    border-radius: var(--raio-pequeno);
+    transform: translateY(-200%);
+  }
+  .pular-conteudo:focus { transform: none; outline: 3px solid var(--cor-tinta); }
+  .centro { text-align: center; margin-inline: auto; }
+  .sem-margem { margin: 0; }
+}
+
+@layer utilidades {
+  [hidden] { display: none !important; }
+}

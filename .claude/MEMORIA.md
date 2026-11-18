@@ -2,6 +2,48 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-18 — QR Code PIX publicado
+- A pedido do usuário, QR (mesmo arquivo de antes, chave `dinho28_jf@yahoo.com.br`) virou `assets/img/pix/qrcode-pix.png`, direto no HTML de `ajude.html` (funciona sem JS). Aviso trocado para "Doe com segurança: confira o recebedor no app". Divergência com o e-mail `dinh28_jf` segue em `docs/pendencias.md`.
+
+## 2026-11-18 — Ajustes: QR Code PIX, crédito Terminal404, princípios de animação/UX
+**Feito**
+- `ajude.html`: painel "Doe via PIX" com espaço do QR Code ("em breve"). `main.js/iniciarPix`:
+  `data-pix-qr` troca o espaço pela imagem; `data-pix` mostra a chave + Copiar. Ícone `i-qrcode` no sprite.
+- QR recebido decodificado: BR Code válido, chave `dinho28_jf@yahoo.com.br` ≠ e-mail `dinh28_jf@...` →
+  salvo como `assets/img/pix/qrcode-pix-rascunho.png`, **não publicado** até confirmação.
+- Rodapé das 6 páginas: crédito "Site desenvolvido por Terminal404" com logo (`assets/img/creditos/`) → https://terminal404.com.br.
+- Nova referência da skill `principios-animacao-ux.md` (12 princípios + Fitts, Hick, Miller, Jakob,
+  Doherty, Postel, área de clique, frequência). Aplicado: squash/follow-through no botão, ícone como
+  ação secundária, antecipação na seta, arcos + overshoot nas peças, token `--ease-elastico`,
+  9 pilares em 3 grupos de 3 (Miller).
+- Testes: html-validate e stylelint limpos; Playwright 460/460; Lighthouse sem perda (97–99/100/100/100).
+
+## 2026-11-18 — M1: site multipágina completo (sem commit — aguardando autorização)
+**Feito**
+- 6 páginas reais: `index`, `sobre`, `capoeira-inclusiva`, `projetos`, `ajude`, `contato` (.html na raiz),
+  cabeçalho/rodapé repetidos em cada arquivo; página ativa via `aria-current`.
+- CSS em camadas (`@layer reset, base, layout, componentes, animacoes, utilidades`): `base.css` (tokens
+  do briefing, fontes, temas `data-tema` claro/suave/noite/amarelo, `data-acento`), `layout.css`,
+  `componentes.css`, `animacoes.css`. Regras de visibilidade do cabeçalho ficam em `utilidades`
+  (senão `.botao` vence). `[hidden]` forçado com !important.
+- Movimento: script inline no `<head>` põe `html.anima` só se movimento permitido e não pausado;
+  todo movimento depende de `.anima` (+ `.anima-pronto` para revelar ao rolar).
+- JS (módulos): `main.js` (menu com `inert`, header compacto e voltar-ao-topo por sentinelas,
+  WhatsApp `?text=`, compartilhar, gerador de mensagem, PIX), `animacoes.js`, `acessibilidade.js`
+  (Pausar animações + VLibras sob demanda), `galeria.js` (`<dialog>`).
+- Ícones próprios em `assets/icons/sprite.svg` (`<use href>` → exige servidor http, não file://).
+- Fontes woff2 (só subconjunto latin) + licenças OFL em `assets/fonts/`. Logo 128/192 webp. OG 1200×630.
+- Fotos otimizadas (19) — ver `docs/fotos.md`. Docs: `conteudo-institucional.md`, `pendencias.md`.
+- Testes: html-validate sem erros; stylelint limpo; Playwright 447/447 (6 páginas × 320–1920 px,
+  menu, teclado, galeria, pausa, reduzido, sem JS, links, formulário); Lighthouse mobile 97–99 / 100 / 100 / 100.
+
+**Decisões**
+- Páginas foram geradas por script no scratchpad (não versionado); editar os HTML direto daqui pra frente.
+- Header NÃO some ao rolar; sem grayscale; sem contadores (não há números confirmados).
+- Formulário de contato só monta texto e abre WhatsApp/e-mail (aviso explícito).
+
+**Pendências** — ver `docs/pendencias.md` (PIX, datas, números, endereço, domínio, textos legais).
+
 ## 2026-11-18 — Fotos recebidas
 **Feito**
 - 26 fotos do `TIO.zip` salvas como `assets/img/fotos/originais/foto-01..26.jpg` (WhatsApp, sem EXIF).

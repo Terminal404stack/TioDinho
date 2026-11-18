@@ -13,7 +13,7 @@ com deficiência, autismo e famílias). Somente **HTML5 + CSS3 + JavaScript puro
 
 ## Estrutura
 ```
-index.html               (ainda não criado)
+index.html, sobre.html, capoeira-inclusiva.html, projetos.html, ajude.html, contato.html
 favicon.ico              16/32/48 — raiz, pedido automático dos navegadores
 site.webmanifest         PWA/ícones Android
 assets/css/              estilos (tokens em :root)
@@ -24,9 +24,12 @@ assets/img/logo/         logo-original.webp (enviada), logo-tio-dinho.png (fundo
 assets/img/favicon/      favicon.svg, PNGs 16–512, apple-touch-icon, maskable
 assets/img/fotos/originais/   fotos enviadas pelo usuário (sem mexer)
 assets/img/fotos/otimizadas/  versões WebP/JPEG redimensionadas usadas no site
-docs/                    textos e conteúdo do site
+assets/img/og/            imagem de compartilhamento 1200×630
+docs/                    conteúdo institucional, pendências, fotos
 ```
 
 ## Status
-Fase 1 concluída: estrutura, favicon e skill. **O site ainda NÃO deve ser codificado** até o usuário pedir.
-Fotos recebidas (26) — principal: foto-05; plano em `docs/fotos.md`. Próximo: textos institucionais e, quando pedido, o site.
+M1 concluído: site multipágina (6 páginas) completo e testado. Nome público: **Ser Capoeira Inclusiva Adaptada**
+(Professor Dinho — Elizomar Nascimento, Juiz de Fora — MG). Conteúdo em `docs/conteudo-institucional.md`;
+o que falta confirmar em `docs/pendencias.md`. **Nunca inventar** PIX, datas, números, endereço ou certificados.
+Rodar local: `python3 -m http.server 8080` na raiz (o sprite SVG não funciona via file://).
