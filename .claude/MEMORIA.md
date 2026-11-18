@@ -13,7 +13,11 @@
 - Endereço `https://terminal404stack.github.io/TioDinho/`: canonical, og:url e og:image absolutos,
   `sitemap.xml`, `robots.txt` com Sitemap, `<base href="/TioDinho/">` só na 404.
 - Aviso de privacidade `Rgw7Xw9lXM.html` (factual) + link `.rodape__legal` em todos os rodapés.
-- As ferramentas agora usam `http://localhost:8080/TioDinho/` (servir a pasta de cima).
+- O usuário enviou um CI (`.github/workflows/deploy-sercapoeira.yml`) que roda testes+pentest com o site
+  na **raiz** (127.0.0.1:8080) e publica no servidor próprio 204.157.108.41. Por isso as ferramentas
+  usam `http://localhost:8080/` por padrão (`BASE` para outra pasta), e a 404 descobre a pasta do site
+  por script (hash no CSP só da 404) em vez de `<base>` fixo. Conflito de endereço (Pages × servidor)
+  registrado na pendência 16.
 - Testes 568/568, pentest 69/0, Lighthouse desktop 100 em tudo; celular 93–99/100/100/100.
   Branch `main` criada a partir da branch de trabalho (autorizado).
 

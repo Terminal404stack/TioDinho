@@ -31,7 +31,7 @@ principal fora da primeira tela, foco visível e erros no console.
 - **Chave PIX** confirmada (`dinho28_jf@yahoo.com.br`): chave em texto e botão Copiar publicados.
 - **Endereço do site** (`https://terminal404stack.github.io/TioDinho/`): endereço canônico,
   `og:url`, imagem de compartilhamento com endereço completo, `sitemap.xml`, `robots.txt` e
-  página 404 funcionando em endereços com subpasta.
+  página 404 funcionando em endereços com subpasta (ela descobre a pasta do site sozinha: `/TioDinho/` no GitHub Pages ou a raiz num domínio/servidor próprio).
 - **Aviso de privacidade** publicado (`Rgw7Xw9lXM.html`, link no rodapé de todas as páginas).
 - Branch `main` criada para o GitHub Pages.
 
@@ -47,7 +47,7 @@ principal fora da primeira tela, foco visível e erros no console.
 | html-validate | sem erros |
 | stylelint | sem erros |
 | `node --check` (JS) | sem erros |
-| `tools/testes.js` | 568/568 |
+| `tools/testes.js` | 568/568 no site na raiz (como o CI) e 568/568 em `/TioDinho/` (como o GitHub Pages) |
 | `tools/pentest.js` | 69 verificações, 0 falhas |
 | `tools/auditoria.js` | sem achados novos |
 | `tools/responsivo.js` | 24 telas × 8 páginas + 3 modos, só os limites acima |

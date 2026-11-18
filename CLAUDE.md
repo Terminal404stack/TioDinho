@@ -20,7 +20,8 @@ HMktb9HjQE.html          Projetos e Eventos
 R7JvqK3bng.html          Ajude
 tYXytz9wxv.html          Contato
 Rgw7Xw9lXM.html          Aviso de privacidade (link no rodapé)
-404.html (com <base href="/TioDinho/">), robots.txt, sitemap.xml, _config.yml (exclusões do GitHub Pages)
+404.html (descobre a pasta do site: /TioDinho/ no GitHub Pages ou raiz), robots.txt, sitemap.xml, _config.yml (exclusões do GitHub Pages)
+.github/workflows/deploy-sercapoeira.yml  CI do usuário: roda tools/testes.js e tools/pentest.js a cada push e publica no servidor próprio (precisa dos Secrets DEPLOY_SSH_KEY/DEPLOY_KNOWN_HOSTS)
 tools/                   testes, auditoria, pentest e script da logo (ver tools/README.md)
 favicon.ico              16/32/48 — raiz, pedido automático dos navegadores
 site.webmanifest         PWA/ícones Android
@@ -45,4 +46,5 @@ Cabeçalho: grid `1fr auto 1fr` (logo à esquerda, menu no centro, "Quero ajudar
 Segurança: CSP por meta tag em todas as páginas (hash do script inline do `<head>`; recalcular se ele mudar) e aviso anti-iframe em `main.js`. Ver `docs/seguranca.md`. Site sem formulário (estático).
 Logos: só arquivos sem perda e nunca ampliados (ver `identidade-visual.md`).
 Endereço publicado: https://terminal404stack.github.io/TioDinho/ (canonical/og:url em cada página).
-Rodar local igual à produção: na pasta **acima** do projeto, `python3 -m http.server 8080` → http://localhost:8080/TioDinho/ (as ferramentas de `tools/` usam esse endereço; o sprite SVG não funciona via file://).
+Rodar local: na raiz, `python3 -m http.server 8080` (igual ao CI; as ferramentas de `tools/` usam esse endereço). Para simular o GitHub Pages, sirva a pasta de cima e rode com `BASE=http://localhost:8081/TioDinho/`. O sprite SVG não funciona via file://.
+**Não quebrar o CI:** `tools/testes.js` precisa terminar em `FALHAS: 0` e o pentest sem linhas `FALHA`.

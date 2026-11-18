@@ -3,11 +3,14 @@
 Ficam fora do site publicado (`_config.yml` exclui `tools/`). Precisam de Node.js com o Playwright
 e o Chromium instalados (`npm i -g playwright && npx playwright install chromium`).
 
-1. Na pasta **acima** do projeto (para o site ficar em `/TioDinho/`, igual ao GitHub Pages), suba o site:
+1. Na raiz do projeto, suba o site (é o que o CI `.github/workflows/deploy-sercapoeira.yml` faz):
    ```bash
    python3 -m http.server 8080
    ```
-   Endereço: `http://localhost:8080/TioDinho/`. Para outro endereço, use a variável `BASE`.
+   Para testar outro endereço (ex.: GitHub Pages em subpasta), sirva a pasta de cima e use a variável `BASE`:
+   ```bash
+   BASE=http://localhost:8081/TioDinho/ node tools/testes.js
+   ```
 2. Em outro terminal, rode o que precisar:
 
 | Comando | O que verifica |

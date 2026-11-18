@@ -1,5 +1,5 @@
 const { chromium } = require('playwright');
-const BASE = process.env.BASE || 'http://localhost:8080/TioDinho/';
+const BASE = process.env.BASE || 'http://localhost:8080/';
 const PAGS = ['index','x2dKgtNI0v','CznFDg5A5K','HMktb9HjQE','R7JvqK3bng','tYXytz9wxv','Rgw7Xw9lXM'].concat(process.argv[2] ? process.argv[2].split(',') : []);
 (async () => {
  const b = await chromium.launch(); const achados = [];

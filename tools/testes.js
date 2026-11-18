@@ -1,5 +1,5 @@
 const { chromium } = require('playwright');
-const BASE = process.env.BASE || 'http://localhost:8080/TioDinho/';
+const BASE = process.env.BASE || 'http://localhost:8080/';
 const PAGINAS = ['index.html','x2dKgtNI0v.html','CznFDg5A5K.html','HMktb9HjQE.html','R7JvqK3bng.html','tYXytz9wxv.html','Rgw7Xw9lXM.html'];
 const PRODUCAO = 'https://terminal404stack.github.io/TioDinho/';
 const LARGURAS = [320, 375, 640, 768, 1024, 1440, 1920];
@@ -212,10 +212,10 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
     check(PAGINAS.every(pg => sm.includes(pg === 'index.html' ? `<loc>${PRODUCAO}</loc>` : `<loc>${PRODUCAO}${pg}</loc>`)) && !sm.includes('404.html'), 'sitemap incompleto');
     check((await (await q.request.get(BASE + 'robots.txt')).text()).includes(`Sitemap: ${PRODUCAO}sitemap.xml`), 'robots.txt sem Sitemap');
     const ctx404 = await b.newContext(); const html404 = await (await ctx404.request.get(BASE + '404.html')).text();
-    await ctx404.route('**/TioDinho/pasta/que/nao/existe', r => r.fulfill({ status: 404, contentType: 'text/html', body: html404 }));
+    await ctx404.route(BASE + 'pasta/que/nao/existe', r => r.fulfill({ status: 404, contentType: 'text/html', body: html404 }));
     const z = await ctx404.newPage(); await z.goto(BASE + 'pasta/que/nao/existe', { waitUntil: 'networkidle' });
     const est = await z.evaluate(() => ({ bg: getComputedStyle(document.querySelector('.hero-pagina')).backgroundColor, logo: document.querySelector('.marca__logo').naturalWidth, link: document.querySelector('.lista-404 a').href }));
-    check(est.bg === 'rgb(10, 21, 64)' && est.logo > 0 && est.link.endsWith('/TioDinho/index.html'), `404 em subpasta: ${JSON.stringify(est)}`); }
+    check(est.bg === 'rgb(10, 21, 64)' && est.logo > 0 && est.link === BASE + 'index.html', `404 em subpasta: ${JSON.stringify(est)}`); }
   // Aviso de privacidade: link em todos os rodapés
   { const q = await (await b.newContext()).newPage();
     for (const pg of PAGINAS.concat(['404.html'])) { await q.goto(BASE + pg); check(await q.locator('footer a.rodape__legal[href="Rgw7Xw9lXM.html"]').count() === 1, `${pg}: rodapé sem link de privacidade`); } }

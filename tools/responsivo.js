@@ -4,7 +4,7 @@ const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
 
-const BASE = process.env.BASE || 'http://localhost:8080/TioDinho/';
+const BASE = process.env.BASE || 'http://localhost:8080/';
 const PAGINAS = fs.readdirSync(path.join(__dirname, '..')).filter((f) => f.endsWith('.html')).sort();
 const TELAS = [
   ['celular', 320, 568], ['celular', 360, 800], ['celular', 375, 667], ['celular', 390, 844], ['celular', 412, 915], ['celular', 430, 932],
