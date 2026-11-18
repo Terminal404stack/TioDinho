@@ -8,6 +8,7 @@
 - **Fundo claro:** logo original (`ser-capoeira-*.webp`, texto preto).
 - **Nitidez:** derivados em **WebP lossless** com `srcset` 1x/2x; **nunca exibir maior que metade da largura do arquivo** (máx. 703 px → 350 px de CSS). Sem blur no alfa (borda suave por supersampling 2x). Script: `tools/logo-nitida.py`.
 - Arquivos: original 128/192/350/703; clara 240/360/540.
+- Larguras em `rem` (cabeçalho 7.5rem, compacto 6.25rem, celular 6rem) para crescer nos monitores ≥2200px; `sizes` do cabeçalho acompanha (120/135/150px).
 - **Fundo escuro** (cabeçalho, rodapé): `ser-capoeira-clara.png` e `-clara-240/360/540.webp`,
   com "CAPOEIRA inclusiva" em branco e halos removidos. Sem fundo, sem pílula: o usuário quer a logo "100% PNG".
 - Elementos reaproveitáveis: peças de quebra-cabeça coloridas, arco azul, arco verde, símbolo de

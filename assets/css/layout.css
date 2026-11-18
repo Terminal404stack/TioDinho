@@ -54,11 +54,11 @@
   }
   /* Logo em PNG/WebP transparente, versão com texto branco para o fundo escuro */
   .marca__logo {
-    width: 120px;
+    width: 7.5rem;
     height: auto;
     transition: width var(--dur-media) var(--ease-padrao);
   }
-  .cabecalho.compacto .marca__logo { width: 100px; }
+  .cabecalho.compacto .marca__logo { width: 6.25rem; }
 
   .nav-principal { display: none; justify-self: center; grid-column: 2; }
   .nav-principal ul { display: flex; align-items: center; gap: clamp(4px, 1vw, 14px); list-style: none; padding: 0; }
@@ -313,4 +313,43 @@
   html.no-js .nav-principal ul { flex-wrap: wrap; }
 
   @media (max-width: 480px) { .so-largo { display: none; } }
+}
+
+/* ---------- Topo da Início: botão principal visível sem rolar (notebooks e celulares comuns) ---------- */
+@layer layout {
+  .hero { padding-top: clamp(16px, min(4vw, 5vh), 64px); }
+  .hero .pilha--larga { gap: clamp(14px, 2.4vh, 28px); }
+  .hero__frase { max-width: 32ch; }
+  /* A foto acompanha a altura da tela: no notebook ela não fica mais alta que a área visível */
+  .hero__midia { width: min(100%, 460px, (100svh - 190px) * 2 / 3); min-width: min(100%, 260px); }
+
+  @media (min-width: 960px) {
+    .hero__grid { align-items: start; }
+  }
+  /* Telas baixas (notebook, celular deitado): cabeçalho mais compacto */
+  @media (max-height: 820px) {
+    .cabecalho__barra { min-height: 80px; }
+    .marca__logo { width: 6.5rem; }
+  }
+
+  @media (max-height: 520px) {
+    .cabecalho__barra, .cabecalho.compacto .cabecalho__barra { min-height: 60px; }
+    .marca__logo, .cabecalho.compacto .marca__logo { width: 4.75rem; }
+  }
+}
+
+@layer utilidades {
+  /* Celular muito estreito: a barra de acessibilidade cabe numa linha só */
+  @media (max-width: 360px) { .so-medio { display: none; } }
+}
+
+/* ---------- Monitores muito grandes: conteúdo e texto crescem junto ---------- */
+@media (min-width: 2200px) {
+  html { font-size: 112.5%; }
+  :root { --largura-conteudo: 1440px; }
+}
+
+@media (min-width: 3000px) {
+  html { font-size: 125%; }
+  :root { --largura-conteudo: 1600px; }
 }

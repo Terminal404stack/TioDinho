@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-# Sitemap: adicionar quando o domínio definitivo estiver confirmado (ver docs/pendencias.md)
+Sitemap: https://terminal404stack.github.io/TioDinho/sitemap.xml

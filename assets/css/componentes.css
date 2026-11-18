@@ -144,7 +144,19 @@
     transform: rotate(-1.2deg);
     z-index: -1;
   }
-
+  /* Celular: o destaque pode quebrar linha (texto ampliado não vaza da tela);
+     o fundo amarelo acompanha cada linha */
+  @media (max-width: 599px) {
+    .marca-texto {
+      white-space: normal;
+      background: var(--cor-amarelo);
+      border-radius: 6px;
+      /* stylelint-disable-next-line property-no-vendor-prefix -- Safari ainda exige o prefixo */
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+    }
+    .marca-texto::before { content: none; }
+  }
 
   /* ---------- Molduras de foto ---------- */
   .moldura {
@@ -312,7 +324,7 @@
   .linha {
     position: relative;
     display: grid;
-    grid-template-columns: clamp(40px, 5vw, 76px) 1fr;
+    grid-template-columns: minmax(clamp(40px, 5vw, 76px), max-content) 1fr;
     gap: 8px clamp(16px, 3vw, 40px);
     padding: clamp(20px, 3vw, 32px) 0;
     border-bottom: 1px solid var(--linha);
@@ -681,7 +693,7 @@
   @media (max-width: 360px) {
     .botao-menu { padding: 0 13px; }
     .botao-menu__texto { display: none; }
-    .marca__logo { width: 96px; }
+    .marca__logo { width: 6rem; }
   }
 }
 
@@ -693,7 +705,7 @@
   .grupo-pilares { display: grid; gap: 10px; align-content: start; }
   .grupo-pilares__titulo { font-size: clamp(1.5rem, 2vw, 2rem); display: flex; align-items: baseline; gap: 12px; }
   .grupo-pilares__titulo span { font-family: var(--fonte-texto); font-style: normal; font-size: var(--fs-rotulo); letter-spacing: .14em; color: var(--cor-amarelo); }
-  .grupo-pilares .linha { grid-template-columns: 44px 1fr; }
+  .grupo-pilares .linha { grid-template-columns: minmax(44px, max-content) 1fr; }
   .grupo-pilares .linha__titulo { font-family: var(--fonte-titulo); font-style: italic; font-weight: 800; font-size: clamp(1.15rem, 1.4vw, 1.4rem); line-height: 1.15; }
 
   /* Espaço do QR Code PIX */
@@ -729,7 +741,6 @@
 @layer componentes {
   .pix__copia { display: grid; gap: 10px; padding-top: 16px; border-top: 1px solid var(--cor-borda); }
   .pix__dica { font-size: var(--fs-pequeno); color: var(--cor-texto-secundario); }
-  .contato__valor a { overflow-wrap: normal; }
 }
 
 @layer componentes {
@@ -804,4 +815,36 @@
     font-weight: 700;
   }
   .aviso-moldura a { color: var(--cor-amarelo); }
+}
+
+@layer componentes {
+  /* Link legal no rodapé */
+  .rodape__legal {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: #e6e9f2;
+    text-decoration: underline;
+    text-underline-offset: .2em;
+  }
+  .rodape__legal:hover { color: #fff; }
+
+  /* Página de texto (aviso de privacidade) */
+  .legal { max-width: 760px; display: grid; gap: clamp(32px, 4vw, 48px); }
+  .legal__bloco { display: grid; gap: 14px; }
+  .legal__bloco h2 { font-size: var(--fs-h3); display: flex; align-items: baseline; gap: 14px; }
+  .legal__num {
+    font-family: var(--fonte-texto);
+    font-style: normal;
+    font-size: var(--fs-rotulo);
+    letter-spacing: .14em;
+    color: var(--fg-suave);
+  }
+  .legal__bloco p { color: var(--cor-texto-secundario); }
+  .legal__bloco p strong { color: var(--cor-texto); }
+}
+
+@layer componentes {
+  /* Números ao lado de títulos não encolhem nem quebram (ex.: "03" virando "0/3") */
+  .legal__num, .grupo-pilares__titulo span { flex-shrink: 0; overflow-wrap: normal; white-space: nowrap; }
 }

@@ -2,6 +2,21 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-18 — Revisão final em todas as telas e pendências fechadas
+- `tools/responsivo.js` (24 telas + texto 200%, alto contraste, tema escuro). Corrigido: CTA da Início
+  acima da dobra em notebooks/tablets/375×667 (foto limitada por `svh`, `--fs-hero` com `vh`, gaps
+  menores, `align-items: start`, cabeçalho 80px em `max-height: 820px` e 60px em `≤520px`); barra a11y
+  numa linha em ≤360px (`.so-medio`, `aria-label` no botão VLibras); monitores ≥2200/3000px com texto
+  112,5%/125% e conteúdo 1440/1600px; logo do cabeçalho em `rem`; `.marca-texto` quebra no celular;
+  `overflow-wrap: anywhere` em títulos, `p`, `dd` e e-mail.
+- PIX: `data-pix="dinho28_jf@yahoo.com.br"` (confirmado; e-mail de contato `dinh28` também certo).
+- Endereço `https://terminal404stack.github.io/TioDinho/`: canonical, og:url e og:image absolutos,
+  `sitemap.xml`, `robots.txt` com Sitemap, `<base href="/TioDinho/">` só na 404.
+- Aviso de privacidade `Rgw7Xw9lXM.html` (factual) + link `.rodape__legal` em todos os rodapés.
+- As ferramentas agora usam `http://localhost:8080/TioDinho/` (servir a pasta de cima).
+- Testes 568/568, pentest 69/0, Lighthouse desktop 100 em tudo; celular 93–99/100/100/100.
+  Branch `main` criada a partir da branch de trabalho (autorizado).
+
 ## 2026-11-18 — Revisão completa do código e nomes aleatórios nas páginas
 - Páginas renomeadas (pedido do usuário; index.html e 404.html mantidas): Sobre `x2dKgtNI0v.html`,
   Capoeira Inclusiva `CznFDg5A5K.html`, Projetos `HMktb9HjQE.html`, Ajude `R7JvqK3bng.html`,

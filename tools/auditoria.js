@@ -1,11 +1,12 @@
 const { chromium } = require('playwright');
-const PAGS = ['index','x2dKgtNI0v','CznFDg5A5K','HMktb9HjQE','R7JvqK3bng','tYXytz9wxv'].concat(process.argv[2] ? process.argv[2].split(',') : []);
+const BASE = process.env.BASE || 'http://localhost:8080/TioDinho/';
+const PAGS = ['index','x2dKgtNI0v','CznFDg5A5K','HMktb9HjQE','R7JvqK3bng','tYXytz9wxv','Rgw7Xw9lXM'].concat(process.argv[2] ? process.argv[2].split(',') : []);
 (async () => {
  const b = await chromium.launch(); const achados = [];
  for (const w of [375, 1440]) {
   const ctx = await b.newContext({ viewport: { width: w, height: 900 }, reducedMotion: 'reduce' });
   for (const pg of PAGS) {
-   const p = await ctx.newPage(); await p.goto(`http://localhost:8080/${pg}.html`, { waitUntil: 'networkidle' });
+   const p = await ctx.newPage(); await p.goto(`${BASE}${pg}.html`, { waitUntil: 'networkidle' });
    await p.evaluate(async () => { document.documentElement.style.scrollBehavior = 'auto'; for (let y = 0; y < document.body.scrollHeight; y += 500) { scrollTo(0, y); await new Promise(r => setTimeout(r, 30)); } scrollTo(0, 0); });
    const r = await p.evaluate(() => {
     const out = []; const vis = el => { const s = getComputedStyle(el); const rc = el.getBoundingClientRect(); return s.display !== 'none' && s.visibility !== 'hidden' && rc.width > 0 && rc.height > 0 && !el.closest('[hidden],.visualmente-oculto,dialog:not([open])'); };

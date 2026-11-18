@@ -19,7 +19,8 @@ CznFDg5A5K.html          Capoeira Inclusiva  index.html e 404.html precisam mant
 HMktb9HjQE.html          Projetos e Eventos
 R7JvqK3bng.html          Ajude
 tYXytz9wxv.html          Contato
-404.html, robots.txt, _config.yml (exclusões do GitHub Pages)
+Rgw7Xw9lXM.html          Aviso de privacidade (link no rodapé)
+404.html (com <base href="/TioDinho/">), robots.txt, sitemap.xml, _config.yml (exclusões do GitHub Pages)
 tools/                   testes, auditoria, pentest e script da logo (ver tools/README.md)
 favicon.ico              16/32/48 — raiz, pedido automático dos navegadores
 site.webmanifest         PWA/ícones Android
@@ -27,9 +28,9 @@ assets/css/              estilos (tokens em :root)
 assets/js/               scripts (módulos ES, sem dependências)
 assets/fonts/            fontes woff2 auto-hospedadas
 assets/icons/            ícones SVG da interface
-assets/img/logo/         logo oficial "Ser Capoeira inclusiva": ser-capoeira.png (mestre), -160/-320/-640.webp, emblema; antiga/ só histórico
+assets/img/logo/         logo oficial: ser-capoeira-128/192/350/703.webp (fundo claro) e -clara-240/360/540.webp (fundo escuro), sem perda; mestres .png e antiga/ não são publicados
 assets/img/favicon/      PNGs 16–512, apple-touch-icon, maskable
-assets/img/fotos/originais/   fotos enviadas pelo usuário (sem mexer)
+assets/img/fotos/originais/   fotos enviadas pelo usuário (sem mexer; NÃO publicadas, ver _config.yml)
 assets/img/fotos/otimizadas/  versões WebP/JPEG redimensionadas usadas no site
 assets/img/og/            imagem de compartilhamento 1200×630
 docs/                    conteúdo institucional, pendências, fotos
@@ -43,4 +44,5 @@ Logo oficial: **Ser Capoeira inclusiva**. Fundo claro → logo original; fundo e
 Cabeçalho: grid `1fr auto 1fr` (logo à esquerda, menu no centro, "Quero ajudar" à direita). Também existem `404.html` (noindex) e `robots.txt`.
 Segurança: CSP por meta tag em todas as páginas (hash do script inline do `<head>`; recalcular se ele mudar) e aviso anti-iframe em `main.js`. Ver `docs/seguranca.md`. Site sem formulário (estático).
 Logos: só arquivos sem perda e nunca ampliados (ver `identidade-visual.md`).
-Rodar local: `python3 -m http.server 8080` na raiz (o sprite SVG não funciona via file://).
+Endereço publicado: https://terminal404stack.github.io/TioDinho/ (canonical/og:url em cada página).
+Rodar local igual à produção: na pasta **acima** do projeto, `python3 -m http.server 8080` → http://localhost:8080/TioDinho/ (as ferramentas de `tools/` usam esse endereço; o sprite SVG não funciona via file://).

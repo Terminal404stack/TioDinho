@@ -84,7 +84,7 @@
   --fonte-texto: "Atkinson Hyperlegible Next", "Segoe UI", Roboto, Arial, sans-serif;
 
   /* Escala fluida */
-  --fs-hero: clamp(2.5rem, 6vw + .5rem, 5.75rem);
+  --fs-hero: clamp(2.5rem, min(6vw + .5rem, 10.5vh), 5.75rem);
   --fs-h1: clamp(2.3rem, 5vw + .4rem, 4.75rem);
   --fs-h2: clamp(1.9rem, 3.4vw + .4rem, 3.4rem);
   --fs-h3: clamp(1.3rem, 1.2vw + .9rem, 1.75rem);
@@ -150,6 +150,8 @@
     letter-spacing: -0.01em;
     text-wrap: balance;
   }
+  /* Palavra maior que a tela (texto muito ampliado) quebra em vez de vazar; em tamanho normal não muda nada */
+  h1, h2, h3, h4, p, dd, .titulo, .lema, .rotulo, .contato__valor, .rodape li a span, .chips li { overflow-wrap: anywhere; }
   h1 { font-size: var(--fs-h1); }
   h2 { font-size: var(--fs-h2); }
   h3 { font-size: var(--fs-h3); line-height: 1.15; }

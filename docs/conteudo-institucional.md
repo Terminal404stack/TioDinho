@@ -78,3 +78,14 @@ comunitários, apresentações, atividades com famílias, formação de instruto
 ## Formas de ajudar
 Doações (dados financeiros em confirmação) · voluntariado · parcerias com empresas, instituições,
 profissionais e organizações · divulgação nas redes · transparência (área em preparação).
+
+## Doações via PIX
+- Chave PIX: `dinho28_jf@yahoo.com.br` (confirmada em 18/11/2026; diferente do e-mail de contato, os dois estão certos).
+- QR Code em `assets/img/pix/qrcode-pix.png` e código "copia e cola" no bloco PIX de `R7JvqK3bng.html`.
+
+## Aviso de privacidade (`Rgw7Xw9lXM.html`)
+Texto factual: responsável e contato; nenhum dado pessoal coletado (sem formulário, cadastro,
+cookies, estatística ou anúncios); só a preferência "Pausar animações" fica no navegador; VLibras
+só ao clicar; WhatsApp/Instagram/e-mail são serviços de terceiros; hospedagem GitHub Pages; PIX só
+abre o app do banco; fotos com autorização e pedido de retirada pelos contatos. Atualizado em 18/11/2026.
+

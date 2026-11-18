@@ -1,6 +1,7 @@
 const { chromium } = require('playwright');
-const BASE = 'http://localhost:8080/';
-const PAGINAS = ['index.html','x2dKgtNI0v.html','CznFDg5A5K.html','HMktb9HjQE.html','R7JvqK3bng.html','tYXytz9wxv.html'];
+const BASE = process.env.BASE || 'http://localhost:8080/TioDinho/';
+const PAGINAS = ['index.html','x2dKgtNI0v.html','CznFDg5A5K.html','HMktb9HjQE.html','R7JvqK3bng.html','tYXytz9wxv.html','Rgw7Xw9lXM.html'];
+const PRODUCAO = 'https://terminal404stack.github.io/TioDinho/';
 const LARGURAS = [320, 375, 640, 768, 1024, 1440, 1920];
 const falhas = []; let ok = 0;
 const check = (cond, msg) => { if (cond) ok++; else falhas.push(msg); };
@@ -20,7 +21,7 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
       const r = await p.evaluate((pg) => ({
         overflow: document.documentElement.scrollWidth - window.innerWidth,
         h1: document.querySelectorAll('h1').length,
-        atual: [...document.querySelectorAll('[aria-current="page"]')].every(a => a.getAttribute('href') === pg) && document.querySelectorAll('[aria-current="page"]').length >= 2,
+        atual: [...document.querySelectorAll('[aria-current="page"]')].every(a => a.getAttribute('href') === pg) && document.querySelectorAll('[aria-current="page"]').length >= (pg === 'Rgw7Xw9lXM.html' ? 1 : 2),
         imgsQuebradas: [...document.images].filter(i => i.getAttribute('src') && (!i.complete || i.naturalWidth === 0)).map(i => i.currentSrc || i.src),
         escondidos: [...document.querySelectorAll('[data-anima]')].filter(e => getComputedStyle(e).opacity !== '1').length,
       }), pg);
@@ -151,19 +152,15 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
     check(await f.locator('form').count() === 0, 'contato: ainda existe formulário');
     check(await f.locator('.contatos a[href^="https://wa.me/5532984473310"]').count() === 1, 'contato: link do WhatsApp ausente'); }
 
-  // 9) PIX oculto enquanto chave não confirmada
+  // 9) PIX: QR Code e chave confirmada (dinho28_jf@yahoo.com.br) com botão Copiar
   const x = await (await b.newContext()).newPage(); await x.goto(BASE + 'R7JvqK3bng.html');
   check(await x.locator('.pix-qr__img').evaluate(i => i.complete && i.naturalWidth === 400), 'PIX: QR Code não carregou');
-  check(!(await x.locator('[data-pix-dados]').isVisible()), 'PIX: chave visível sem confirmação');
-  // simulação: chave e QR preenchidos
   const xctx = await b.newContext({ permissions: ['clipboard-read', 'clipboard-write'] });
-  await xctx.route('**/R7JvqK3bng.html', async r => { const res = await r.fetch(); let t = await res.text();
-    t = t.replace('data-pix=""', 'data-pix="chave-teste@exemplo.com"'); r.fulfill({ response: res, body: t }); });
   const y = await xctx.newPage(); await y.goto(BASE + 'R7JvqK3bng.html'); await y.waitForTimeout(400);
-  
-  check(await y.locator('[data-pix-dados]').isVisible(), 'PIX: dados não apareceram com chave');
+  check(await y.locator('[data-pix-dados]').isVisible(), 'PIX: chave em texto não aparece');
+  check((await y.locator('[data-pix-valor]').textContent()) === 'dinho28_jf@yahoo.com.br', 'PIX: chave exibida errada');
   await y.locator('[data-pix-copiar]').click();
-  check(await y.evaluate(() => navigator.clipboard.readText()) === 'chave-teste@exemplo.com', 'PIX: cópia falhou');
+  check(await y.evaluate(() => navigator.clipboard.readText()) === 'dinho28_jf@yahoo.com.br', 'PIX: cópia da chave falhou');
   check((await y.locator('[data-pix-copiar] span').textContent()) === 'Copiado!', 'PIX: feedback Copiado ausente');
   // PIX copia e cola (mesmo código do QR)
   const z = await (await b.newContext({ permissions: ['clipboard-read', 'clipboard-write'] })).newPage(); await z.goto(BASE + 'R7JvqK3bng.html');
@@ -205,6 +202,23 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
     const q = await ctx.newPage(); await q.goto(BASE + 'index.html'); const bt = q.locator('[data-vlibras]');
     await bt.click(); await q.waitForTimeout(400); await bt.click(); await q.waitForTimeout(400);
     check(pedidos === 2 && await q.locator('[vw]').count() === 0, `VLibras: nova tentativa após falha (pedidos=${pedidos})`); }
+  // Endereço do site (GitHub Pages), sitemap e 404 com subpasta
+  { const q = await (await b.newContext()).newPage();
+    for (const pg of PAGINAS) { await q.goto(BASE + pg);
+      const m = await q.evaluate(() => ({ can: document.querySelector('link[rel=canonical]')?.href, og: document.querySelector('meta[property="og:url"]')?.content, img: document.querySelector('meta[property="og:image"]')?.content }));
+      const esperado = pg === 'index.html' ? PRODUCAO : PRODUCAO + pg;
+      check(m.can === esperado && m.og === esperado && m.img === PRODUCAO + 'assets/img/og/og-padrao.jpg', `${pg}: endereço ${JSON.stringify(m)}`); }
+    const sm = await (await q.request.get(BASE + 'sitemap.xml')).text();
+    check(PAGINAS.every(pg => sm.includes(pg === 'index.html' ? `<loc>${PRODUCAO}</loc>` : `<loc>${PRODUCAO}${pg}</loc>`)) && !sm.includes('404.html'), 'sitemap incompleto');
+    check((await (await q.request.get(BASE + 'robots.txt')).text()).includes(`Sitemap: ${PRODUCAO}sitemap.xml`), 'robots.txt sem Sitemap');
+    const ctx404 = await b.newContext(); const html404 = await (await ctx404.request.get(BASE + '404.html')).text();
+    await ctx404.route('**/TioDinho/pasta/que/nao/existe', r => r.fulfill({ status: 404, contentType: 'text/html', body: html404 }));
+    const z = await ctx404.newPage(); await z.goto(BASE + 'pasta/que/nao/existe', { waitUntil: 'networkidle' });
+    const est = await z.evaluate(() => ({ bg: getComputedStyle(document.querySelector('.hero-pagina')).backgroundColor, logo: document.querySelector('.marca__logo').naturalWidth, link: document.querySelector('.lista-404 a').href }));
+    check(est.bg === 'rgb(10, 21, 64)' && est.logo > 0 && est.link.endsWith('/TioDinho/index.html'), `404 em subpasta: ${JSON.stringify(est)}`); }
+  // Aviso de privacidade: link em todos os rodapés
+  { const q = await (await b.newContext()).newPage();
+    for (const pg of PAGINAS.concat(['404.html'])) { await q.goto(BASE + pg); check(await q.locator('footer a.rodape__legal[href="Rgw7Xw9lXM.html"]').count() === 1, `${pg}: rodapé sem link de privacidade`); } }
   console.log(`\nOK: ${ok}  FALHAS: ${falhas.length}`);
   falhas.forEach(f => console.log(' - ' + f));
   await b.close();
