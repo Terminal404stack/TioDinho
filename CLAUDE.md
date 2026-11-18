@@ -29,4 +29,4 @@ docs/                    textos e conteúdo do site
 
 ## Status
 Fase 1 concluída: estrutura, favicon e skill. **O site ainda NÃO deve ser codificado** até o usuário pedir.
-Próximo: usuário envia as fotos → escolher as melhores e otimizar (ver skill).
+Fotos recebidas (26) — principal: foto-05; plano em `docs/fotos.md`. Próximo: textos institucionais e, quando pedido, o site.

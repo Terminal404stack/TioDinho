@@ -2,6 +2,17 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-18 — Fotos recebidas
+**Feito**
+- 26 fotos do `TIO.zip` salvas como `assets/img/fotos/originais/foto-01..26.jpg` (WhatsApp, sem EXIF).
+- Avaliadas por folha de contato. **Foto principal escolhida: `foto-05`** (menina dançando na roda,
+  banner "Enquanto existir AMOR...") → `otimizadas/destaque-alegria-na-roda-{853,600,400}.{webp,jpg}`.
+- Plano de uso das outras fotos por seção em `docs/fotos.md` (não otimizadas ainda).
+
+**Pendências**
+- Autorização de imagem das crianças; relação "Ser Capoeira Inclusiva" × "Tio Dinho".
+- Otimizar as demais fotos só quando cada seção for codificada.
+
 ## 2026-11-18 — Fase 1: preparação
 **Feito**
 - Estrutura de pastas criada (vazia, sem código do site).
