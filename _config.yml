@@ -1,7 +1,19 @@
-# GitHub Pages (Jekyll): não publicar arquivos internos do projeto.
+# GitHub Pages (Jekyll): o que NÃO deve ser publicado no site.
 # Pastas e arquivos que começam com "." (como .claude/ e .git/) já não são publicados.
 exclude:
   - docs/
+  - tools/
   - CLAUDE.md
   - README.md
-  - tools/
+  # Originais (fotos sem tratamento e arquivos-mestre): não são usados pelas páginas e não devem
+  # ficar acessíveis por endereço direto. Continuam no repositório como fonte.
+  - assets/img/fotos/originais/
+  - assets/img/logo/antiga/
+  - assets/img/logo/ser-capoeira-original.png
+  - assets/img/logo/ser-capoeira.png
+  - assets/img/logo/ser-capoeira-clara.png
+  - assets/img/logo/ser-capoeira-emblema.png
+  - assets/img/creditos/terminal404-original.png
+  - assets/img/favicon/favicon-16x16.png
+  - assets/img/favicon/favicon-32x32.png
+  - assets/img/favicon/favicon-48x48.png

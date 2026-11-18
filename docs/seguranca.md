@@ -46,7 +46,7 @@ Análise do código: nenhum uso perigoso de `eval`, `document.write` ou HTML vin
     Testar em produção ao clicar em "Ativar Libras".
 - **Referrer-Policy** `strict-origin-when-cross-origin`.
 - **Anti-clickjacking** em JavaScript (`protegerMoldura` em `assets/js/main.js`).
-- **`_config.yml`**: o GitHub Pages não publica `docs/`, `CLAUDE.md` e `README.md`. As pastas `.git/`
+- **`_config.yml`**: o GitHub Pages não publica `docs/`, `tools/`, `CLAUDE.md`, as **fotos originais** e os arquivos-mestre das logos. As pastas `.git/`
   e `.claude/` (que começam com ponto) já não são publicadas.
 - Formulário de contato **removido** (o site não tem back-end).
 

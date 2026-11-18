@@ -13,7 +13,14 @@ com deficiência, autismo e famílias). Somente **HTML5 + CSS3 + JavaScript puro
 
 ## Estrutura
 ```
-index.html, sobre.html, capoeira-inclusiva.html, projetos.html, ajude.html, contato.html, 404.html, robots.txt
+index.html               Início
+x2dKgtNI0v.html          Sobre              (nomes aleatórios pedidos pelo usuário em 18/11/2026;
+CznFDg5A5K.html          Capoeira Inclusiva  index.html e 404.html precisam manter o nome)
+HMktb9HjQE.html          Projetos e Eventos
+R7JvqK3bng.html          Ajude
+tYXytz9wxv.html          Contato
+404.html, robots.txt, _config.yml (exclusões do GitHub Pages)
+tools/                   testes, auditoria, pentest e script da logo (ver tools/README.md)
 favicon.ico              16/32/48 — raiz, pedido automático dos navegadores
 site.webmanifest         PWA/ícones Android
 assets/css/              estilos (tokens em :root)
@@ -21,7 +28,7 @@ assets/js/               scripts (módulos ES, sem dependências)
 assets/fonts/            fontes woff2 auto-hospedadas
 assets/icons/            ícones SVG da interface
 assets/img/logo/         logo oficial "Ser Capoeira inclusiva": ser-capoeira.png (mestre), -160/-320/-640.webp, emblema; antiga/ só histórico
-assets/img/favicon/      favicon.svg, PNGs 16–512, apple-touch-icon, maskable
+assets/img/favicon/      PNGs 16–512, apple-touch-icon, maskable
 assets/img/fotos/originais/   fotos enviadas pelo usuário (sem mexer)
 assets/img/fotos/otimizadas/  versões WebP/JPEG redimensionadas usadas no site
 assets/img/og/            imagem de compartilhamento 1200×630

@@ -1,5 +1,5 @@
 const { chromium } = require('playwright');
-const PAGS = ['index','sobre','capoeira-inclusiva','projetos','ajude','contato'].concat(process.argv[2] ? process.argv[2].split(',') : []);
+const PAGS = ['index','x2dKgtNI0v','CznFDg5A5K','HMktb9HjQE','R7JvqK3bng','tYXytz9wxv'].concat(process.argv[2] ? process.argv[2].split(',') : []);
 (async () => {
  const b = await chromium.launch(); const achados = [];
  for (const w of [375, 1440]) {

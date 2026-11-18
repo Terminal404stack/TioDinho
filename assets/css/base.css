@@ -187,8 +187,6 @@
     transform: translateY(-200%);
   }
   .pular-conteudo:focus { transform: none; outline: 3px solid var(--cor-tinta); }
-  .centro { text-align: center; margin-inline: auto; }
-  .sem-margem { margin: 0; }
 }
 
 @layer utilidades {

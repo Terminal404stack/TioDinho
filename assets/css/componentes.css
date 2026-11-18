@@ -35,9 +35,6 @@
   .barra-a11y__botao:hover { background: rgba(255, 255, 255, .08); }
   .barra-a11y__botao svg { width: 18px; height: 18px; }
   .barra-a11y__botao[aria-pressed="true"] { color: var(--cor-amarelo); }
-  .barra-a11y__botao .estado-ativo { display: none; }
-  .barra-a11y__botao[aria-pressed="true"] .estado-ativo { display: inline; }
-  .barra-a11y__botao[aria-pressed="true"] .estado-inativo { display: none; }
   .barra-a11y__sep { width: 1px; height: 20px; background: var(--cor-borda-escura); }
 
   /* ---------- Botões ---------- */
@@ -147,9 +144,7 @@
     transform: rotate(-1.2deg);
     z-index: -1;
   }
-  .marca-texto--verde::before { background: #7ee08d; }
 
-  .destaque-cor { color: var(--cor-amarelo); }
 
   /* ---------- Molduras de foto ---------- */
   .moldura {
@@ -164,7 +159,7 @@
   .moldura--alta { aspect-ratio: 4 / 5; }
   .moldura--larga { aspect-ratio: 16 / 9; }
   .moldura--panoramica { aspect-ratio: 21 / 9; }
-  .moldura figcaption, .legenda {
+  .moldura figcaption {
     font-size: var(--fs-pequeno);
     color: var(--fg-suave);
     margin-top: 12px;
@@ -195,7 +190,6 @@
     pointer-events: none;
   }
   .pecas--hero { right: -18px; bottom: 12%; }
-  .pecas--canto { left: -24px; top: -24px; }
   .pecas svg { width: 100%; height: 100%; filter: drop-shadow(0 10px 20px rgba(0, 0, 0, .3)); }
 
   .selo {
@@ -348,11 +342,6 @@
   }
   .linha__titulo { font-size: clamp(1.3rem, 2.2vw, 2rem); }
   .linha__texto { color: var(--fg-suave); grid-column: 2; }
-
-  @media (min-width: 900px) {
-    .linhas--duas .linha { grid-template-columns: clamp(40px, 5vw, 76px) minmax(0, 1fr) minmax(0, 1.2fr); align-items: baseline; }
-    .linhas--duas .linha__texto { grid-column: 3; }
-  }
 
   /* ---------- Lista com marcadores das 4 cores ---------- */
   .lista-pecas { list-style: none; padding: 0; display: grid; gap: 14px; }
@@ -627,16 +616,12 @@
   [data-tema="claro"] .lema span:nth-child(2), [data-tema="suave"] .lema span:nth-child(2) { color: var(--cor-tinta); background: var(--cor-amarelo); padding: 0 .2em; border-radius: 6px; }
   [data-tema="claro"] .lema span:nth-child(3), [data-tema="suave"] .lema span:nth-child(3) { color: var(--cor-verde-escuro); }
 
-  /* ---------- Faixa de 4 peças ---------- */
-  .faixa-pecas { display: flex; height: 8px; }
-  .faixa-pecas span { flex: 1; }
+  /* ---------- Cores das 4 peças (faixa do rodapé) ---------- */
   .p-vermelho { background: var(--cor-vermelho); }
   .p-amarelo { background: var(--cor-amarelo); }
   .p-verde { background: var(--cor-verde); }
   .p-azul { background: var(--cor-azul); }
 
-  /* ---------- Ícone decorativo do berimbau ---------- */
-  .berimbau { width: 64px; height: 64px; color: var(--cor-amarelo); transform-origin: 50% 90%; }
 
   /* ---------- Bloco "Em breve" de atividades ---------- */
   .card--futuro { background: transparent; border-style: dashed; border-width: 2px; }
@@ -708,32 +693,21 @@
   .grupo-pilares { display: grid; gap: 10px; align-content: start; }
   .grupo-pilares__titulo { font-size: clamp(1.5rem, 2vw, 2rem); display: flex; align-items: baseline; gap: 12px; }
   .grupo-pilares__titulo span { font-family: var(--fonte-texto); font-style: normal; font-size: var(--fs-rotulo); letter-spacing: .14em; color: var(--cor-amarelo); }
-  .grupo-pilares__texto { color: var(--fg-suave); margin-bottom: 8px; }
   .grupo-pilares .linha { grid-template-columns: 44px 1fr; }
   .grupo-pilares .linha__titulo { font-family: var(--fonte-titulo); font-style: italic; font-weight: 800; font-size: clamp(1.15rem, 1.4vw, 1.4rem); line-height: 1.15; }
 
   /* Espaço do QR Code PIX */
   .pix h3 { font-size: var(--fs-h3); }
   .pix-qr { display: grid; gap: 12px; justify-items: center; text-align: center; }
-  .pix-qr__vazio, .pix-qr__img {
+  .pix-qr__img {
     width: min(100%, 240px);
+    height: auto;
     aspect-ratio: 1;
+    padding: 10px;
     border-radius: var(--raio-medio);
+    background: #fff;
+    border: 1px solid var(--cor-borda);
   }
-  .pix-qr__vazio {
-    display: grid;
-    place-content: center;
-    justify-items: center;
-    gap: 10px;
-    border: 3px dashed var(--cor-prata);
-    background: var(--cor-superficie-suave);
-    color: var(--cor-texto-secundario);
-    font-weight: 700;
-    line-height: 1.3;
-  }
-  .pix-qr__vazio svg { width: 56px; height: 56px; color: var(--cor-tinta); }
-  .pix-qr__vazio small { font-weight: 400; }
-  .pix-qr__img { height: auto; padding: 10px; background: #fff; border: 1px solid var(--cor-borda); }
   .pix-qr figcaption { font-size: var(--fs-pequeno); color: var(--cor-texto-secundario); max-width: 34ch; }
   .pix__dados { display: grid; gap: 12px; padding-top: 16px; border-top: 1px solid var(--cor-borda); }
   .pix__rotulo { font-weight: 700; }

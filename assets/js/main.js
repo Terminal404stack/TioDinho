@@ -1,6 +1,6 @@
 /* =========================================================
    main.js — menu, cabeçalho, voltar ao topo, WhatsApp,
-   compartilhar, gerador de mensagem e copiar PIX.
+   compartilhar, PIX e proteção contra iframe.
    O conteúdo existe sem JS; aqui só há aprimoramentos.
    ========================================================= */
 import './acessibilidade.js';
@@ -81,9 +81,11 @@ function iniciarRolagem() {
     new IntersectionObserver(([e]) => cabecalho.classList.toggle('compacto', !e.isIntersecting && e.boundingClientRect.top < 0))
       .observe(sentinela('70px'));
   }
-  if (topo) {
+  const primeiraSecao = document.querySelector('main > section');
+  if (topo && primeiraSecao) {
+    // Aparece depois que o topo da página (hero) sai inteiro da tela
     new IntersectionObserver(([e]) => topo.classList.toggle('visivel', !e.isIntersecting && e.boundingClientRect.top < 0))
-      .observe(sentinela('140vh'));
+      .observe(primeiraSecao);
     topo.addEventListener('click', (e) => {
       e.preventDefault();
       const alvo = document.getElementById('conteudo');
@@ -129,23 +131,10 @@ function iniciarCompartilhar() {
   });
 }
 
-/* ---------- PIX: QR Code e chave aparecem só depois de confirmados ----------
-   data-pix="chave"           → mostra a chave e ativa "Copiar chave PIX"
-   data-pix-qr="caminho.png"  → troca o espaço reservado pela imagem do QR Code */
+/* ---------- PIX: a chave em texto aparece só depois de confirmada ----------
+   data-pix="chave" → mostra a chave e ativa "Copiar chave PIX" (o QR Code já está no HTML) */
 function iniciarPix() {
   document.querySelectorAll('[data-pix]').forEach((bloco) => {
-    const qr = (bloco.dataset.pixQr || '').trim();
-    if (qr) {
-      const img = document.createElement('img');
-      img.className = 'pix-qr__img';
-      img.src = qr;
-      img.width = 400;
-      img.height = 400;
-      img.alt = 'QR Code para doação via PIX ao Ser Capoeira Inclusiva Adaptada';
-      const vazio = bloco.querySelector('[data-pix-qr-vazio]');
-      vazio?.replaceWith(img);
-    }
-
     const chave = (bloco.dataset.pix || '').trim();
     if (!chave) return; // chave ainda não confirmada
     const dados = bloco.querySelector('[data-pix-dados]');
@@ -206,7 +195,9 @@ function protegerMoldura() {
   link.rel = 'noopener';
   link.textContent = 'Abrir o site oficial do Ser Capoeira Inclusiva Adaptada';
   aviso.append(texto, link);
+  [...document.body.children].forEach((el) => { if (el.tagName !== 'SCRIPT') el.inert = true; });
   document.body.append(aviso);
+  link.focus();
 }
 
 /* ---------- Ano no rodapé ---------- */

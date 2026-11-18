@@ -79,11 +79,6 @@
       animation: batimento 900ms var(--ease-padrao) 2 600ms;
     }
 
-    /* Berimbau: a corda "vibra" no hover/foco do card */
-    html.anima .card:hover .berimbau,
-    html.anima .card:focus-within .berimbau {
-      animation: vibra 100ms linear 3;
-    }
 
     /* ---------- Princípios de animação aplicados às microinterações ---------- */
     /* Squash & stretch + follow through: o botão "amassa" ao pressionar e volta com leve sobra */
@@ -155,11 +150,6 @@
     60% { transform: scale(.99); }
   }
 
-  @keyframes vibra {
-    0%, 100% { transform: rotate(0); }
-    25% { transform: rotate(1deg); }
-    75% { transform: rotate(-1deg); }
-  }
 
   @keyframes cortina {
     from { clip-path: inset(0 0 100% 0); }

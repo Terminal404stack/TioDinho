@@ -1,6 +1,6 @@
 const { chromium } = require('playwright');
 const BASE = 'http://localhost:8080/';
-const PAGINAS = ['index.html','sobre.html','capoeira-inclusiva.html','projetos.html','ajude.html','contato.html'];
+const PAGINAS = ['index.html','x2dKgtNI0v.html','CznFDg5A5K.html','HMktb9HjQE.html','R7JvqK3bng.html','tYXytz9wxv.html'];
 const LARGURAS = [320, 375, 640, 768, 1024, 1440, 1920];
 const falhas = []; let ok = 0;
 const check = (cond, msg) => { if (cond) ok++; else falhas.push(msg); };
@@ -87,8 +87,8 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
   check(await btn.getAttribute('aria-expanded') === 'false', 'menu: Esc não fechou');
   check(await m.evaluate(() => document.activeElement.classList.contains('botao-menu')), 'menu: foco não voltou ao botão');
   check(await m.evaluate(() => document.querySelector('main').inert === false), 'menu: inert não foi removido');
-  await btn.click(); await m.locator('#menu-mobile a[href="sobre.html"]').click(); await m.waitForLoadState();
-  check(m.url().endsWith('sobre.html'), 'menu: link não navegou');
+  await btn.click(); await m.locator('#menu-mobile a[href="x2dKgtNI0v.html"]').click(); await m.waitForLoadState();
+  check(m.url().endsWith('x2dKgtNI0v.html'), 'menu: link não navegou');
   // foco visível
   await m.goto(BASE + 'index.html'); await m.keyboard.press('Tab'); await m.keyboard.press('Tab');
   const out = await m.evaluate(() => getComputedStyle(document.activeElement).outlineStyle);
@@ -96,7 +96,7 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
 
   // 4) Galeria / lightbox
   const g = await (await b.newContext({ viewport: { width: 1280, height: 900 } })).newPage();
-  await g.goto(BASE + 'projetos.html');
+  await g.goto(BASE + 'HMktb9HjQE.html');
   const primeiro = g.locator('.galeria__item').first();
   await primeiro.focus(); await g.keyboard.press('Enter');
   check(await g.locator('#lightbox').evaluate(d => d.open), 'galeria: lightbox não abriu com Enter');
@@ -147,31 +147,31 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
   }
 
   // 8) Contato sem formulário (site estático)
-  { const f = await (await b.newContext()).newPage(); await f.goto(BASE + 'contato.html');
+  { const f = await (await b.newContext()).newPage(); await f.goto(BASE + 'tYXytz9wxv.html');
     check(await f.locator('form').count() === 0, 'contato: ainda existe formulário');
     check(await f.locator('.contatos a[href^="https://wa.me/5532984473310"]').count() === 1, 'contato: link do WhatsApp ausente'); }
 
   // 9) PIX oculto enquanto chave não confirmada
-  const x = await (await b.newContext()).newPage(); await x.goto(BASE + 'ajude.html');
+  const x = await (await b.newContext()).newPage(); await x.goto(BASE + 'R7JvqK3bng.html');
   check(await x.locator('.pix-qr__img').evaluate(i => i.complete && i.naturalWidth === 400), 'PIX: QR Code não carregou');
   check(!(await x.locator('[data-pix-dados]').isVisible()), 'PIX: chave visível sem confirmação');
   // simulação: chave e QR preenchidos
   const xctx = await b.newContext({ permissions: ['clipboard-read', 'clipboard-write'] });
-  await xctx.route('**/ajude.html', async r => { const res = await r.fetch(); let t = await res.text();
-    t = t.replace('data-pix="" data-pix-qr=""', 'data-pix="chave-teste@exemplo.com" data-pix-qr=""'); r.fulfill({ response: res, body: t }); });
-  const y = await xctx.newPage(); await y.goto(BASE + 'ajude.html'); await y.waitForTimeout(400);
+  await xctx.route('**/R7JvqK3bng.html', async r => { const res = await r.fetch(); let t = await res.text();
+    t = t.replace('data-pix=""', 'data-pix="chave-teste@exemplo.com"'); r.fulfill({ response: res, body: t }); });
+  const y = await xctx.newPage(); await y.goto(BASE + 'R7JvqK3bng.html'); await y.waitForTimeout(400);
   
   check(await y.locator('[data-pix-dados]').isVisible(), 'PIX: dados não apareceram com chave');
   await y.locator('[data-pix-copiar]').click();
   check(await y.evaluate(() => navigator.clipboard.readText()) === 'chave-teste@exemplo.com', 'PIX: cópia falhou');
   check((await y.locator('[data-pix-copiar] span').textContent()) === 'Copiado!', 'PIX: feedback Copiado ausente');
   // PIX copia e cola (mesmo código do QR)
-  const z = await (await b.newContext({ permissions: ['clipboard-read', 'clipboard-write'] })).newPage(); await z.goto(BASE + 'ajude.html');
+  const z = await (await b.newContext({ permissions: ['clipboard-read', 'clipboard-write'] })).newPage(); await z.goto(BASE + 'R7JvqK3bng.html');
   await z.locator('[data-pix-copia-botao]').click();
   check((await z.evaluate(() => navigator.clipboard.readText())).startsWith('000201') , 'PIX copia e cola não copiou');
   check((await z.locator('[data-pix-copia-botao] span').textContent()) === 'Código copiado!', 'PIX copia e cola: feedback');
   // galeria sem vãos (todas as linhas cheias)
-  for (const w of [375, 1024, 1440]) { const gp = await (await b.newContext({ viewport: { width: w, height: 900 } })).newPage(); await gp.goto(BASE + 'projetos.html');
+  for (const w of [375, 1024, 1440]) { const gp = await (await b.newContext({ viewport: { width: w, height: 900 } })).newPage(); await gp.goto(BASE + 'HMktb9HjQE.html');
     const vao = await gp.evaluate(() => { const g = document.querySelector('.galeria'); const cols = getComputedStyle(g).gridTemplateColumns.split(' ').length; const cel = [...g.children].reduce((n, li) => n + (li.classList.contains('galeria__larga') ? 2 : 1), 0); return cel % cols; });
     check(vao === 0, `galeria@${w}: sobra ${vao} célula(s)`); }
   // crédito Terminal404
@@ -187,6 +187,24 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
   for (const w of [1100, 1440, 1920]) { const q = await (await b.newContext({ viewport: { width: w, height: 900 } })).newPage(); await q.goto(BASE + 'index.html');
     const c = await q.evaluate(() => { const g = s => document.querySelector(s).getBoundingClientRect(); const m = g('.marca'), n = g('.nav-principal ul'), a = g('.cabecalho__acoes'); return { esq: m.left, dir: innerWidth - a.right, centro: Math.abs(n.left + n.width / 2 - innerWidth / 2), bg: getComputedStyle(document.querySelector('.marca')).backgroundColor }; });
     check(Math.abs(c.esq - c.dir) < 2 && c.centro < 2 && c.bg === 'rgba(0, 0, 0, 0)', `cabeçalho@${w}: ${JSON.stringify(c)}`); }
+  // Revisão de código (18/11): correções que não podem voltar
+  { const q = await (await b.newContext()).newPage();
+    for (const pg of PAGINAS.concat(['404.html'])) { await q.goto(BASE + pg);
+      const velhos = await q.evaluate(() => [...document.querySelectorAll('a[href]')].map(a => a.getAttribute('href')).filter(h => /(^|\/)(sobre|capoeira-inclusiva|projetos|ajude|contato)\.html/.test(h)));
+      check(!velhos.length, `${pg}: links com nomes antigos ${velhos}`); }
+    const man = await (await q.request.get(BASE + 'site.webmanifest')).json();
+    check(man.start_url === './' && man.scope === './', `manifest start_url/scope: ${man.start_url} ${man.scope}`); }
+  for (const [w, h] of [[1920, 1080], [1440, 900], [375, 812]]) { const q = await (await b.newContext({ viewport: { width: w, height: h } })).newPage(); await q.goto(BASE + '404.html', { waitUntil: 'networkidle' });
+    const sobra = await q.evaluate(() => Math.round(document.documentElement.scrollHeight - document.querySelector('footer.rodape').getBoundingClientRect().bottom - scrollY));
+    check(sobra <= 1, `404@${w}: ${sobra}px de rolagem vazia após o rodapé`); }
+  { const q = await (await b.newContext()).newPage(); await q.setContent(`<iframe src="${BASE}R7JvqK3bng.html" width="900" height="700"></iframe>`); await q.waitForTimeout(1500);
+    const fr = q.frames().find(f => f.url().includes('R7JvqK3bng'));
+    const r = fr ? await fr.evaluate(() => ({ inert: document.querySelector('main').inert, foco: document.activeElement?.closest('.aviso-moldura') !== null })) : {};
+    check(r.inert === true && r.foco === true, `iframe: conteúdo por trás inacessível e foco no aviso ${JSON.stringify(r)}`); }
+  { const ctx = await b.newContext(); let pedidos = 0; await ctx.route('https://vlibras.gov.br/**', r => { pedidos++; r.abort(); });
+    const q = await ctx.newPage(); await q.goto(BASE + 'index.html'); const bt = q.locator('[data-vlibras]');
+    await bt.click(); await q.waitForTimeout(400); await bt.click(); await q.waitForTimeout(400);
+    check(pedidos === 2 && await q.locator('[vw]').count() === 0, `VLibras: nova tentativa após falha (pedidos=${pedidos})`); }
   console.log(`\nOK: ${ok}  FALHAS: ${falhas.length}`);
   falhas.forEach(f => console.log(' - ' + f));
   await b.close();

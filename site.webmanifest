@@ -1,8 +1,11 @@
 {
+  "id": "./",
   "name": "Ser Capoeira Inclusiva Adaptada",
   "short_name": "Ser Capoeira",
+  "description": "Capoeira inclusiva adaptada para crianças, jovens e adultos típicos e atípicos em Juiz de Fora (MG).",
   "lang": "pt-BR",
-  "start_url": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#0a1540",

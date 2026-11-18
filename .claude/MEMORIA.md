@@ -2,6 +2,16 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-18 — Revisão completa do código e nomes aleatórios nas páginas
+- Páginas renomeadas (pedido do usuário; index.html e 404.html mantidas): Sobre `x2dKgtNI0v.html`,
+  Capoeira Inclusiva `CznFDg5A5K.html`, Projetos `HMktb9HjQE.html`, Ajude `R7JvqK3bng.html`,
+  Contato `tYXytz9wxv.html`. As referências foram atualizadas em páginas, `tools/`, docs e skill.
+- Corrigidos: manifest com `start_url`/`scope` `./`; `_config.yml` deixa de publicar as fotos
+  originais e os mestres das logos; "voltar ao topo" observa o hero (não cria rolagem vazia);
+  anti-iframe deixa o conteúdo inerte; VLibras tenta de novo após falha; CSS morto (15 regras),
+  6 ícones do sprite e 11 JPGs sem uso removidos.
+- Testes 495/495 (13 novos de regressão), pentest 62/62. Detalhes em `docs/revisao-codigo.md`.
+
 ## 2026-11-18 — Logo nítida, pentest e remoção do formulário
 - Logo borrada: mestre só tem 703 px; derivados eram WebP com perda (q92) com alfa desfocado, e a
   seção do nome ampliava a imagem em telas 2x. Refeito: fundo removido em 2x com redução Lanczos
@@ -41,7 +51,7 @@
   os encaixes aparecerem).
 - Página Início: nova seção (01) "O significado do nome" (Ser / Capoeira / Inclusiva, texto do
   professor) com linhas pontilhadas. As outras seções foram renumeradas de (02) a (06).
-- Marcador `FOTO-PROFESSOR` em `sobre.html` para trocar pela foto que ele vai enviar.
+- Marcador `FOTO-PROFESSOR` em `x2dKgtNI0v.html` para trocar pela foto que ele vai enviar.
 
 ## 2026-11-18 — Revisão crítica dos textos
 - Removido texto inventado (ex.: "jogar capoeira e celebrar a diversidade", "responde pessoalmente",
@@ -63,11 +73,11 @@
 - Testes 471/471; Lighthouse 97–98/100/100/100. **Sem commit** (aguardando autorização).
 
 ## 2026-11-18 — QR Code PIX publicado
-- A pedido do usuário, QR (mesmo arquivo de antes, chave `dinho28_jf@yahoo.com.br`) virou `assets/img/pix/qrcode-pix.png`, direto no HTML de `ajude.html` (funciona sem JS). Aviso trocado para "Doe com segurança: confira o recebedor no app". Divergência com o e-mail `dinh28_jf` segue em `docs/pendencias.md`.
+- A pedido do usuário, QR (mesmo arquivo de antes, chave `dinho28_jf@yahoo.com.br`) virou `assets/img/pix/qrcode-pix.png`, direto no HTML de `R7JvqK3bng.html` (funciona sem JS). Aviso trocado para "Doe com segurança: confira o recebedor no app". Divergência com o e-mail `dinh28_jf` segue em `docs/pendencias.md`.
 
 ## 2026-11-18 — Ajustes: QR Code PIX, crédito Terminal404, princípios de animação/UX
 **Feito**
-- `ajude.html`: painel "Doe via PIX" com espaço do QR Code ("em breve"). `main.js/iniciarPix`:
+- `R7JvqK3bng.html`: painel "Doe via PIX" com espaço do QR Code ("em breve"). `main.js/iniciarPix`:
   `data-pix-qr` troca o espaço pela imagem; `data-pix` mostra a chave + Copiar. Ícone `i-qrcode` no sprite.
 - QR recebido decodificado: BR Code válido, chave `dinho28_jf@yahoo.com.br` ≠ e-mail `dinh28_jf@...` →
   salvo como `assets/img/pix/qrcode-pix-rascunho.png`, **não publicado** até confirmação.

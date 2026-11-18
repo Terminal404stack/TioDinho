@@ -72,11 +72,16 @@ document.querySelectorAll('[data-vlibras]').forEach((botao) => {
         if (typeof window.onload === 'function') window.onload(new Event('load'));
         anunciar('VLibras ativado. Use o botão de Libras que aparece na lateral da tela.');
       } catch {
+        caixa.remove();
+        script.remove();
         anunciar('Não foi possível iniciar o VLibras agora. Tente novamente mais tarde.');
       }
       botao.removeAttribute('aria-busy');
     };
     script.onerror = () => {
+      // Remove o que foi criado para permitir nova tentativa no próximo clique
+      caixa.remove();
+      script.remove();
       botao.removeAttribute('aria-busy');
       anunciar('Não foi possível carregar o VLibras. Verifique sua conexão.');
     };
