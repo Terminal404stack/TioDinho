@@ -79,11 +79,11 @@
         <div class="pilha pilha--larga">
           <p class="rotulo entrada d-0">Ajude</p>
           <h1 id="titulo-pagina" class="entrada d-1">Sua ajuda fortalece uma roda onde <em class="marca-texto">todos</em> podem participar.</h1>
-          <p class="entrada d-2">Existem várias formas de apoiar o Ser Capoeira Inclusiva Adaptada. Escolha a sua — toda contribuição faz diferença.</p>
+          <svg class="swoosh-titulo" viewBox="0 0 320 22" aria-hidden="true" focusable="false"><path d="M4 15 C 90 2, 180 24, 316 6" fill="none" stroke="#22a336" stroke-width="6" stroke-linecap="round" pathLength="1"/><path d="M18 20 C 100 10, 190 26, 300 13" fill="none" stroke="#fbbf0a" stroke-width="3.5" stroke-linecap="round" pathLength="1"/></svg>
+          <p class="entrada d-2">Veja abaixo as formas de apoiar o Ser Capoeira Inclusiva Adaptada.</p>
         </div>
         <nav class="atalhos entrada d-3" aria-label="Formas de ajudar"><p class="rotulo">Ir para</p><ul><li><a href="#doacoes">Doações</a></li><li><a href="#voluntariado">Voluntariado</a></li><li><a href="#parcerias">Parcerias</a></li><li><a href="#divulgacao">Divulgação</a></li><li><a href="#transparencia">Transparência</a></li></ul></nav>
       </div>
-      <svg class="swoosh" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 58 C 300 8, 620 84, 960 40 S 1300 18, 1440 30" fill="none" stroke="#22a336" stroke-width="7" stroke-linecap="round" vector-effect="non-scaling-stroke" pathLength="1"/><path d="M0 70 C 320 24, 640 92, 980 52 S 1310 30, 1440 42" fill="none" stroke="#fbbf0a" stroke-width="4" stroke-linecap="round" vector-effect="non-scaling-stroke" pathLength="1"/></svg>
     </section>
 
     <section id="doacoes" class="secao secao--folha" data-tema="claro" aria-labelledby="t-doacoes">
@@ -100,7 +100,8 @@
             Bloco PIX (sempre visível com o espaço do QR Code).
             Para publicar, depois da confirmação do responsável:
             1) data-pix="CHAVE CONFIRMADA"  → mostra a chave e o botão Copiar;
-            2) QR Code: imagem em assets/img/pix/qrcode-pix.png (para trocar, substitua o arquivo).
+            2) QR Code: imagem em assets/img/pix/qrcode-pix.png (para trocar, substitua o arquivo)
+               e atualize data-pix-copia com o mesmo código "copia e cola" do QR.
           -->
           <div class="painel pix" data-pix="" data-pix-qr="">
             <h3>Doe via PIX</h3>
@@ -108,6 +109,12 @@
               <img class="pix-qr__img" src="assets/img/pix/qrcode-pix.png" width="400" height="400" alt="QR Code para doação via PIX ao Ser Capoeira Inclusiva Adaptada" loading="lazy" decoding="async">
               <figcaption>Abra o app do seu banco, escolha <strong>PIX → Ler QR Code</strong> e aponte a câmera.</figcaption>
             </figure>
+            <div class="pix__copia" data-pix-copia="00020126450014BR.GOV.BCB.PIX0123dinho28_jf@yahoo.com.br5204000053039865802BR5903PIX6008Brasilia62070503***630458D9" hidden>
+              <p class="pix__rotulo">Está no celular? Use o PIX Copia e Cola:</p>
+              <button type="button" class="botao botao--azul botao--bloco" data-pix-copia-botao><svg aria-hidden="true" focusable="false"><use href="assets/icons/sprite.svg#i-copiar"></use></svg><span>Copiar código PIX</span></button>
+              <p class="pix__dica">Depois, no app do banco, escolha <strong>PIX → Pix Copia e Cola</strong> e cole o código.</p>
+              <p class="feedback" data-pix-copia-feedback role="status"></p>
+            </div>
             <div class="pix__dados" data-pix-dados hidden>
               <p class="pix__rotulo">Ou copie a chave PIX:</p>
               <p class="pix__chave"><code data-pix-valor></code></p>
@@ -123,12 +130,12 @@
       <div class="container grid-dividido">
         <div class="pilha pilha--larga" data-anima>
           <p class="rotulo"><b>(02)</b> Voluntariado</p>
-          <h2 id="t-voluntariado">Doe seu tempo e seu <em class="marca-texto">talento.</em></h2>
-          <p>Pessoas que desejam colaborar com tempo, talento ou experiência são bem-vindas. Conte como você gostaria de ajudar e combine os detalhes diretamente com o Professor Dinho.</p>
+          <h2 id="t-voluntariado">Seja <em class="marca-texto">voluntário</em></h2>
+          <p>Quem quiser colaborar como voluntário pode falar com o Professor Dinho para combinar como ajudar.</p>
           <div class="hero__acoes"><a class="botao botao--claro" href="https://wa.me/5532984473310?text=Ol%C3%A1%2C%20Professor%20Dinho%21%20Gostaria%20de%20ser%20volunt%C3%A1rio%28a%29%20no%20Ser%20Capoeira%20Inclusiva%20Adaptada." data-whatsapp="Olá, Professor Dinho! Gostaria de ser voluntário(a) no Ser Capoeira Inclusiva Adaptada." target="_blank" rel="noopener"><svg aria-hidden="true" focusable="false"><use href="assets/icons/sprite.svg#i-whatsapp"></use></svg><span>Quero ser voluntário(a)</span><span class="visualmente-oculto"> (abre o WhatsApp em nova aba)</span></a></div>
         </div>
         <div class="pilha" data-anima>
-          <p class="rotulo">Algumas ideias de como somar</p>
+          <p class="rotulo">Exemplos de colaboração</p>
           <ul class="lista-pecas">
             <li>Apoio em aulas e eventos</li>
             <li>Fotografia e registro das atividades</li>
@@ -143,7 +150,7 @@
       <div class="container grid-dividido">
         <div class="pilha pilha--larga" data-anima>
           <p class="rotulo"><b>(03)</b> Parcerias</p>
-          <h2 id="t-parcerias">Empresas e instituições que <em class="marca-texto">acreditam.</em></h2>
+          <h2 id="t-parcerias">Seja um <em class="marca-texto">parceiro</em></h2>
           <p>Empresas, instituições, profissionais e organizações podem apoiar o Ser Capoeira com recursos, espaço, serviços ou divulgação.</p>
           <div class="hero__acoes">
             <a class="botao botao--verde" href="mailto:dinh28_jf@yahoo.com.br?subject=Proposta%20de%20parceria%20%E2%80%94%20Ser%20Capoeira%20Inclusiva%20Adaptada"><svg aria-hidden="true" focusable="false"><use href="assets/icons/sprite.svg#i-email"></use></svg><span>Propor parceria por e-mail</span></a>
@@ -161,8 +168,8 @@
       <div class="container grid-dividido">
         <div class="pilha pilha--larga" data-anima>
           <p class="rotulo"><b>(04)</b> Divulgação</p>
-          <h2 id="t-divulgacao">Compartilhar também é <em class="marca-texto">ajudar.</em></h2>
-          <p>Quanto mais pessoas conhecem o projeto, mais famílias encontram um espaço de acolhimento. Siga o Ser Capoeira no Instagram e compartilhe esta página.</p>
+          <h2 id="t-divulgacao">Divulgue o <em class="marca-texto">projeto</em></h2>
+          <p>Siga o Ser Capoeira no Instagram e compartilhe esta página.</p>
           <div class="compartilhar">
             <a class="botao botao--azul" href="https://www.instagram.com/ser_capoeira_jf/" target="_blank" rel="noopener"><svg aria-hidden="true" focusable="false"><use href="assets/icons/sprite.svg#i-instagram"></use></svg><span>Seguir @ser_capoeira_jf</span><span class="visualmente-oculto"> (abre em nova aba)</span></a>
             <button type="button" class="botao botao--contorno" data-compartilhar data-url="" aria-describedby="compartilhar-feedback" hidden><svg aria-hidden="true" focusable="false"><use href="assets/icons/sprite.svg#i-compartilhar"></use></svg><span>Compartilhar esta página</span></button>
@@ -188,7 +195,7 @@
       <div class="container cta-final" data-anima>
         <p class="rotulo">Fale com a gente</p>
         <h2 id="titulo-cta">Ficou com alguma dúvida?</h2>
-        <p>O Professor Dinho responde pessoalmente pelo WhatsApp e pelo e-mail.</p>
+        <p>Fale com o Professor Dinho pelo WhatsApp ou por e-mail.</p>
         <div class="cta-final__acoes"><a class="botao botao--escuro" href="https://wa.me/5532984473310?text=Ol%C3%A1%2C%20Professor%20Dinho%21%20Conheci%20o%20Ser%20Capoeira%20Inclusiva%20Adaptada%20pelo%20site%20e%20gostaria%20de%20saber%20mais." data-whatsapp="Olá, Professor Dinho! Conheci o Ser Capoeira Inclusiva Adaptada pelo site e gostaria de saber mais." target="_blank" rel="noopener"><svg aria-hidden="true" focusable="false"><use href="assets/icons/sprite.svg#i-whatsapp"></use></svg><span>Conversar pelo WhatsApp</span><span class="visualmente-oculto"> (abre o WhatsApp em nova aba)</span></a><a class="botao botao--contorno" href="contato.html"><span>Ver contatos</span><svg aria-hidden="true" focusable="false"><use href="assets/icons/sprite.svg#i-seta"></use></svg></a></div>
       </div>
     </section>
@@ -199,7 +206,7 @@
         <div class="rodape__marca">
           <img src="assets/img/logo/logo-tio-dinho-192.webp" width="96" height="96" alt="Logo do Ser Capoeira Inclusiva Adaptada" loading="lazy">
           <p class="titulo rodape__nome">Ser Capoeira Inclusiva Adaptada</p>
-          <p>Capoeira para todos: acolhimento, participação e inclusão de crianças, jovens e adultos típicos e atípicos em Juiz de Fora — MG.</p>
+          <p>Capoeira inclusiva para crianças, jovens e adultos típicos e atípicos em Juiz de Fora (MG).</p>
           <div class="rodape__pecas" aria-hidden="true"><span class="p-vermelho"></span><span class="p-amarelo"></span><span class="p-verde"></span><span class="p-azul"></span></div>
         </div>
         <nav aria-label="Rodapé">

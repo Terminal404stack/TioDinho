@@ -167,6 +167,28 @@ function iniciarPix() {
   });
 }
 
+/* ---------- PIX Copia e Cola (mesmo código do QR Code) — útil no celular ---------- */
+function iniciarPixCopiaCola() {
+  document.querySelectorAll('[data-pix-copia]').forEach((bloco) => {
+    const codigo = (bloco.dataset.pixCopia || '').trim();
+    if (!codigo || !navigator.clipboard) return;
+    bloco.hidden = false;
+    const botao = bloco.querySelector('[data-pix-copia-botao]');
+    const rotulo = botao.querySelector('span');
+    const saida = bloco.querySelector('[data-pix-copia-feedback]');
+    botao.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(codigo);
+        rotulo.textContent = 'Código copiado!';
+        saida.textContent = 'Código PIX copiado. Agora cole no app do seu banco.';
+        window.setTimeout(() => { rotulo.textContent = 'Copiar código PIX'; }, 2500);
+      } catch {
+        saida.textContent = 'Não foi possível copiar automaticamente. Use o QR Code acima.';
+      }
+    });
+  });
+}
+
 /* ---------- Gerador de mensagem (contato) — nada é enviado pelo site ---------- */
 function iniciarFormulario() {
   const form = document.getElementById('form-mensagem');
@@ -226,5 +248,6 @@ iniciarRolagem();
 iniciarWhatsapp();
 iniciarCompartilhar();
 iniciarPix();
+iniciarPixCopiaCola();
 iniciarFormulario();
 iniciarAno();

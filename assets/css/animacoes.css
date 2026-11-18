@@ -41,10 +41,11 @@
     html.anima .entrada-pecas .peca--3 { --dx: 14px; --dy: -14px; animation-delay: 740ms; }
     html.anima .entrada-pecas .peca--4 { --dx: 14px; --dy: 14px; animation-delay: 860ms; }
 
-    html.anima .swoosh path {
+    html.anima .swoosh-titulo path {
       stroke-dasharray: 1;
-      animation: desenha 1100ms var(--ease-saida) both 400ms;
+      animation: desenha 900ms var(--ease-saida) both 450ms;
     }
+    html.anima .swoosh-titulo path + path { animation-delay: 600ms; }
 
     /* ---------- Revelação ao rolar (IntersectionObserver, uma vez) ---------- */
     html.anima [data-anima] {
@@ -169,4 +170,27 @@
     from { opacity: 0; }
     to { opacity: 1; }
   }
+}
+
+/* ---------- Transição entre páginas (View Transitions entre documentos) ----------
+   Melhoria progressiva: navegadores sem suporte trocam de página normalmente.
+   O cabeçalho fica parado; só o conteúdo faz um fade curto. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+
+.cabecalho { view-transition-name: cabecalho; }
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 200ms;
+  animation-timing-function: var(--ease-padrao);
+}
+
+::view-transition-group(cabecalho) { animation: none; }
+
+html.movimento-pausado::view-transition-group(*),
+html.movimento-pausado::view-transition-old(*),
+html.movimento-pausado::view-transition-new(*) {
+  animation: none !important;
 }

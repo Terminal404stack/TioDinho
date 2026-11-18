@@ -274,11 +274,10 @@
     --link: #9cc7ff;
     padding-bottom: calc(clamp(88px, 11vw, 160px) + var(--raio-folha));
   }
-  .hero .swoosh, .hero-pagina .swoosh { bottom: calc(var(--raio-folha) + 6px); }
   .hero__frase { font-size: clamp(1.35rem, 1.6vw + .8rem, 2rem); line-height: 1.2; color: var(--cor-amarelo); max-width: 26ch; }
   .hero-pagina h1 { max-width: 16ch; }
   .hero-pagina__deco { display: none; justify-self: end; }
-  .pecas--grande { position: relative; width: clamp(160px, 18vw, 240px); }
+  .pecas--grande { position: relative; width: clamp(180px, 20vw, 280px); }
   .hero-pagina__foto { width: min(100%, 360px); justify-self: center; }
 
   @media (min-width: 900px) {

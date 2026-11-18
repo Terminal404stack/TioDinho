@@ -215,14 +215,13 @@
   }
   .selo img { width: 44px; height: 44px; }
 
-  /* Faixa ondulada (swoosh da logo) */
-  .swoosh {
-    position: absolute;
-    left: 0; right: 0; bottom: -2px;
-    width: 100%;
-    height: clamp(36px, 6vw, 80px);
-    pointer-events: none;
-    z-index: 1;
+  /* Faixa ondulada (swoosh da logo) sob o título dos heros */
+  .swoosh-titulo {
+    display: block;
+    width: min(100%, 320px);
+    height: auto;
+    margin-top: -4px;
+    overflow: visible;
   }
 
   /* ---------- Cards ---------- */
@@ -463,13 +462,13 @@
     gap: clamp(8px, 1.2vw, 16px);
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-auto-flow: dense;
+    grid-auto-rows: clamp(180px, 46vw, 340px);
   }
 
-  @media (min-width: 700px) { .galeria { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-
-  @media (min-width: 1100px) { .galeria { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-  .galeria li { aspect-ratio: 3 / 4; }
-  .galeria li.galeria__larga { grid-column: span 2; aspect-ratio: auto; }
+  
+  @media (min-width: 900px) { .galeria { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: clamp(220px, 21vw, 310px); } }
+  /* Linhas de altura fixa: largos e normais alinham sem vãos (16 células = múltiplo de 2 e 4) */
+  .galeria li.galeria__larga { grid-column: span 2; }
   .galeria__item {
     position: relative;
     display: block;
@@ -705,7 +704,7 @@
 }
 
 @layer componentes {
-  .pecas--grande { position: relative; inset: auto; width: clamp(160px, 18vw, 240px); }
+  .pecas--grande { position: relative; inset: auto; width: clamp(180px, 20vw, 280px); }
 }
 
 @layer componentes {
@@ -780,4 +779,10 @@
   .credito img { width: 40px; height: auto; filter: drop-shadow(0 0 6px rgba(0, 200, 255, .35)); }
   .credito strong { color: #7fe3ff; }
   .credito:hover span:first-of-type { text-decoration: underline; }
+}
+
+@layer componentes {
+  .pix__copia { display: grid; gap: 10px; padding-top: 16px; border-top: 1px solid var(--cor-borda); }
+  .pix__dica { font-size: var(--fs-pequeno); color: var(--cor-texto-secundario); }
+  .contato__valor a { overflow-wrap: normal; }
 }

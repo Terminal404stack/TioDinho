@@ -2,6 +2,25 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-18 — Revisão crítica dos textos
+- Removido texto inventado (ex.: "jogar capoeira e celebrar a diversidade", "responde pessoalmente",
+  descrições de atividades não confirmadas, legenda "afeto no centro de cada encontro", seção "missão"
+  que parafraseava o material) e vícios de IA (slogans como "Encontros que aproximam", "Quem caminha
+  junto", "Empresas e instituições que acreditam"; travessões explicativos; "muito além de qualquer
+  diagnóstico"; "não X, mas Y"; frases que falam do próprio texto).
+- Regra: texto padrão, frases curtas, só fatos de `docs/conteudo-institucional.md`. Travessão só como
+  separador de nome/lugar ("Juiz de Fora — MG").
+- Títulos repetidos ("... é para todos") trocados por títulos descritivos.
+
+## 2026-11-18 — Revisão de design + relatório
+**Feito**
+- Corrigida a "linha solta" na divisa do topo: o `.swoosh` saiu e virou `.swoosh-titulo` (sublinhado sob o h1).
+- View Transitions entre páginas (`animacoes.css`), com o cabeçalho fixo e respeito à pausa e ao movimento reduzido.
+- Galeria: `grid-auto-rows` fixo, 2/4 colunas, 14 fotos (14 e 17 novas) → sem vãos.
+- PIX Copia e Cola (`data-pix-copia`, `iniciarPixCopiaCola` em main.js). `<wbr>` no e-mail do contato.
+- Relatório: artifact https://claude.ai/artifact/VupihXtcAei7SfRyd65F9v + `docs/relatorio-design.md`.
+- Testes 471/471; Lighthouse 97–98/100/100/100. **Sem commit** (aguardando autorização).
+
 ## 2026-11-18 — QR Code PIX publicado
 - A pedido do usuário, QR (mesmo arquivo de antes, chave `dinho28_jf@yahoo.com.br`) virou `assets/img/pix/qrcode-pix.png`, direto no HTML de `ajude.html` (funciona sem JS). Aviso trocado para "Doe com segurança: confira o recebedor no app". Divergência com o e-mail `dinh28_jf` segue em `docs/pendencias.md`.
 
