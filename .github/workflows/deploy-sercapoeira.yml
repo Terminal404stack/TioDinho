@@ -37,9 +37,43 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 -m http.server 8080 --bind 127.0.0.1 >/tmp/sercapoeira-http.log 2>&1 &
+
+          site_root="$(mktemp -d)"
+          server_pid=""
+          cleanup() {
+            if [[ -n "$server_pid" ]]; then
+              kill "$server_pid" 2>/dev/null || true
+            fi
+            rm -rf "$site_root"
+          }
+          trap cleanup EXIT
+
+          # Testa a mesma árvore pública que será enviada ao servidor.
+          # Arquivos internos e originais nunca entram no document root.
+          tar \
+            --exclude='./.git' \
+            --exclude='./.github' \
+            --exclude='./.claude' \
+            --exclude='./.gitignore' \
+            --exclude='./docs' \
+            --exclude='./tools' \
+            --exclude='./CLAUDE.md' \
+            --exclude='./README.md' \
+            --exclude='./_config.yml' \
+            --exclude='./assets/img/fotos/originais' \
+            --exclude='./assets/img/logo/antiga' \
+            --exclude='./assets/img/logo/ser-capoeira-original.png' \
+            --exclude='./assets/img/logo/ser-capoeira.png' \
+            --exclude='./assets/img/logo/ser-capoeira-clara.png' \
+            --exclude='./assets/img/logo/ser-capoeira-emblema.png' \
+            --exclude='./assets/img/creditos/terminal404-original.png' \
+            --exclude='./assets/img/favicon/favicon-16x16.png' \
+            --exclude='./assets/img/favicon/favicon-32x32.png' \
+            --exclude='./assets/img/favicon/favicon-48x48.png' \
+            -czf - . | tar -xzf - -C "$site_root"
+
+          python3 -m http.server 8080 --bind 127.0.0.1 --directory "$site_root" >/tmp/sercapoeira-http.log 2>&1 &
           server_pid=$!
-          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
 
           for attempt in $(seq 1 30); do
             if curl --fail --silent http://127.0.0.1:8080/index.html >/dev/null; then
@@ -58,6 +92,10 @@ jobs:
           node tools/pentest.js | tee /tmp/sercapoeira-pentest.log
           if grep -Eq '^FALHA ' /tmp/sercapoeira-pentest.log; then
             echo "::error::O pentest encontrou falhas."
+            exit 1
+          fi
+          if grep -Eq '^AVISO ' /tmp/sercapoeira-pentest.log; then
+            echo "::error::O pentest encontrou arquivos internos acessíveis na raiz pública."
             exit 1
           fi
 
