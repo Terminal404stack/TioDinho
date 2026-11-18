@@ -2,6 +2,18 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-18 — Logo PNG no cabeçalho e rodapé, foto do professor, auditoria completa
+- `ser-capoeira-clara.png` (+ webp 240/480): texto branco **só na região das palavras**. Recolorir
+  todos os neutros deixou o contorno escuro das formas 3D branco (erro). Halos externos e o miolo
+  do "e" foram removidos.
+- Cabeçalho em grid `1fr auto 1fr` com largura total (até 1760px); `.marca`/nav/acoes fixados nas
+  colunas 1/2/3; sem pílula. A barra de acessibilidade usa a mesma largura. Rodapé: logo clara 180px.
+- Foto oficial do professor (`professor-dinho-*`) no topo da página Sobre.
+- Criados `404.html` (noindex) e `robots.txt`. Corrigidos o contraste de `.card__num`, o alt do
+  lightbox e o e-mail do contato.
+- Script `scratchpad/auditoria.js` (elementos vazios, alt, âncoras, cortes, alvos, contraste).
+  Testes 482/482. Relatório em `docs/auditoria-frontend.md` + artifact.
+
 ## 2026-11-18 — Nova identidade: logo oficial "Ser Capoeira inclusiva"
 **Feito**
 - A logo "Tio Dinho" estava errada (pedido do Professor Dinho). Logo nova sem o fundo branco (flood-fill)

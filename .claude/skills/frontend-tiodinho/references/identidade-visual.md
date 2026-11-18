@@ -5,8 +5,9 @@
 - `assets/img/logo/ser-capoeira.png`: mestre com fundo transparente (701×543). Fonte para os derivados.
 - `ser-capoeira-{160,320,640}.webp`: usar no site (cabeçalho e selo 160/320, seção do nome 640).
 - `ser-capoeira-emblema.png`: recorte com mão, arcos e "Ser", usado nos favicons pequenos.
-- **O texto da logo é preto: use sempre sobre fundo branco ou claro.** No cabeçalho e no rodapé
-  (fundo azul-noite) ela fica numa "pílula" branca (`.marca`, `.rodape__logo`).
+- **Fundo claro:** logo original (`ser-capoeira-*.webp`, texto preto).
+- **Fundo escuro** (cabeçalho, rodapé): `ser-capoeira-clara.png` / `-clara-240.webp` / `-clara-480.webp`,
+  com "CAPOEIRA inclusiva" em branco e halos removidos. Sem fundo, sem pílula: o usuário quer a logo "100% PNG".
 - Elementos reaproveitáveis: peças de quebra-cabeça coloridas, arco azul, arco verde, símbolo de
   acessibilidade.
 - Logo antiga ("Tio Dinho") guardada em `assets/img/logo/antiga/`, só como histórico. **Não usar.**

@@ -16,6 +16,6 @@ indica onde entra quando for confirmado.
 | 9 | Prestação de contas / destinação de recursos | "Em preparação" | `ajude.html` → Transparência |
 | 10 | Política de privacidade e textos legais | Não criados (o site não coleta dados, não usa cookies nem analytics; guarda apenas a preferência "Pausar animações" no navegador). VLibras é carregado só após clique. | Criar página com validação institucional |
 | 11 | CNPJ / dados jurídicos (se houver) | Não exibidos | Rodapé |
-| 12 | Domínio definitivo | `og:image` usa caminho relativo; com o domínio, trocar por URL absoluta e adicionar `og:url`/`canonical` | `<head>` das 6 páginas |
-| 13 | **Foto do Professor Dinho** | A receber. Hoje a página Sobre usa a foto-26 (com berimbau) | `sobre.html`, marcador `FOTO-PROFESSOR` |
+| 12 | Domínio definitivo (também para `sitemap.xml` e `canonical`) | `og:image` usa caminho relativo; com o domínio, trocar por URL absoluta e adicionar `og:url`/`canonical` | `<head>` das 6 páginas |
+| 13 | Foto do Professor Dinho | **Recebida** em 18/11/2026, no topo da página Sobre (`professor-dinho-*`) | — |
 | 14 | Data de fundação / história detalhada | Não exibida | `sobre.html` |

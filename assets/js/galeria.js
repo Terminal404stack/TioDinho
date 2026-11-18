@@ -8,6 +8,7 @@ const dialogo = document.getElementById('lightbox');
 if (galerias.length && dialogo && typeof dialogo.showModal === 'function') {
   const img = document.createElement('img');
   img.className = 'lightbox__img';
+  img.alt = '';
   img.decoding = 'async';
   dialogo.querySelector('.lightbox__quadro').append(img);
   const legenda = dialogo.querySelector('.lightbox__legenda');

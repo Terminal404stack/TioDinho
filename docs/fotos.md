@@ -28,7 +28,7 @@ Derivadas em `otimizadas/foto-NN-480.{webp,jpg}` e `foto-NN-g.{webp,jpg}` (até 
 | Página | Fotos |
 |---|---|
 | Início | hero `destaque-alegria-na-roda` (05), 16, 09, 20 |
-| Sobre | 02, 26 |
+| Sobre | professor-dinho (topo, foto oficial enviada em 18/11), 02, 26 |
 | Capoeira Inclusiva | 06 (topo), 13, 21 |
 | Projetos | 18 + galeria: 05, 01, 08, 02, 07, 12, 10, 23, 15, 19, 11, 06 |
 | Ajude | 08 |

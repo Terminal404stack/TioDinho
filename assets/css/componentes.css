@@ -13,6 +13,7 @@
     --foco: var(--cor-amarelo);
   }
   .barra-a11y .container {
+    width: min(100% - 2 * var(--gutter), 1760px);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -255,7 +256,7 @@
     font-weight: 800;
     font-size: 2.6rem;
     line-height: 1;
-    color: var(--cor-prata);
+    color: #7d8396; /* 3.8:1 sobre branco (texto grande) */
   }
   .card__icone {
     width: 56px; height: 56px;
@@ -272,7 +273,7 @@
   .card--interativo a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
   .card--noite { background: rgba(255, 255, 255, .04); color: var(--cor-texto-claro); border-color: var(--cor-borda-escura); }
   .card--noite p { color: #c3c9d9; }
-  .card--noite .card__num { color: rgba(255, 255, 255, .28); }
+  .card--noite .card__num { color: rgba(255, 255, 255, .6); }
   .card .etiqueta { justify-self: start; }
 
   .etiqueta {
@@ -724,8 +725,7 @@
   @media (max-width: 360px) {
     .botao-menu { padding: 0 13px; }
     .botao-menu__texto { display: none; }
-    .marca { padding: 4px 10px; }
-    .marca__logo { width: 84px; }
+    .marca__logo { width: 96px; }
   }
 }
 
@@ -834,4 +834,14 @@
       border-top: 4px dotted var(--cor-item);
     }
   }
+}
+
+@layer componentes {
+  .lista-404 { list-style: none; padding: 0; display: grid; gap: 4px 32px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+  .lista-404 a { font-size: 1.15rem; }
+}
+
+@layer componentes {
+  /* E-mail é longo: fonte menor para caber numa linha na coluna do contato */
+  .contato__valor--longo { font-size: clamp(1.05rem, 1.45vw, 1.45rem); }
 }

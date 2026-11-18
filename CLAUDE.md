@@ -13,7 +13,7 @@ com deficiência, autismo e famílias). Somente **HTML5 + CSS3 + JavaScript puro
 
 ## Estrutura
 ```
-index.html, sobre.html, capoeira-inclusiva.html, projetos.html, ajude.html, contato.html
+index.html, sobre.html, capoeira-inclusiva.html, projetos.html, ajude.html, contato.html, 404.html, robots.txt
 favicon.ico              16/32/48 — raiz, pedido automático dos navegadores
 site.webmanifest         PWA/ícones Android
 assets/css/              estilos (tokens em :root)
@@ -32,5 +32,6 @@ docs/                    conteúdo institucional, pendências, fotos
 M1 concluído: site multipágina (6 páginas) completo e testado. Nome público: **Ser Capoeira Inclusiva Adaptada**
 (Professor Dinho — Elizomar Nascimento, Juiz de Fora — MG). Conteúdo em `docs/conteudo-institucional.md`;
 o que falta confirmar em `docs/pendencias.md`. **Nunca inventar** PIX, datas, números, endereço ou certificados.
-Logo oficial: **Ser Capoeira inclusiva** (texto preto: sempre sobre fundo claro). Foto do Professor Dinho a receber (marcador `FOTO-PROFESSOR` em `sobre.html`).
+Logo oficial: **Ser Capoeira inclusiva**. Fundo claro → logo original; fundo escuro (cabeçalho/rodapé) → `ser-capoeira-clara` (texto branco), sem fundo nem pílula.
+Cabeçalho: grid `1fr auto 1fr` (logo à esquerda, menu no centro, "Quero ajudar" à direita). Também existem `404.html` (noindex) e `robots.txt`.
 Rodar local: `python3 -m http.server 8080` na raiz (o sprite SVG não funciona via file://).
