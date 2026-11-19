@@ -50,4 +50,5 @@ SEO: ver `docs/seo.md` (JSON-LD só na Início e só com dados confirmados; site
 Fotos: todas usadas (mapa em `docs/fotos.md`); `foto-27` = `originais/foto-26.jpg` antiga; molduras com `object-fit: cover` centralizado (`.foco-*` para ajustar).
 Foto do Professor Dinho em "Quem conduz" (Sobre): `foto-26` 9:16 (moldura `.moldura--vertical`, sem corte) com `?v=AAAAMMDD` nas URLs; ao trocar a foto mantendo o nome, atualize a versão.
 Rodar local: na raiz, `python3 -m http.server 8080` (igual ao CI; as ferramentas de `tools/` usam esse endereço). Para simular o GitHub Pages, sirva a pasta de cima e rode com `BASE=http://localhost:8081/TioDinho/`. O sprite SVG não funciona via file://.
+**Cache da Cloudflare:** `.css` fica até 4 h no cache; ao alterar qualquer CSS, troque o `?v=AAAAMMDD` dos 4 links de CSS em **todas** as páginas (testado em `tools/testes.js`).
 **Não quebrar o CI:** `tools/testes.js` precisa terminar em `FALHAS: 0` e o pentest sem linhas `FALHA`.

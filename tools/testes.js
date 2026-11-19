@@ -265,6 +265,11 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
       check(r.length >= min && r.every(i => i.ok && i.alt), `${pg}: fotos em moldura ${r.length}/${min} ${JSON.stringify(r.filter(i => !i.ok || !i.alt))}`); }
     await q.goto(BASE + 'HMktb9HjQE.html'); check(await q.locator('.galeria__item').count() === 22, 'galeria: esperadas 22 fotos');
     await ctxM.close(); }
+  // CSS com versão na URL (a Cloudflare guarda .css por horas): mesma ?v= em todas as páginas
+  { const vs = new Set(); for (const pg of PAGINAS.concat(['404.html'])) {
+      const html = await (await p.request.get(BASE + pg)).text(); const links = [...html.matchAll(/rel="stylesheet" href="assets\/css\/[a-z]+\.css\?v=(\d{8}[a-z]?)"/g)];
+      check(links.length === 4, `${pg}: ${links.length}/4 CSS com ?v=`); links.forEach(m => vs.add(m[1])); }
+    check(vs.size === 1, `versões de CSS diferentes entre páginas: ${[...vs]}`); }
   for (const n of ['03', '22', '24', '25', '27']) for (const t of ['480.webp', '480.jpg', 'g.webp', 'g.jpg']) {
     const r = await p.request.get(BASE + `assets/img/fotos/otimizadas/foto-${n}-${t}`); check(r.status() === 200 && (await r.body()).length > 5000, `arquivo foto-${n}-${t} ausente ou vazio`); }
   console.log(`\nOK: ${ok}  FALHAS: ${falhas.length}`);

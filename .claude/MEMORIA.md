@@ -14,6 +14,9 @@
   { height: 100% }` resolveu; todas as 25 molduras conferidas por captura.
 - CSS novo: `.faixa-fotos`, `.moldura--limite`, `.foco-topo/-alto/-baixo`, `.coluna-empilhada`, `.contato-dividido`.
 - Testes 673/673 (galeria "1 de 22", fotos mínimas por página, arquivos novos); pentest 69 sem FALHA/AVISO.
+- **Cache da Cloudflare:** após o deploy `5059304`, a produção servia o HTML novo com o CSS antigo (`.css` com
+  `max-age=14400`, `cf-cache-status: HIT`). Solução: `?v=20261119` nos 4 links de CSS de todas as páginas (teste novo
+  garante a mesma versão). Ao mudar CSS, troque a versão.
 
 ## 2026-11-19 — SEO e indexação no Google (ver `docs/seo.md`)
 - Título da Início com "Ser Capoeira Inclusiva Adaptada" + "Capoeira inclusiva em Juiz de Fora"; rótulo do hero

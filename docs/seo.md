@@ -31,6 +31,8 @@ A produção passa pela Cloudflare, que modifica o que o servidor entrega:
   bloqueia (erro no console), o que mantém verdadeiro o aviso de privacidade ("sem estatística").
   Recomendado ao responsável: desligar a injeção automática do Web Analytics no painel da Cloudflare,
   ou, se quiser estatística, revisar o aviso de privacidade e a CSP antes.
+- **Cache de CSS:** arquivos `.css` ficam até 4 h no cache da borda (`cache-control: max-age=14400`). O HTML não
+  é guardado. Por isso os links de CSS levam `?v=AAAAMMDD`: ao mudar o CSS, troque a versão em todas as páginas.
 
 ## Google Search Console (precisa da conta Google do responsável)
 1. Adicionar a propriedade **Domínio** `sercapoeira.com.br` (cobre http/https, com e sem www).
