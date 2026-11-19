@@ -23,16 +23,27 @@ Versões otimizadas: `otimizadas/destaque-alegria-na-roda-{853,600,400}.{webp,jp
 | Galeria geral | 03, 08, 14, 15, 19 | complemento |
 | Evitar | 04 (baixa resolução), 22 (marca d'água de data do celular) | qualidade |
 
-## Fotos usadas no site (M1)
-Derivadas em `otimizadas/foto-NN-480.{webp,jpg}` e `foto-NN-g.{webp,jpg}` (até 1200 px, sem EXIF).
+## Fotos usadas no site (atualizado em 19/11/2026)
+Derivadas em `otimizadas/foto-NN-480.{webp,jpg}` e `foto-NN-g.{webp,jpg}` (até 1200 px, nunca ampliadas, sem EXIF).
+Todas as 26 fotos recebidas + a foto oficial do professor estão no site.
 | Página | Fotos |
 |---|---|
-| Início | hero `destaque-alegria-na-roda` (05), 16, 09, 20 |
-| Sobre | professor-dinho (topo, foto oficial enviada em 18/11), 02, 26 |
-| Capoeira Inclusiva | 06 (topo), 13, 21 |
-| Projetos | 18 + galeria: 05, 01, 08, 02, 07, 12, 10, 23, 15, 19, 11, 06 |
-| Ajude | 08 |
-Não usadas: 03, 04 (baixa resolução), 14, 17, 22 (data impressa), 24, 25.
+| Início | topo `destaque-alegria-na-roda` (05), 16, 09, 20 + faixa em "Nosso propósito": 01, 11, 12, 15 |
+| Sobre | topo `professor-dinho`, 02, Quem conduz 26, Experiência 03 |
+| Capoeira Inclusiva | topo 06, O que é 17, Público atendido 20, Música 13 e 21 |
+| Projetos | topo 24, Tardezinha 18 + galeria (22): 05, 01, 08, 02, 07, 12, 10, 23, 15, 19, 11, 06, 14, 17, 22, 03, 13, 16, 09, 04, 21, 27 |
+| Ajude | topo 07, Voluntariado 14, Divulgação 08 |
+| Contato | topo 22, Canais 25, Juiz de Fora 23 |
+| Privacidade / 404 | sem fotos (página legal e página de erro) |
+
+Observações:
+- **`foto-27`** = `originais/foto-26.jpg` (foto antiga do Professor Dinho tocando berimbau). O nome `foto-26` ficou
+  com a foto nova do professor; os originais não foram renomeados.
+- **`foto-22`**: derivados recortados embaixo (960×1280 → 960×1180) para tirar a marca "REDMI NOTE 12S" e a data
+  impressas pelo celular; ninguém foi cortado.
+- **`foto-04`**: só 401×686 → apenas `foto-04-g` (tamanho nativo), usada só na galeria.
+- Recorte nas molduras: `object-fit: cover` centralizado; `.foco-topo`, `.foco-alto` e `.foco-baixo` deslocam o recorte
+  para manter rostos à vista. `.moldura--limite` (máx. 440px) para arquivos com menos de ~700 px de largura.
 Imagem de compartilhamento: `assets/img/og/og-padrao.jpg` (logo, sem pessoas).
 
 ## Autorização

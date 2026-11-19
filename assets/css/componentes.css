@@ -166,6 +166,8 @@
     background: var(--cor-superficie-suave);
     box-shadow: 0 24px 60px rgba(11, 11, 20, .18);
   }
+  /* <picture> ocupa a moldura inteira: sem isso o height:100% da img não vale e o cover/object-position são ignorados */
+  .moldura > picture { height: 100%; }
   .moldura img { width: 100%; height: 100%; object-fit: cover; }
   .moldura--retrato { aspect-ratio: 3 / 4; }
   .moldura--alta { aspect-ratio: 4 / 5; }
@@ -857,4 +859,27 @@
     justify-self: center;
   }
   .foto:has(.moldura--vertical) figcaption { text-align: center; }
+
+  /* Foto com arquivo estreito (menos de ~700 px): moldura limitada para nunca ampliar a imagem */
+  .moldura--limite { width: min(100%, 440px); justify-self: center; }
+  /* Onde a moldura corta uma foto alta, manter os rostos à vista */
+  .foco-topo img { object-position: 50% 15%; }
+  .foco-alto img { object-position: 50% 30%; }
+  .foco-baixo img { object-position: 50% 65%; }
+
+  /* Faixa de fotos: 2×2 no celular e no tablet, 4 lado a lado no computador */
+  .faixa-fotos {
+    list-style: none;
+    padding: 0;
+    margin: clamp(32px, 5vw, 64px) 0 0;
+    display: grid;
+    gap: clamp(10px, 1.6vw, 20px);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .faixa-fotos .moldura { aspect-ratio: 4 / 5; }
+
+  @media (min-width: 900px) { .faixa-fotos { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+  /* Coluna com dois blocos empilhados (ex.: citação + foto) */
+  .coluna-empilhada { display: grid; gap: clamp(20px, 3vw, 32px); }
 }

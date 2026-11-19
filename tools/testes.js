@@ -104,7 +104,7 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
   const c1 = await g.locator('.lightbox__contador').textContent();
   await g.keyboard.press('ArrowRight');
   const c2 = await g.locator('.lightbox__contador').textContent();
-  check(c1 === '1 de 14' && c2 === '2 de 14', `galeria: setas (${c1} → ${c2})`);
+  check(c1 === '1 de 22' && c2 === '2 de 22', `galeria: setas (${c1} → ${c2})`);
   await g.waitForTimeout(400);
   check(await g.locator('.lightbox__img').evaluate(i => i.complete && i.naturalWidth > 0), 'galeria: imagem ampliada não carregou');
   await g.keyboard.press('Escape');
@@ -256,6 +256,17 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
     await ctxF.close(); }
   for (const arq of ['foto-26-480.webp', 'foto-26-480.jpg', 'foto-26-g.webp', 'foto-26-g.jpg']) {
     const r = await p.request.get(BASE + 'assets/img/fotos/otimizadas/' + arq); check(r.status() === 200 && (await r.body()).length > 10000, `arquivo ${arq} ausente ou vazio`); }
+  // Fotos em todas as páginas (exceto o aviso de privacidade): carregadas, com alt, sem deformar
+  { const minimo = { 'index.html': 6, 'x2dKgtNI0v.html': 4, 'CznFDg5A5K.html': 5, 'HMktb9HjQE.html': 2, 'R7JvqK3bng.html': 3, 'tYXytz9wxv.html': 3 };
+    const ctxM = await b.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' }); const q = await ctxM.newPage();
+    for (const [pg, min] of Object.entries(minimo)) {
+      await q.goto(BASE + pg, { waitUntil: 'networkidle' }); await rolar(q); await q.waitForLoadState('networkidle');
+      const r = await q.evaluate(() => [...document.querySelectorAll('main .moldura img')].map(i => ({ ok: i.complete && i.naturalWidth > 0, alt: i.alt.length > 10, src: i.currentSrc.split('/').pop() })));
+      check(r.length >= min && r.every(i => i.ok && i.alt), `${pg}: fotos em moldura ${r.length}/${min} ${JSON.stringify(r.filter(i => !i.ok || !i.alt))}`); }
+    await q.goto(BASE + 'HMktb9HjQE.html'); check(await q.locator('.galeria__item').count() === 22, 'galeria: esperadas 22 fotos');
+    await ctxM.close(); }
+  for (const n of ['03', '22', '24', '25', '27']) for (const t of ['480.webp', '480.jpg', 'g.webp', 'g.jpg']) {
+    const r = await p.request.get(BASE + `assets/img/fotos/otimizadas/foto-${n}-${t}`); check(r.status() === 200 && (await r.body()).length > 5000, `arquivo foto-${n}-${t} ausente ou vazio`); }
   console.log(`\nOK: ${ok}  FALHAS: ${falhas.length}`);
   falhas.forEach(f => console.log(' - ' + f));
   await b.close();

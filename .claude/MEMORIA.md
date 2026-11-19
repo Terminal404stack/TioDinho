@@ -2,6 +2,19 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-19 — Fotos em todas as páginas
+- Pedido: páginas pareciam "em branco". Agora todas as 26 fotos + a oficial do professor estão no site (mapa em
+  `docs/fotos.md`): topo com foto em Contato (22), Ajude (07; atalhos foram para a coluna do texto) e Projetos (24);
+  fotos novas em Contato (25, 23), Ajude/Voluntariado (14), Capoeira Inclusiva (17, 20), Sobre/Experiência (03),
+  faixa de 4 fotos na Início (01, 11, 12, 15) e galeria de 14 → 22 fotos. Privacidade e 404 sem fotos.
+- Derivados novos: 03, 04 (só `-g` nativo), 22 (recortada sem a data do celular), 24, 25 e `foto-27` (= foto-26 antiga);
+  `-g.jpg` gerados para 01, 07, 11, 12, 14, 15, 17, 23 (antes só tinham `-g.webp`).
+- **Bug antigo corrigido:** `<picture>` não tinha altura, então `height:100%`/`object-fit:cover`/`object-position` das
+  molduras nunca funcionavam (recorte preso no topo e faixa vazia quando a foto é mais larga). `.moldura > picture
+  { height: 100% }` resolveu; todas as 25 molduras conferidas por captura.
+- CSS novo: `.faixa-fotos`, `.moldura--limite`, `.foco-topo/-alto/-baixo`, `.coluna-empilhada`, `.contato-dividido`.
+- Testes 673/673 (galeria "1 de 22", fotos mínimas por página, arquivos novos); pentest 69 sem FALHA/AVISO.
+
 ## 2026-11-19 — SEO e indexação no Google (ver `docs/seo.md`)
 - Título da Início com "Ser Capoeira Inclusiva Adaptada" + "Capoeira inclusiva em Juiz de Fora"; rótulo do hero
   com o nome completo; descrições de Capoeira Inclusiva e Projetos encurtadas (≤160).
