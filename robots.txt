@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://terminal404stack.github.io/TioDinho/sitemap.xml
+Sitemap: https://sercapoeira.com.br/sitemap.xml

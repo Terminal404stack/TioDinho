@@ -38,3 +38,12 @@ Imagem de compartilhamento: `assets/img/og/og-padrao.jpg` (logo, sem pessoas).
 ## Autorização
 Autorização de uso das imagens informada pelo responsável em 18/11/2026. Recomenda-se arquivar os
 termos assinados (ver `docs/pendencias.md`). Os textos alternativos não citam nomes de pessoas.
+
+## Atualização de 19/11/2026: foto do Professor Dinho (`foto-26`)
+- Nova foto enviada pelo usuário, processada pelo workflow (`b96eb8b`): original `originais/foto-26.png`
+  (900×1600) e `otimizadas/foto-26-480.{webp,jpg}` (480×853) e `foto-26-g.{webp,jpg}` (675×1200), 9:16.
+  O `originais/foto-26.jpg` antigo foi preservado (sem uso).
+- Usada em "(03) Quem conduz" (`x2dKgtNI0v.html`) com a moldura `.moldura--vertical` (9:16, foto inteira,
+  sem corte) e `?v=20261119` nas URLs para não ficar presa no cache. A foto do topo da página Sobre
+  continua sendo a `professor-dinho-*`.
+

@@ -1,7 +1,7 @@
 const { chromium } = require('playwright');
 const BASE = process.env.BASE || 'http://localhost:8080/';
 const PAGINAS = ['index.html','x2dKgtNI0v.html','CznFDg5A5K.html','HMktb9HjQE.html','R7JvqK3bng.html','tYXytz9wxv.html','Rgw7Xw9lXM.html'];
-const PRODUCAO = 'https://terminal404stack.github.io/TioDinho/';
+const PRODUCAO = 'https://sercapoeira.com.br/';
 const LARGURAS = [320, 375, 640, 768, 1024, 1440, 1920];
 const falhas = []; let ok = 0;
 const check = (cond, msg) => { if (cond) ok++; else falhas.push(msg); };
@@ -219,6 +219,24 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
   // Aviso de privacidade: link em todos os rodapés
   { const q = await (await b.newContext()).newPage();
     for (const pg of PAGINAS.concat(['404.html'])) { await q.goto(BASE + pg); check(await q.locator('footer a.rodape__legal[href="Rgw7Xw9lXM.html"]').count() === 1, `${pg}: rodapé sem link de privacidade`); } }
+  // Foto do Professor Dinho na seção "(03) Quem conduz" (foto-26, 9:16, sem corte nem deformação)
+  for (const [w, h] of [[390, 844], [820, 1180], [1440, 900]]) {
+    const ctxF = await b.newContext({ viewport: { width: w, height: h } }); const q = await ctxF.newPage(); const errosF = [];
+    q.on('pageerror', e => errosF.push(e.message)); q.on('console', m => { if (m.type() === 'error') errosF.push(m.text()); });
+    const respostas = []; q.on('response', r => { if (r.url().includes('foto-26')) respostas.push(r.status()); });
+    await q.goto(BASE + 'x2dKgtNI0v.html', { waitUntil: 'networkidle' });
+    const fig = q.locator('section[aria-labelledby="t-professor"] figure');
+    await fig.scrollIntoViewIfNeeded(); await q.waitForTimeout(600);
+    const f = await fig.evaluate(el => { const img = el.querySelector('img'); const mold = el.querySelector('.moldura').getBoundingClientRect(); const ri = img.getBoundingClientRect();
+      return { src: img.currentSrc, ok: img.complete && img.naturalWidth > 0, natural: img.naturalWidth / img.naturalHeight, moldura: mold.width / mold.height, imgRatio: ri.width / ri.height, legenda: el.querySelector('figcaption').textContent.trim(), alt: img.alt }; });
+    check(/\/assets\/img\/fotos\/otimizadas\/foto-26-(480|g)\.(webp|jpg)\?v=20261119$/.test(f.src) && f.ok, `Quem conduz@${w}: foto não carregou (${f.src})`);
+    check(Math.abs(f.natural - 675 / 1200) < 0.01 && Math.abs(f.moldura - 675 / 1200) < 0.01 && Math.abs(f.imgRatio - 675 / 1200) < 0.01, `Quem conduz@${w}: proporção/corte ${JSON.stringify(f)}`);
+    check(f.legenda === 'Elizomar Nascimento, o Professor Dinho.' && f.alt.startsWith('Professor Dinho'), `Quem conduz@${w}: legenda/alt`);
+    check(respostas.length > 0 && respostas.every(st => st === 200), `Quem conduz@${w}: respostas HTTP da foto ${respostas}`);
+    check(!errosF.length, `Quem conduz@${w}: erros no console ${errosF.join(' | ')}`);
+    await ctxF.close(); }
+  for (const arq of ['foto-26-480.webp', 'foto-26-480.jpg', 'foto-26-g.webp', 'foto-26-g.jpg']) {
+    const r = await p.request.get(BASE + 'assets/img/fotos/otimizadas/' + arq); check(r.status() === 200 && (await r.body()).length > 10000, `arquivo ${arq} ausente ou vazio`); }
   console.log(`\nOK: ${ok}  FALHAS: ${falhas.length}`);
   falhas.forEach(f => console.log(' - ' + f));
   await b.close();

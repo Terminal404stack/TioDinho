@@ -45,6 +45,7 @@ Logo oficial: **Ser Capoeira inclusiva**. Fundo claro → logo original; fundo e
 Cabeçalho: grid `1fr auto 1fr` (logo à esquerda, menu no centro, "Quero ajudar" à direita). Também existem `404.html` (noindex) e `robots.txt`.
 Segurança: CSP por meta tag em todas as páginas (hash do script inline do `<head>`; recalcular se ele mudar) e aviso anti-iframe em `main.js`. Ver `docs/seguranca.md`. Site sem formulário (estático).
 Logos: só arquivos sem perda e nunca ampliados (ver `identidade-visual.md`).
-Endereço publicado: https://terminal404stack.github.io/TioDinho/ (canonical/og:url em cada página).
+Endereço oficial: https://sercapoeira.com.br/ (canonical/og:url em cada página, sitemap e robots). Publicação pelo CI no servidor próprio (releases imutáveis + link `current`).
+Foto do Professor Dinho em "Quem conduz" (Sobre): `foto-26` 9:16 (moldura `.moldura--vertical`, sem corte) com `?v=AAAAMMDD` nas URLs; ao trocar a foto mantendo o nome, atualize a versão.
 Rodar local: na raiz, `python3 -m http.server 8080` (igual ao CI; as ferramentas de `tools/` usam esse endereço). Para simular o GitHub Pages, sirva a pasta de cima e rode com `BASE=http://localhost:8081/TioDinho/`. O sprite SVG não funciona via file://.
 **Não quebrar o CI:** `tools/testes.js` precisa terminar em `FALHAS: 0` e o pentest sem linhas `FALHA`.

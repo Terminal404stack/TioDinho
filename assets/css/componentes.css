@@ -848,3 +848,13 @@
   /* Números ao lado de títulos não encolhem nem quebram (ex.: "03" virando "0/3") */
   .legal__num, .grupo-pilares__titulo span { flex-shrink: 0; overflow-wrap: normal; white-space: nowrap; }
 }
+
+@layer componentes {
+  /* Foto vertical (9:16, ex.: retrato do Professor Dinho): moldura na proporção da foto, sem cortar */
+  .moldura--vertical {
+    aspect-ratio: 9 / 16;
+    width: min(100%, 420px);
+    justify-self: center;
+  }
+  .foto:has(.moldura--vertical) figcaption { text-align: center; }
+}

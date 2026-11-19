@@ -2,6 +2,16 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-19 — Foto do Professor Dinho (Quem conduz), domínio oficial e deploy validado
+- O usuário trocou a `foto-26` por uma foto nova (o CI gerou os otimizados com os mesmos nomes; commit `b96eb8b`).
+  O caminho já estava certo; os problemas eram cache (mesmo nome), corte (moldura 3:4 × foto 9:16) e o alt
+  da foto antiga. Correção: `.moldura--vertical` (9:16, máx. 420px), `?v=20261119` nas 5 URLs, `sizes`
+  `(min-width: 467px) 420px, 90vw` e alt novo.
+- Domínio oficial `https://sercapoeira.com.br/` em canonical/og/sitemap/robots/testes (pendências 12 e 16 resolvidas).
+- Para testar como o CI: montar a árvore pública com os `--exclude` do workflow e servir em 127.0.0.1:8080
+  (o pentest falha com `AVISO` se `.git` estiver acessível). Testes 587/587; pentest 69 sem FALHA/AVISO.
+- Produção só verificável de fora (o proxy desta sessão bloqueia o domínio): usar o agente web-fetch.
+
 ## 2026-11-18 — Revisão final em todas as telas e pendências fechadas
 - `tools/responsivo.js` (24 telas + texto 200%, alto contraste, tema escuro). Corrigido: CTA da Início
   acima da dobra em notebooks/tablets/375×667 (foto limitada por `svh`, `--fs-hero` com `vh`, gaps
