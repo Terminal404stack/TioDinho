@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: sercapoeira-deploy
@@ -21,6 +21,62 @@ jobs:
     steps:
       - name: Baixar repositório
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Preparar nova foto do Professor Dinho
+        id: preparar_foto
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_IMAGE='assets/img/fotos/otimizadas/Imagem do ChatGPT 19 de nov. de 2026, 00_30_34.png'
+
+          if [[ -f "$SOURCE_IMAGE" ]]; then
+            python3 -m venv "$RUNNER_TEMP/photo-venv"
+            "$RUNNER_TEMP/photo-venv/bin/pip" install --disable-pip-version-check --quiet Pillow==11.3.0
+
+            "$RUNNER_TEMP/photo-venv/bin/python" - <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageOps
+          import shutil
+
+          source = Path("assets/img/fotos/otimizadas/Imagem do ChatGPT 19 de nov. de 2026, 00_30_34.png")
+          originals = Path("assets/img/fotos/originais")
+          originals.mkdir(parents=True, exist_ok=True)
+          shutil.copy2(source, originals / "foto-26.png")
+
+          image = ImageOps.exif_transpose(Image.open(source))
+          if abs((image.width / image.height) - (675 / 1200)) > 0.01:
+              raise SystemExit(f"Proporção inesperada para foto-26: {image.width}x{image.height}")
+
+          if image.mode in ("RGBA", "LA") and image.getchannel("A").getextrema() != (255, 255):
+              rgba = image.convert("RGBA")
+              background = Image.new("RGBA", rgba.size, (255, 255, 255, 255))
+              image = Image.alpha_composite(background, rgba).convert("RGB")
+          else:
+              image = image.convert("RGB")
+
+          output_dir = Path("assets/img/fotos/otimizadas")
+          for width, stem in ((480, "foto-26-480"), (675, "foto-26-g")):
+              height = round(image.height * width / image.width)
+              resized = image.resize((width, height), Image.Resampling.LANCZOS)
+              resized.save(output_dir / f"{stem}.webp", "WEBP", quality=90, method=6)
+              resized.save(
+                  output_dir / f"{stem}.jpg",
+                  "JPEG",
+                  quality=92,
+                  optimize=True,
+                  progressive=True,
+                  subsampling=0,
+              )
+              print(f"Gerado {stem}: {width}x{height}")
+
+          source.unlink()
+          PY
+
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Nenhuma nova foto pendente; mantendo as imagens atuais."
+          fi
 
       - name: Preparar Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
@@ -100,6 +156,32 @@ jobs:
             exit 1
           fi
 
+      - name: Registrar as imagens otimizadas no GitHub
+        id: commit_foto
+        shell: bash
+        env:
+          PHOTO_CHANGED: ${{ steps.preparar_foto.outputs.changed }}
+        run: |
+          set -euo pipefail
+          if [[ "$PHOTO_CHANGED" == "true" ]]; then
+            git add -A -- \
+              'assets/img/fotos/otimizadas/Imagem do ChatGPT 19 de nov. de 2026, 00_30_34.png' \
+              assets/img/fotos/originais/foto-26.png \
+              assets/img/fotos/otimizadas/foto-26-480.webp \
+              assets/img/fotos/otimizadas/foto-26-480.jpg \
+              assets/img/fotos/otimizadas/foto-26-g.webp \
+              assets/img/fotos/otimizadas/foto-26-g.jpg
+
+            if ! git diff --cached --quiet; then
+              git config user.name "github-actions[bot]"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git commit -m "assets: atualizar foto do Professor Dinho"
+              git push origin "HEAD:${GITHUB_REF_NAME}"
+            fi
+          fi
+
+          echo "release_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
       - name: Verificar se os segredos de deploy foram configurados
         id: deploy_config
         env:
@@ -134,15 +216,16 @@ jobs:
           DEPLOY_HOST: 204.157.108.41
           DEPLOY_USER: deploy-sercapoeira
           DEPLOY_BASE: /var/www/sercapoeira
+          RELEASE_SHA: ${{ steps.commit_foto.outputs.release_sha }}
         run: |
           set -euo pipefail
-          if [[ ! "$GITHUB_SHA" =~ ^[a-f0-9]{40}$ ]]; then
+          if [[ ! "$RELEASE_SHA" =~ ^[a-f0-9]{40}$ ]]; then
             echo "::error::SHA do commit inválido."
             exit 1
           fi
 
           destination="$DEPLOY_USER@$DEPLOY_HOST"
-          release_dir="$DEPLOY_BASE/releases/$GITHUB_SHA"
+          release_dir="$DEPLOY_BASE/releases/$RELEASE_SHA"
           ssh_opts=(-i "$HOME/.ssh/id_ed25519" -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$HOME/.ssh/known_hosts")
 
           ssh "${ssh_opts[@]}" "$destination" "mkdir -p '$release_dir'"
@@ -170,7 +253,7 @@ jobs:
             --exclude='./assets/img/favicon/favicon-48x48.png' \
             -czf - . | ssh "${ssh_opts[@]}" "$destination" "tar -xzf - -C '$release_dir'"
 
-          ssh "${ssh_opts[@]}" "$destination" "set -eu; test -s '$release_dir/index.html'; find '$release_dir' -type d -exec chmod 2750 {} +; find '$release_dir' -type f -exec chmod 0640 {} +; ln -sfn '$release_dir' '$DEPLOY_BASE/.current-next-$GITHUB_RUN_ID'; mv -Tf '$DEPLOY_BASE/.current-next-$GITHUB_RUN_ID' '$DEPLOY_BASE/current'; echo 'Publicação ativada: $GITHUB_SHA'"
+          ssh "${ssh_opts[@]}" "$destination" "set -eu; test -s '$release_dir/index.html'; find '$release_dir' -type d -exec chmod 2750 {} +; find '$release_dir' -type f -exec chmod 0640 {} +; ln -sfn '$release_dir' '$DEPLOY_BASE/.current-next-$GITHUB_RUN_ID'; mv -Tf '$DEPLOY_BASE/.current-next-$GITHUB_RUN_ID' '$DEPLOY_BASE/current'; echo 'Publicação ativada: $RELEASE_SHA'"
 
       - name: Registrar conclusão sem deploy (segredos pendentes)
         if: steps.deploy_config.outputs.ready != 'true'
