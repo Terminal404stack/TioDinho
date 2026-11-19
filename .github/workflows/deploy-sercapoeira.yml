@@ -52,6 +52,7 @@ jobs:
           # Arquivos internos e originais nunca entram no document root.
           tar \
             --exclude='./.git' \
+            --exclude='./node_modules' \
             --exclude='./.github' \
             --exclude='./.claude' \
             --exclude='./.gitignore' \
@@ -148,6 +149,7 @@ jobs:
 
           tar \
             --exclude='./.git' \
+            --exclude='./node_modules' \
             --exclude='./.github' \
             --exclude='./.claude' \
             --exclude='./.gitignore' \
