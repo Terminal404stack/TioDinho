@@ -33,7 +33,7 @@ Pesquisa (nov/2026) resumida em regras. Fontes no fim.
 ### A. Topo (hero) — primeira impressão
 | # | Animação | Detalhes |
 |---|---|---|
-| A1 | **Montagem do quebra-cabeça** (assinatura da marca) | As 4 peças (vermelho, amarelo, verde, azul) entram dos 4 lados e encaixam; 1000–1200 ms, stagger 120 ms, `--ease-saida`; depois o nome "Tio Dinho" aparece. Exige as peças vetorizadas em SVG; **até lá**: logo com `scale(.92)→1` + fade 600 ms. Reduzido: fade 200 ms. |
+| A1 | **Símbolo pintado a pincel** (assinatura da marca, topo da Início) | Máscara SVG com linhas-guia (`.simbolo__traco--1…8`) desenhadas com `stroke-dashoffset` na ordem cabeça → braços → tronco → costelas → pernas, ~2,9 s; `.simbolo__fim` completa o desenho no fim. Reduzido/pausado/sem JS: símbolo inteiro, parado. (Substituiu a montagem das 4 peças em 19/11/2026.) |
 | A2 | Título palavra a palavra | fade + `translateY(12px)`, stagger 60 ms. Texto real no `<h1>`; os `<span>` de cada palavra recebem `aria-hidden="true"` e o `<h1>` mantém o texto acessível (ou `aria-label`). |
 | A3 | Faixa verde-amarela (o "swoosh" da logo) se desenhando | SVG `stroke-dasharray/dashoffset`, 800 ms, uma vez. Também serve como divisor de seções. |
 | A4 | CTA "Quero ajudar" aparece por último | fade-up 400 ms após A1/A2 — guia o olhar para a doação. |

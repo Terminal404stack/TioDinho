@@ -42,6 +42,7 @@ M1 concluído: site multipágina (6 páginas) completo e testado. Nome público:
 (Professor Dinho — Elizomar Nascimento, Juiz de Fora — MG). Conteúdo em `docs/conteudo-institucional.md`;
 o que falta confirmar em `docs/pendencias.md`. **Nunca inventar** PIX, datas, números, endereço ou certificados.
 Logo oficial: **Ser Capoeira inclusiva**. Fundo claro → logo original; fundo escuro (cabeçalho/rodapé) → `ser-capoeira-clara` (texto branco), sem fundo nem pílula.
+Símbolo do projeto (figura de braços erguidos, SVG `.simbolo` com animação de pincel) no topo da Início, no lugar das antigas 4 peças; original em `docs/identidade/`.
 Cabeçalho: grid `1fr auto 1fr` (logo à esquerda, menu no centro, "Quero ajudar" à direita). Também existem `404.html` (noindex) e `robots.txt`.
 Segurança: CSP por meta tag em todas as páginas (hash do script inline do `<head>`; recalcular se ele mudar) e aviso anti-iframe em `main.js`. Ver `docs/seguranca.md`. Site sem formulário (estático).
 Logos: só arquivos sem perda e nunca ampliados (ver `identidade-visual.md`).

@@ -22,7 +22,7 @@ async function analisar(p) {
     const W = document.documentElement.clientWidth;
     if (document.documentElement.scrollWidth > W + 1) achados.push(['rolagem-lateral', `${document.documentElement.scrollWidth - W}px`]);
     document.querySelectorAll('body *').forEach((el) => {
-      if (!vis(el) || el.closest('.pecas,.swoosh-titulo,svg')) return;
+      if (!vis(el) || el.closest('.simbolo,.swoosh-titulo,svg')) return;
       const r = el.getBoundingClientRect();
       if (r.right > W + 1 || r.left < -1) {
         // ignora o que está dentro de contêiner com overflow escondido (molduras, galeria)

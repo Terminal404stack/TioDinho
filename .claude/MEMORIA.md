@@ -2,6 +2,18 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-19 — Fotos que não apareciam + símbolo novo
+- **Bug grave corrigido:** com animações ligadas (padrão), as fotos `data-anima="foto"` abaixo da 1ª tela nunca
+  apareciam (13 molduras, incl. Quem conduz). O `clip-path: inset(100%)` estava no próprio alvo do
+  IntersectionObserver → o Chromium via área 0 e não disparava. Agora o recorte vai no `<picture>` interno
+  (`animacoes.css`) e a moldura fica sem fundo/sombra até revelar. Teste "escondidos" passou a exigir `.visivel`
+  (antes só olhava `opacity`). A foto enviada pelo usuário era a mesma `foto-26`.
+- **Símbolo novo** no lugar das 4 peças (topo da Início): vetorizado com `potracer` (scratchpad) em 3 camadas
+  (silhueta branca = contorno, preto, amarelo `#f9f046`), SVG em linha ~13 KB; animação de pincel
+  (máscara com 9 linhas-guia + `.simbolo__fim`). Original em `docs/identidade/simbolo-original.png`.
+  CSS das peças removido (`.pecas*`, `.hero-pagina__deco`, `.contato-unico`, `@keyframes encaixa`).
+- CSS `?v=20261119b`.
+
 ## 2026-11-19 — Fotos em todas as páginas
 - Pedido: páginas pareciam "em branco". Agora todas as 26 fotos + a oficial do professor estão no site (mapa em
   `docs/fotos.md`): topo com foto em Contato (22), Ajude (07; atalhos foram para a coluna do texto) e Projetos (24);

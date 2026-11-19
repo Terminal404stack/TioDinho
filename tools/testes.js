@@ -23,7 +23,8 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
         h1: document.querySelectorAll('h1').length,
         atual: [...document.querySelectorAll('[aria-current="page"]')].every(a => a.getAttribute('href') === pg) && document.querySelectorAll('[aria-current="page"]').length >= (pg === 'Rgw7Xw9lXM.html' ? 1 : 2),
         imgsQuebradas: [...document.images].filter(i => i.getAttribute('src') && (!i.complete || i.naturalWidth === 0)).map(i => i.currentSrc || i.src),
-        escondidos: [...document.querySelectorAll('[data-anima]')].filter(e => getComputedStyle(e).opacity !== '1').length,
+        // oculto = sem .visivel (fotos ficam com opacity 1 mas recortadas até ganhar .visivel) ou ainda transparente
+        escondidos: [...document.querySelectorAll('[data-anima]')].filter(e => !e.classList.contains('visivel') || getComputedStyle(e).opacity !== '1').length,
       }), pg);
       check(r.overflow <= 0, `${pg}@${w}: rolagem horizontal ${r.overflow}px`);
       check(r.h1 === 1, `${pg}@${w}: ${r.h1} h1`);

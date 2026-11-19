@@ -31,15 +31,21 @@
     html.anima .entrada-foto {
       animation: revela-foto var(--dur-destaque) var(--ease-saida) both 150ms;
     }
-    html.anima .entrada-pecas .peca {
-      transform-box: fill-box;
-      transform-origin: center;
-      animation: encaixa 900ms var(--ease-saida) both;
+    /* Símbolo "pintado" traço a traço: cabeça, braços, tronco, costelas e pernas (máscara de pincel).
+       Sem JS, com movimento reduzido ou "Pausar animações": aparece inteiro. */
+    html.anima .entrada-simbolo .simbolo__traco {
+      stroke-dasharray: 1;
+      animation: desenha 520ms var(--ease-saida) both;
     }
-    html.anima .entrada-pecas .peca--1 { --dx: -14px; --dy: -14px; animation-delay: 500ms; }
-    html.anima .entrada-pecas .peca--2 { --dx: 14px; --dy: -14px; animation-delay: 620ms; }
-    html.anima .entrada-pecas .peca--3 { --dx: 14px; --dy: 14px; animation-delay: 740ms; }
-    html.anima .entrada-pecas .peca--4 { --dx: -14px; --dy: 14px; animation-delay: 860ms; }
+    html.anima .entrada-simbolo .simbolo__traco--1 { animation-delay: 500ms; animation-duration: 700ms; }
+    html.anima .entrada-simbolo .simbolo__traco--2 { animation-delay: 1100ms; }
+    html.anima .entrada-simbolo .simbolo__traco--3 { animation-delay: 1500ms; animation-duration: 380ms; }
+    html.anima .entrada-simbolo .simbolo__traco--4 { animation-delay: 1800ms; animation-duration: 260ms; }
+    html.anima .entrada-simbolo .simbolo__traco--5 { animation-delay: 1950ms; animation-duration: 260ms; }
+    html.anima .entrada-simbolo .simbolo__traco--6 { animation-delay: 2100ms; animation-duration: 260ms; }
+    html.anima .entrada-simbolo .simbolo__traco--7 { animation-delay: 2300ms; animation-duration: 480ms; }
+    html.anima .entrada-simbolo .simbolo__traco--8 { animation-delay: 2450ms; animation-duration: 480ms; }
+    html.anima .entrada-simbolo .simbolo__fim { animation: aparece 300ms ease both 2900ms; }
 
     html.anima .swoosh-titulo path {
       stroke-dasharray: 1;
@@ -58,12 +64,20 @@
       opacity: 0;
       transform: translateY(var(--desloc));
     }
+    /* Foto: o recorte vai no <picture>, não na moldura observada — com clip-path no próprio alvo,
+       o IntersectionObserver do Chromium vê área 0 e a foto nunca aparecia */
     html.anima.anima-pronto [data-anima="foto"]:not(.visivel) {
       opacity: 1;
       transform: none;
-      clip-path: inset(100% 0 0 0);
+      background: transparent;
+      box-shadow: none;
     }
-    html.anima [data-anima="foto"] { clip-path: inset(0); }
+    html.anima [data-anima="foto"] > picture {
+      clip-path: inset(0);
+      transition: clip-path var(--dur-destaque) var(--ease-saida);
+      transition-delay: calc(var(--i, 0) * var(--stagger));
+    }
+    html.anima.anima-pronto [data-anima="foto"]:not(.visivel) > picture { clip-path: inset(100% 0 0 0); }
 
     /* Marca-texto cresce quando o título aparece */
     html.anima [data-anima] .marca-texto::before {
@@ -126,13 +140,6 @@
   }
 
   /* Arcos + follow through: a peça chega girando em curva, passa do ponto e assenta */
-  @keyframes encaixa {
-    0% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(-28deg) scale(.7); }
-    45% { opacity: 1; transform: translate(calc(var(--dx) * .35), calc(var(--dy) * -.15)) rotate(-8deg) scale(.95); }
-    75% { transform: translate(calc(var(--dx) * -.06), calc(var(--dy) * -.06)) rotate(3deg) scale(1.04); }
-    100% { opacity: 1; transform: none; }
-  }
-
   @keyframes antecipa {
     0% { transform: translateX(0); }
     30% { transform: translateX(-3px); }
