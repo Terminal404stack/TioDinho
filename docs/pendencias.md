@@ -21,3 +21,6 @@ indica onde entra quando for confirmado.
 | 14 | Data de fundação / história detalhada | Não exibida | `x2dKgtNI0v.html` |
 | 15 | **Logo em alta resolução** | A imagem enviada tem só 703 px de largura útil. Os arquivos foram refeitos sem perda e nunca são ampliados, mas para nitidez máxima em telas grandes, pedir a logo em **SVG/PDF ou PNG com 2000 px ou mais** | `assets/img/logo/` (regerar derivados) |
 | 16 | Endereço final × deploy | ✅ **Resolvido**: o site oficial é o do servidor próprio (`sercapoeira.com.br`), publicado pelo workflow `deploy-sercapoeira.yml` | — |
+| 17 | **Google Search Console** | Site pronto para indexação (sitemap, robots, canonical, JSON-LD). O cadastro exige a conta Google do responsável e a verificação do domínio por registro TXT no DNS da Cloudflare — passo a passo em `docs/seo.md` | Painel do Google + Cloudflare |
+| 18 | `www.sercapoeira.com.br` responde 200 com o mesmo conteúdo | O canonical aponta para o endereço sem `www`, então o Google consolida; o ideal é um redirecionamento 301 `www` → sem `www` (regra na Cloudflare ou no site do Nginx — fora do repositório) | Cloudflare / servidor |
+| 19 | Beacon do Cloudflare Web Analytics injetado pela borda | Bloqueado pela CSP (erro no console). Desligar a injeção automática no painel da Cloudflare, ou revisar o aviso de privacidade antes de liberar | Cloudflare |

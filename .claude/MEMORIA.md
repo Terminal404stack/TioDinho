@@ -2,6 +2,18 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-19 — SEO e indexação no Google (ver `docs/seo.md`)
+- Título da Início com "Ser Capoeira Inclusiva Adaptada" + "Capoeira inclusiva em Juiz de Fora"; rótulo do hero
+  com o nome completo; descrições de Capoeira Inclusiva e Projetos encurtadas (≤160).
+- `twitter:title/description/image/image:alt` espelhando o OG nas 7 páginas; JSON-LD `Organization` + `WebSite`
+  só na Início (array; o `structured-data-testing-tool` não entende `@graph`). Sem endereço/telefone/e-mail/CNPJ.
+- `sitemap.xml` sem `lastmod` (datas não confirmadas); testes de SEO novos em `tools/testes.js` (617/617).
+- Ambiente da sessão "TioDinho" criado com acesso a `sercapoeira.com.br` e `www.` — produção agora conferível com
+  curl/Playwright (proxy: `chromium.launch({ proxy: { server: process.env.HTTPS_PROXY } })`).
+- Produção passa pela Cloudflare: robots.txt gerenciado (Googlebot liberado), ofuscação de e-mail (hash do HTML
+  difere do commit) e beacon Web Analytics bloqueado pela CSP. `www` responde 200 (canonical resolve).
+- Aviso de privacidade: hospedagem corrigida (servidor próprio + Cloudflare, não mais GitHub Pages).
+
 ## 2026-11-19 — Foto do Professor Dinho (Quem conduz), domínio oficial e deploy validado
 - O usuário trocou a `foto-26` por uma foto nova (o CI gerou os otimizados com os mesmos nomes; commit `b96eb8b`).
   O caminho já estava certo; os problemas eram cache (mesmo nome), corte (moldura 3:4 × foto 9:16) e o alt
@@ -10,7 +22,7 @@
 - Domínio oficial `https://sercapoeira.com.br/` em canonical/og/sitemap/robots/testes (pendências 12 e 16 resolvidas).
 - Para testar como o CI: montar a árvore pública com os `--exclude` do workflow e servir em 127.0.0.1:8080
   (o pentest falha com `AVISO` se `.git` estiver acessível). Testes 587/587; pentest 69 sem FALHA/AVISO.
-- Produção só verificável de fora (o proxy desta sessão bloqueia o domínio): usar o agente web-fetch.
+- Produção conferida em 19/11 com o ambiente "TioDinho": as 4 versões da foto-26 idênticas (SHA-256) às do commit.
 
 ## 2026-11-18 — Revisão final em todas as telas e pendências fechadas
 - `tools/responsivo.js` (24 telas + texto 200%, alto contraste, tema escuro). Corrigido: CTA da Início

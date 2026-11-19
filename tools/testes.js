@@ -211,6 +211,25 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
     const sm = await (await q.request.get(BASE + 'sitemap.xml')).text();
     check(PAGINAS.every(pg => sm.includes(pg === 'index.html' ? `<loc>${PRODUCAO}</loc>` : `<loc>${PRODUCAO}${pg}</loc>`)) && !sm.includes('404.html'), 'sitemap incompleto');
     check((await (await q.request.get(BASE + 'robots.txt')).text()).includes(`Sitemap: ${PRODUCAO}sitemap.xml`), 'robots.txt sem Sitemap');
+    // SEO para o Google: sitemap sem datas inventadas nem duplicatas, robots sem bloqueio,
+    // título/descrição únicos, Open Graph e Twitter iguais, JSON-LD só com dados confirmados
+    const locs = [...sm.matchAll(/<loc>([^<]+)<\/loc>/g)].map(x => x[1]);
+    check(locs.length === PAGINAS.length && new Set(locs).size === locs.length && locs.every(u => u.startsWith(PRODUCAO)) && !sm.includes('<lastmod>'), `sitemap: ${locs.length} URLs, duplicatas ou lastmod`);
+    check(!/^\s*Disallow:\s*\S/im.test(await (await q.request.get(BASE + 'robots.txt')).text()), 'robots.txt bloqueia algum caminho');
+    const vistos = { t: new Set(), d: new Set() };
+    for (const pg of PAGINAS) { await q.goto(BASE + pg);
+      const s = await q.evaluate(() => { const m = (n) => document.querySelector(`meta[name="${n}"],meta[property="${n}"]`)?.content ?? null;
+        return { t: document.title, d: m('description'), robots: m('robots'), lang: document.documentElement.lang, vp: !!m('viewport'),
+          og: [m('og:title'), m('og:description'), m('og:image'), m('og:image:alt')], tw: [m('twitter:title'), m('twitter:description'), m('twitter:image'), m('twitter:image:alt')],
+          ld: [...document.querySelectorAll('script[type="application/ld+json"]')].map(x => x.textContent) }; });
+      check(s.t.length >= 30 && s.t.length <= 70 && !vistos.t.has(s.t) && s.d && s.d.length >= 70 && s.d.length <= 160 && !vistos.d.has(s.d), `${pg}: título/descrição (${s.t.length}/${s.d && s.d.length}) fora do padrão ou repetidos`);
+      vistos.t.add(s.t); vistos.d.add(s.d);
+      check(s.robots === null && s.lang === 'pt-BR' && s.vp, `${pg}: robots=${s.robots} lang=${s.lang} viewport=${s.vp}`);
+      check(s.og.every(Boolean) && JSON.stringify(s.og) === JSON.stringify(s.tw), `${pg}: Twitter diferente do Open Graph`);
+      if (pg === 'index.html') {
+        let tipos = []; try { tipos = JSON.parse(s.ld[0]).map(o => o['@context'] === 'https://schema.org' && o.url === PRODUCAO && o['@type']); } catch (e) { tipos = ['JSON inválido']; }
+        check(s.ld.length === 1 && tipos.join() === 'Organization,WebSite' && !/telephone|email|address|taxID|aggregateRating|award/.test(s.ld[0]), `index: JSON-LD ${tipos}`);
+      } else check(s.ld.length === 0, `${pg}: JSON-LD inesperado`); }
     const ctx404 = await b.newContext(); const html404 = await (await ctx404.request.get(BASE + '404.html')).text();
     await ctx404.route(BASE + 'pasta/que/nao/existe', r => r.fulfill({ status: 404, contentType: 'text/html', body: html404 }));
     const z = await ctx404.newPage(); await z.goto(BASE + 'pasta/que/nao/existe', { waitUntil: 'networkidle' });

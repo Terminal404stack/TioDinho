@@ -86,6 +86,7 @@ profissionais e organizações · divulgação nas redes · transparência (áre
 ## Aviso de privacidade (`Rgw7Xw9lXM.html`)
 Texto factual: responsável e contato; nenhum dado pessoal coletado (sem formulário, cadastro,
 cookies, estatística ou anúncios); só a preferência "Pausar animações" fica no navegador; VLibras
-só ao clicar; WhatsApp/Instagram/e-mail são serviços de terceiros; hospedagem GitHub Pages; PIX só
-abre o app do banco; fotos com autorização e pedido de retirada pelos contatos. Atualizado em 18/11/2026.
+só ao clicar; WhatsApp/Instagram/e-mail são serviços de terceiros; hospedagem em servidor próprio
+entregue pela Cloudflare; PIX só abre o app do banco; fotos com autorização e pedido de retirada pelos
+contatos. Atualizado em 19/11/2026 (antes dizia GitHub Pages).
 
