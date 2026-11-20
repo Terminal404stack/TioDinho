@@ -9,7 +9,7 @@ indica onde entra quando for confirmado.
 | 2 | Chave PIX | ✅ **Resolvida** em 18/11/2026: chave `dinho28_jf@yahoo.com.br` (com "o") confirmada e QR testado; o e-mail de contato `dinh28_jf@yahoo.com.br` (sem "o") também está certo. Chave em texto + botão Copiar publicados | — |
 | 3 | Demais dados de doação (titular, banco, valores sugeridos) | Não exibidos | `R7JvqK3bng.html` → seção Doações |
 | 4 | Endereço completo / locais e horários das aulas | Só "Juiz de Fora — MG"; visitante é orientado a perguntar no WhatsApp | `tYXytz9wxv.html` e rodapé |
-| 5 | Datas da Tardezinha Inclusiva e outros eventos | "Data a confirmar" / "Datas e detalhes em breve" | `HMktb9HjQE.html` |
+| 5 | Datas da Tardezinha Inclusiva e outros eventos | "Data a confirmar" / "Datas e detalhes em breve" | `f9N8KaE8WP.html` (página de Eventos pronta em 19/11/2026; ver `docs/eventos.md`) |
 | 6 | Números de impacto (alunos, anos de projeto, eventos) | Não exibidos (contadores animados previstos na skill) | `index.html` |
 | 7 | Certificações / formação do Professor Dinho | Não exibidas | `x2dKgtNI0v.html` |
 | 8 | Parceiros e apoiadores | "Parceiros em breve" | `HMktb9HjQE.html` |

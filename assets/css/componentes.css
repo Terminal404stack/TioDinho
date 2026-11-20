@@ -879,3 +879,56 @@
   /* Coluna com dois blocos empilhados (ex.: citação + foto) */
   .coluna-empilhada { display: grid; gap: clamp(20px, 3vw, 32px); }
 }
+
+@layer componentes {
+  /* ---------- Agenda de eventos (página Eventos; modelo em docs/eventos.md) ---------- */
+  .eventos { list-style: none; padding: 0; display: grid; gap: clamp(16px, 2.4vw, 28px); }
+  .evento {
+    display: grid;
+    border: 1px solid var(--linha);
+    border-radius: var(--raio-grande) var(--raio-grande) var(--raio-grande) 6px;
+    background: var(--cor-superficie);
+    color: var(--cor-texto);
+    overflow: hidden;
+    box-shadow: 0 18px 48px rgba(11, 11, 20, .08);
+  }
+
+  /* Coluna da data: dia grande, mês e dia da semana; sem data, o símbolo do projeto */
+  .evento__data {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 6px;
+    padding: clamp(20px, 3vw, 32px);
+    background: var(--cor-noite);
+    color: var(--cor-texto-claro);
+    text-align: center;
+  }
+  .evento__dia { font-family: var(--fonte-titulo); font-style: italic; font-weight: 800; font-size: clamp(2.8rem, 5vw, 4rem); line-height: .9; }
+  .evento__mes { font-weight: 800; text-transform: uppercase; letter-spacing: .14em; color: var(--cor-amarelo); }
+  .evento__semana { font-size: var(--fs-pequeno); color: #c3c9d9; }
+  .evento__simbolo { width: clamp(48px, 7vw, 64px); height: auto; }
+  .evento__a-confirmar { font-weight: 800; color: var(--cor-amarelo); line-height: 1.2; }
+
+  .evento__corpo { display: grid; gap: 16px; align-content: start; padding: clamp(22px, 3vw, 36px); }
+  .evento__corpo > .etiqueta { justify-self: start; }
+  .evento__titulo { font-size: clamp(1.6rem, 2.6vw, 2.2rem); }
+  .evento__acoes { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  /* Cartaz opcional (abre no lightbox, como a galeria) */
+  .evento__cartaz { margin: 0; padding: clamp(16px, 2vw, 24px); align-self: start; }
+  .evento__cartaz .galeria__item { aspect-ratio: 4 / 5; }
+  .evento__cartaz img { width: 100%; height: 100%; object-fit: cover; }
+
+  @media (min-width: 760px) {
+    .evento { grid-template-columns: minmax(150px, 200px) minmax(0, 1fr); }
+    .evento:has(.evento__cartaz) { grid-template-columns: minmax(150px, 200px) minmax(0, 1fr) minmax(200px, 280px); }
+  }
+
+  /* Evento que já aconteceu (marcado pelo eventos.js) */
+  .evento--passado .evento__data { background: var(--cor-texto-secundario); }
+  .evento--passado .evento__mes { color: var(--cor-texto-claro); }
+
+  .eventos__vazio { padding: 20px 0; color: var(--fg-suave); }
+  .eventos + .aviso { margin-top: clamp(20px, 3vw, 32px); }
+}

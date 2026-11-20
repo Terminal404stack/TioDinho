@@ -1,6 +1,7 @@
 const { chromium } = require('playwright');
 const BASE = process.env.BASE || 'http://localhost:8080/';
-const PAGINAS = ['index.html','x2dKgtNI0v.html','CznFDg5A5K.html','HMktb9HjQE.html','R7JvqK3bng.html','tYXytz9wxv.html','Rgw7Xw9lXM.html'];
+const PAGINAS = ['index.html','x2dKgtNI0v.html','CznFDg5A5K.html','HMktb9HjQE.html','f9N8KaE8WP.html','R7JvqK3bng.html','tYXytz9wxv.html','Rgw7Xw9lXM.html'];
+const EVENTOS = 'f9N8KaE8WP.html';
 const PRODUCAO = 'https://sercapoeira.com.br/';
 const LARGURAS = [320, 375, 640, 768, 1024, 1440, 1920];
 const falhas = []; let ok = 0;
@@ -24,7 +25,8 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
         atual: [...document.querySelectorAll('[aria-current="page"]')].every(a => a.getAttribute('href') === pg) && document.querySelectorAll('[aria-current="page"]').length >= (pg === 'Rgw7Xw9lXM.html' ? 1 : 2),
         imgsQuebradas: [...document.images].filter(i => i.getAttribute('src') && (!i.complete || i.naturalWidth === 0)).map(i => i.currentSrc || i.src),
         // oculto = sem .visivel (fotos ficam com opacity 1 mas recortadas até ganhar .visivel) ou ainda transparente
-        escondidos: [...document.querySelectorAll('[data-anima]')].filter(e => !e.classList.contains('visivel') || getComputedStyle(e).opacity !== '1').length,
+        // (conteúdo dentro de [hidden], ex.: "Eventos anteriores" sem eventos passados, não conta)
+        escondidos: [...document.querySelectorAll('[data-anima]')].filter(e => !e.closest('[hidden]') && (!e.classList.contains('visivel') || getComputedStyle(e).opacity !== '1')).length,
       }), pg);
       check(r.overflow <= 0, `${pg}@${w}: rolagem horizontal ${r.overflow}px`);
       check(r.h1 === 1, `${pg}@${w}: ${r.h1} h1`);
@@ -179,7 +181,7 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
   for (const w of [375, 1440]) { const q = await (await b.newContext({ viewport: { width: w, height: 900 } })).newPage(); const er = []; q.on('pageerror', e => er.push(e.message));
     await q.goto(BASE + '404.html', { waitUntil: 'networkidle' });
     const r4 = await q.evaluate(() => ({ h1: document.querySelectorAll('h1').length, over: document.documentElement.scrollWidth - innerWidth, links: document.querySelectorAll('.lista-404 a').length, noindex: !!document.querySelector('meta[name=robots][content=noindex]') }));
-    check(r4.h1 === 1 && r4.over <= 0 && r4.links === 6 && r4.noindex && !er.length, `404@${w}: ${JSON.stringify(r4)} ${er}`); }
+    check(r4.h1 === 1 && r4.over <= 0 && r4.links === 7 && r4.noindex && !er.length, `404@${w}: ${JSON.stringify(r4)} ${er}`); }
   check((await p.request.get(BASE + 'robots.txt')).status() === 200, 'robots.txt ausente');
   // cabeçalho: logo à esquerda, menu no centro, CTA à direita (simétrico)
   for (const w of [1100, 1440, 1920]) { const q = await (await b.newContext({ viewport: { width: w, height: 900 } })).newPage(); await q.goto(BASE + 'index.html');
@@ -230,6 +232,12 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
       if (pg === 'index.html') {
         let tipos = []; try { tipos = JSON.parse(s.ld[0]).map(o => o['@context'] === 'https://schema.org' && o.url === PRODUCAO && o['@type']); } catch (e) { tipos = ['JSON inválido']; }
         check(s.ld.length === 1 && tipos.join() === 'Organization,WebSite' && !/telephone|email|address|taxID|aggregateRating|award/.test(s.ld[0]), `index: JSON-LD ${tipos}`);
+      } else if (pg === EVENTOS) {
+        // Eventos: só JSON-LD do tipo Event, um para cada card com data (mesmo nome e data de início)
+        const ld = s.ld.map(t => { try { return JSON.parse(t); } catch (e) { return { '@type': 'JSON inválido' }; } });
+        const cards = await q.evaluate(() => [...document.querySelectorAll('[data-evento][data-inicio]')].map(e => ({ nome: e.querySelector('.evento__titulo').textContent.trim(), inicio: e.dataset.inicio })));
+        check(ld.every(o => o['@type'] === 'Event' && o['@context'] === 'https://schema.org') && ld.length === cards.length
+          && cards.every(c => ld.some(o => o.name === c.nome && String(o.startDate).startsWith(c.inicio))), `${pg}: JSON-LD de eventos não confere com os cards ${JSON.stringify({ ld: ld.map(o => o.name || o['@type']), cards })}`);
       } else check(s.ld.length === 0, `${pg}: JSON-LD inesperado`); }
     const ctx404 = await b.newContext(); const html404 = await (await ctx404.request.get(BASE + '404.html')).text();
     await ctx404.route(BASE + 'pasta/que/nao/existe', r => r.fulfill({ status: 404, contentType: 'text/html', body: html404 }));
@@ -258,7 +266,7 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
   for (const arq of ['foto-26-480.webp', 'foto-26-480.jpg', 'foto-26-g.webp', 'foto-26-g.jpg']) {
     const r = await p.request.get(BASE + 'assets/img/fotos/otimizadas/' + arq); check(r.status() === 200 && (await r.body()).length > 10000, `arquivo ${arq} ausente ou vazio`); }
   // Fotos em todas as páginas (exceto o aviso de privacidade): carregadas, com alt, sem deformar
-  { const minimo = { 'index.html': 6, 'x2dKgtNI0v.html': 4, 'CznFDg5A5K.html': 5, 'HMktb9HjQE.html': 2, 'R7JvqK3bng.html': 3, 'tYXytz9wxv.html': 3 };
+  { const minimo = { 'index.html': 6, 'x2dKgtNI0v.html': 4, 'CznFDg5A5K.html': 5, 'HMktb9HjQE.html': 2, 'f9N8KaE8WP.html': 5, 'R7JvqK3bng.html': 3, 'tYXytz9wxv.html': 3 };
     const ctxM = await b.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' }); const q = await ctxM.newPage();
     for (const [pg, min] of Object.entries(minimo)) {
       await q.goto(BASE + pg, { waitUntil: 'networkidle' }); await rolar(q); await q.waitForLoadState('networkidle');
@@ -266,6 +274,61 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
       check(r.length >= min && r.every(i => i.ok && i.alt), `${pg}: fotos em moldura ${r.length}/${min} ${JSON.stringify(r.filter(i => !i.ok || !i.alt))}`); }
     await q.goto(BASE + 'HMktb9HjQE.html'); check(await q.locator('.galeria__item').count() === 22, 'galeria: esperadas 22 fotos');
     await ctxM.close(); }
+  // Página de Eventos: menu em todas as páginas, cabeçalho em 1100px, sem JS e lógica de datas (relógio fixo)
+  { const MENU = ['Início', 'Sobre', 'Capoeira Inclusiva', 'Projetos', 'Eventos', 'Ajude', 'Contato'];
+    const ctxE = await b.newContext({ viewport: { width: 1440, height: 900 } }); const q = await ctxE.newPage();
+    for (const pg of PAGINAS.concat(['404.html'])) {
+      await q.goto(BASE + pg);
+      const m = await q.evaluate((ev) => ({
+        desk: [...document.querySelectorAll('.nav-principal a')].map(a => a.textContent.trim()),
+        cel: [...document.querySelectorAll('#menu-mobile ol a')].map(a => a.textContent.trim()),
+        rod: [...document.querySelectorAll('.rodape nav a')].map(a => a.textContent.trim()),
+        ev: [...document.querySelectorAll('.nav-principal a, #menu-mobile ol a, .rodape nav a')].filter(a => a.getAttribute('href') === ev).length }), EVENTOS);
+      check(m.desk.join('|') === MENU.join('|') && m.rod.join('|') === MENU.join('|') && m.cel.join('|') === MENU.map((t, i) => `0${i + 1}${t}`).join('|') && m.ev === 3, `${pg}: menu/rodapé ${JSON.stringify(m)}`);
+    }
+    for (const w of [1100, 1180, 1280]) {
+      await q.setViewportSize({ width: w, height: 800 }); await q.goto(BASE + EVENTOS);
+      const c = await q.evaluate(() => { const r = (sel) => document.querySelector(sel).getBoundingClientRect(); const m = r('.marca'), n = r('.nav-principal ul'), a = r('.cabecalho__acoes');
+        return { sobrepoe: m.right > n.left || n.right > a.left, altura: Math.round(n.height), sobra: document.documentElement.scrollWidth - innerWidth }; });
+      check(!c.sobrepoe && c.altura < 60 && c.sobra <= 0, `cabeçalho@${w} com 7 itens: ${JSON.stringify(c)}`);
+    }
+    await ctxE.close();
+    // Sem JS: Tardezinha visível com "Data a confirmar"; "Eventos anteriores" oculta
+    const ctxN = await b.newContext({ javaScriptEnabled: false }); const n = await ctxN.newPage(); await n.goto(BASE + EVENTOS);
+    const e0 = await n.evaluate(() => { const ant = document.querySelector('[data-eventos-anteriores]');
+      return { cards: document.querySelectorAll('[data-eventos] .evento').length, nome: document.querySelector('#ev-tardezinha')?.textContent.trim(), data: document.querySelector('.evento__a-confirmar')?.textContent.trim(), anteriores: getComputedStyle(ant).display, vazio: getComputedStyle(document.querySelector('[data-eventos-vazio]')).display }; });
+    check(e0.cards >= 1 && e0.nome === 'Tardezinha Inclusiva' && e0.data === 'Data a confirmar' && e0.anteriores === 'none' && e0.vazio === 'none', `eventos sem JS: ${JSON.stringify(e0)}`);
+    await ctxN.close();
+    // Lógica de datas: eventos de teste só nesta requisição (page.route), relógio fixo em 10/03/2027
+    const ctxD = await b.newContext({ viewport: { width: 1440, height: 900 } }); const d = await ctxD.newPage(); const errosD = [];
+    d.on('pageerror', e => errosD.push(e.message)); d.on('console', m => { if (m.type() === 'error') errosD.push(m.text()); });
+    await d.clock.setFixedTime(new Date(2027, 2, 10, 12, 0, 0));
+    const original = await (await d.request.get(BASE + EVENTOS)).text();
+    const card = (id, nome, ini, fim, extra = '') => `<li><article class="evento" data-evento data-inicio="${ini}"${fim ? ` data-fim="${fim}"` : ''} aria-labelledby="${id}"><div class="evento__data"><time datetime="${ini}">${ini}</time></div><div class="evento__corpo"><h3 id="${id}" class="evento__titulo">${nome}</h3><div class="evento__acoes"><a data-evento-participar class="botao" href="#">Participar</a></div></div>${extra}</article></li>`;
+    const cartaz = '<figure class="evento__cartaz"><a class="galeria__item" href="assets/img/fotos/otimizadas/foto-05-g.webp" data-largura="800" data-altura="1200" data-legenda="Cartaz de teste"><img src="assets/img/fotos/otimizadas/foto-05-480.jpg" width="480" height="720" alt="Cartaz de teste"></a></figure>';
+    const abre = '<ol class="eventos" data-eventos data-galeria>';
+    check(original.includes(abre), 'eventos: lista [data-eventos] não encontrada');
+    const html = original.replace(abre, abre + card('t-fut', 'Futuro', '2027-04-01', '', cartaz) + card('t-pas', 'Passado', '2027-01-15', '') + card('t-hoje', 'Hoje', '2027-03-10', '') + card('t-dois', 'Dois dias', '2027-03-09', '2027-03-11'));
+    await d.route(BASE + EVENTOS, r => r.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: html }));
+    await d.goto(BASE + EVENTOS, { waitUntil: 'networkidle' });
+    const e1 = await d.evaluate(() => { const ev = (id) => document.getElementById(id).closest('[data-evento]');
+      return { proximos: [...document.querySelectorAll('[data-eventos] > li .evento__titulo')].map(h => h.textContent.trim()),
+        anteriores: [...document.querySelectorAll('[data-eventos-anteriores] ol > li .evento__titulo')].map(h => h.textContent.trim()),
+        secao: getComputedStyle(document.querySelector('[data-eventos-anteriores]')).display !== 'none',
+        selos: ['t-dois', 't-hoje', 't-fut', 't-pas'].map(id => ev(id).querySelector('[data-evento-selo]')?.textContent || ''),
+        passado: ev('t-pas').classList.contains('evento--passado') && !ev('t-pas').querySelector('[data-evento-participar]'),
+        tardezinhaSemSelo: !ev('ev-tardezinha').querySelector('[data-evento-selo]') }; });
+    check(e1.proximos.join('|') === 'Dois dias|Hoje|Futuro|Tardezinha Inclusiva' && e1.anteriores.join('|') === 'Passado' && e1.secao, `eventos: ordem/seções ${JSON.stringify(e1)}`);
+    check(e1.selos.join('|') === 'Acontecendo agora|É hoje!|Faltam 22 dias|Já aconteceu' && e1.passado && e1.tardezinhaSemSelo, `eventos: selos ${JSON.stringify(e1)}`);
+    // quando "Eventos anteriores" aparece, o título dela também é revelado ao rolar
+    await d.locator('[data-eventos-anteriores] .secao__cabeca').scrollIntoViewIfNeeded(); await d.waitForTimeout(500);
+    check(await d.locator('[data-eventos-anteriores] .secao__cabeca').evaluate(e => e.classList.contains('visivel')), 'eventos: título de "Eventos anteriores" não foi revelado');
+    await d.evaluate(() => scrollTo(0, 0));
+    await d.locator('.evento__cartaz .galeria__item').click();
+    const lb = await d.evaluate(() => ({ aberto: document.getElementById('lightbox').open, src: document.querySelector('.lightbox__img')?.getAttribute('src') || '' }));
+    check(lb.aberto && lb.src.endsWith('foto-05-g.webp'), `eventos: cartaz não abriu no lightbox ${JSON.stringify(lb)}`);
+    check(!errosD.length, `eventos: erros no console ${errosD.join(' | ')}`);
+    await ctxD.close(); }
   // CSS com versão na URL (a Cloudflare guarda .css por horas): mesma ?v= em todas as páginas
   { const vs = new Set(); for (const pg of PAGINAS.concat(['404.html'])) {
       const html = await (await p.request.get(BASE + pg)).text(); const links = [...html.matchAll(/rel="stylesheet" href="assets\/css\/[a-z]+\.css\?v=(\d{8}[a-z]?)"/g)];

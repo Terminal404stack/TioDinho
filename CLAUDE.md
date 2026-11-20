@@ -16,7 +16,8 @@ com deficiência, autismo e famílias). Somente **HTML5 + CSS3 + JavaScript puro
 index.html               Início
 x2dKgtNI0v.html          Sobre              (nomes aleatórios pedidos pelo usuário em 18/11/2026;
 CznFDg5A5K.html          Capoeira Inclusiva  index.html e 404.html precisam manter o nome)
-HMktb9HjQE.html          Projetos e Eventos
+HMktb9HjQE.html          Projetos
+f9N8KaE8WP.html          Eventos (agenda; modelo em docs/eventos.md)
 R7JvqK3bng.html          Ajude
 tYXytz9wxv.html          Contato
 Rgw7Xw9lXM.html          Aviso de privacidade (link no rodapé)

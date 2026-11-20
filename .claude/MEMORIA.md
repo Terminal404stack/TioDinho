@@ -2,6 +2,12 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-19 — Página de Eventos
+- Nova página `f9N8KaE8WP.html` (agenda); menu "Projetos e Eventos" separado em "Projetos" + "Eventos" nas 9 páginas
+  (celular 01–07, rodapé, lista da 404). Card `.evento` + `assets/js/eventos.js` (ordena, move passados, selos).
+- Só a Tardezinha (data a confirmar); JSON-LD `Event` só para evento com data/local confirmados. Modelo em `docs/eventos.md`.
+- `assets/img/simbolo/simbolo.svg` (símbolo estático). CSS `?v=20261119c`. Testes 772/772.
+
 ## 2026-11-19 — Fotos que não apareciam + símbolo novo
 - **Bug grave corrigido:** com animações ligadas (padrão), as fotos `data-anima="foto"` abaixo da 1ª tela nunca
   apareciam (13 molduras, incl. Quem conduz). O `clip-path: inset(100%)` estava no próprio alvo do
