@@ -11,10 +11,10 @@
   <meta name="theme-color" content="#0a1540">
   <script>(function(r){r.classList.remove('no-js');r.classList.add('js');var p=!1;try{p=localStorage.getItem('scia-movimento')==='pausado'}catch(e){}if(p){r.classList.add('movimento-pausado')}else if(window.matchMedia&&matchMedia('(prefers-reduced-motion: no-preference)').matches){r.classList.add('anima')}})(document.documentElement);</script>
   <link rel="preload" href="assets/fonts/montserrat-latin-800-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/base.css?v=20261119c">
-  <link rel="stylesheet" href="assets/css/layout.css?v=20261119c">
-  <link rel="stylesheet" href="assets/css/componentes.css?v=20261119c">
-  <link rel="stylesheet" href="assets/css/animacoes.css?v=20261119c">
+  <link rel="stylesheet" href="assets/css/base.css?v=20261120">
+  <link rel="stylesheet" href="assets/css/layout.css?v=20261120">
+  <link rel="stylesheet" href="assets/css/componentes.css?v=20261120">
+  <link rel="stylesheet" href="assets/css/animacoes.css?v=20261120">
   <link rel="icon" href="favicon.ico" sizes="32x32">
   <link rel="icon" href="assets/img/favicon/favicon-96x96.png" type="image/png" sizes="96x96">
   <link rel="apple-touch-icon" href="assets/img/favicon/apple-touch-icon.png">
@@ -111,7 +111,7 @@
         <!-- Eventos: um <li> por evento. Modelo, campos e regras em docs/eventos.md (não inventar datas nem locais). -->
         <ol class="eventos" data-eventos data-galeria>
           <li data-anima>
-            <article class="evento" data-evento data-inicio="2026-11-22" aria-labelledby="ev-festival-2026">
+            <article class="evento" data-evento data-inicio="2026-11-22" data-sumir="2026-11-23" aria-labelledby="ev-festival-2026">
               <div class="evento__data">
                 <time datetime="2026-11-22T09:00-03:00"><span class="evento__dia">22</span> <span class="evento__mes">nov</span></time>
                 <span class="evento__semana">domingo · 9h</span>
@@ -153,13 +153,6 @@
           <svg aria-hidden="true" focusable="false"><use href="assets/icons/sprite.svg#i-info"></use></svg>
           <div><strong>Novos eventos em breve</strong><p>Os próximos eventos serão anunciados nesta página e no Instagram <a href="https://www.instagram.com/ser_capoeira_jf/" target="_blank" rel="noopener">@ser_capoeira_jf<span class="visualmente-oculto"> (abre em nova aba)</span></a>.</p></div>
         </div>
-      </div>
-    </section>
-
-    <section class="secao" data-tema="suave" aria-labelledby="t-anteriores" data-eventos-anteriores hidden>
-      <div class="container">
-        <div class="secao__cabeca" data-anima><p class="rotulo">Arquivo</p><h2 id="t-anteriores">Eventos <em class="marca-texto">anteriores</em></h2></div>
-        <ol class="eventos" data-galeria></ol>
       </div>
     </section>
 
@@ -243,6 +236,6 @@
     </div>
   </dialog>
   <script type="module" src="assets/js/main.js"></script>
-  <script type="module" src="assets/js/eventos.js"></script>
+  <script type="module" src="assets/js/eventos.js?v=20261120"></script>
 </body>
 </html>

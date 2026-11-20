@@ -925,10 +925,6 @@
     .evento:has(.evento__cartaz) { grid-template-columns: minmax(150px, 200px) minmax(0, 1fr) minmax(200px, 280px); }
   }
 
-  /* Evento que já aconteceu (marcado pelo eventos.js) */
-  .evento--passado .evento__data { background: var(--cor-texto-secundario); }
-  .evento--passado .evento__mes { color: var(--cor-texto-claro); }
-
   .eventos__vazio { padding: 20px 0; color: var(--fg-suave); }
   .eventos + .aviso { margin-top: clamp(20px, 3vw, 32px); }
 }

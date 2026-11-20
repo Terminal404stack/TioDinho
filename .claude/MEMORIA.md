@@ -2,6 +2,11 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-20 — Eventos somem sozinhos
+- Pedido: cada evento com janela de exibição e sumir automaticamente. `eventos.js` agora usa `data-publicar`/`data-sumir`
+  (padrão: some no dia seguinte ao fim) e **remove** o card; seção "Eventos anteriores" e `.evento--passado` removidas.
+  Festival: `data-sumir="2026-11-23"`. Roda uma vez, sem timers. `eventos.js?v=20261120`, CSS `?v=20261120`. Testes 777/777.
+
 ## 2026-11-20 — 2º Festival Inclusivo de Capoeira na agenda
 - Dados do usuário: 22/11/2026 9h, Colégio Sarah Dawsey (grafia do cartaz), Av. Rubens Pinto da Silva, 505, Santa Efigênia,
   JF; realização Tio Dinho & Equipe, supervisão Mestre Léo. Cartaz recortado (sem faixas azuis) em `cartaz-20261122-festival-*`.

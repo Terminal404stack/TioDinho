@@ -293,43 +293,46 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
       check(!c.sobrepoe && c.altura < 60 && c.sobra <= 0, `cabeçalho@${w} com 7 itens: ${JSON.stringify(c)}`);
     }
     await ctxE.close();
-    // Sem JS: Tardezinha visível com "Data a confirmar"; "Eventos anteriores" oculta
+    // Sem JS: Tardezinha visível com "Data a confirmar"
     const ctxN = await b.newContext({ javaScriptEnabled: false }); const n = await ctxN.newPage(); await n.goto(BASE + EVENTOS);
-    const e0 = await n.evaluate(() => { const ant = document.querySelector('[data-eventos-anteriores]');
-      return { cards: document.querySelectorAll('[data-eventos] .evento').length, nome: document.querySelector('#ev-tardezinha')?.textContent.trim(), data: document.querySelector('.evento__a-confirmar')?.textContent.trim(), anteriores: getComputedStyle(ant).display, vazio: getComputedStyle(document.querySelector('[data-eventos-vazio]')).display }; });
-    check(e0.cards >= 1 && e0.nome === 'Tardezinha Inclusiva' && e0.data === 'Data a confirmar' && e0.anteriores === 'none' && e0.vazio === 'none', `eventos sem JS: ${JSON.stringify(e0)}`);
+    const e0 = await n.evaluate(() => ({ cards: document.querySelectorAll('[data-eventos] .evento').length, nome: document.querySelector('#ev-tardezinha')?.textContent.trim(), data: document.querySelector('.evento__a-confirmar')?.textContent.trim(), vazio: getComputedStyle(document.querySelector('[data-eventos-vazio]')).display }));
+    check(e0.cards >= 1 && e0.nome === 'Tardezinha Inclusiva' && e0.data === 'Data a confirmar' && e0.vazio === 'none', `eventos sem JS: ${JSON.stringify(e0)}`);
     await ctxN.close();
-    // Lógica de datas: eventos de teste só nesta requisição (page.route), relógio fixo em 10/03/2027
+    // Janela de exibição e selos: eventos de teste só nesta requisição (page.route), relógio fixo em 10/03/2027
     const ctxD = await b.newContext({ viewport: { width: 1440, height: 900 } }); const d = await ctxD.newPage(); const errosD = [];
     d.on('pageerror', e => errosD.push(e.message)); d.on('console', m => { if (m.type() === 'error') errosD.push(m.text()); });
     await d.clock.setFixedTime(new Date(2027, 2, 10, 12, 0, 0));
     const original = await (await d.request.get(BASE + EVENTOS)).text();
-    const card = (id, nome, ini, fim, extra = '') => `<li><article class="evento" data-evento data-inicio="${ini}"${fim ? ` data-fim="${fim}"` : ''} aria-labelledby="${id}"><div class="evento__data"><time datetime="${ini}">${ini}</time></div><div class="evento__corpo"><h3 id="${id}" class="evento__titulo">${nome}</h3><div class="evento__acoes"><a data-evento-participar class="botao" href="#">Participar</a></div></div>${extra}</article></li>`;
+    const card = (id, nome, attrs, extra = '') => `<li><article class="evento" data-evento ${attrs} aria-labelledby="${id}"><div class="evento__data"></div><div class="evento__corpo"><h3 id="${id}" class="evento__titulo">${nome}</h3><div class="evento__acoes"><a data-evento-participar class="botao" href="#">Participar</a></div></div>${extra}</article></li>`;
     const cartaz = '<figure class="evento__cartaz"><a class="galeria__item" href="assets/img/fotos/otimizadas/foto-05-g.webp" data-largura="800" data-altura="1200" data-legenda="Cartaz de teste"><img src="assets/img/fotos/otimizadas/foto-05-480.jpg" width="480" height="720" alt="Cartaz de teste"></a></figure>';
     const abre = '<ol class="eventos" data-eventos data-galeria>';
     check(original.includes(abre), 'eventos: lista [data-eventos] não encontrada');
-    const html = original.replace(abre, abre + card('t-fut', 'Futuro', '2027-04-01', '', cartaz) + card('t-pas', 'Passado', '2027-01-15', '') + card('t-hoje', 'Hoje', '2027-03-10', '') + card('t-dois', 'Dois dias', '2027-03-09', '2027-03-11'));
+    const html = original.replace(abre, abre
+      + card('t-fut', 'Futuro', 'data-inicio="2027-04-01"', cartaz)
+      + card('t-pas', 'Passado', 'data-inicio="2027-03-08"')                                  // terminou e sumiu (padrão: some após o fim)
+      + card('t-pas2', 'Passado visível', 'data-inicio="2027-03-08" data-sumir="2027-03-12"')  // terminou, mas ainda na janela
+      + card('t-hoje', 'Hoje', 'data-inicio="2027-03-10"')
+      + card('t-dois', 'Dois dias', 'data-inicio="2027-03-09" data-fim="2027-03-11"')
+      + card('t-cedo', 'Ainda não publicado', 'data-inicio="2027-05-01" data-publicar="2027-04-01"')
+      + card('t-sem', 'Sem data e expirado', 'data-sumir="2027-03-01"'));
     await d.route(BASE + EVENTOS, r => r.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: html }));
     await d.goto(BASE + EVENTOS, { waitUntil: 'networkidle' });
-    const e1 = await d.evaluate(() => { const ev = (id) => document.getElementById(id).closest('[data-evento]');
-      return { proximos: [...document.querySelectorAll('[data-eventos] > li .evento__titulo')].map(h => h.textContent.trim()),
-        anteriores: [...document.querySelectorAll('[data-eventos-anteriores] ol > li .evento__titulo')].map(h => h.textContent.trim()),
-        secao: getComputedStyle(document.querySelector('[data-eventos-anteriores]')).display !== 'none',
-        selos: ['t-dois', 't-hoje', 't-fut', 't-pas'].map(id => ev(id).querySelector('[data-evento-selo]')?.textContent || ''),
-        passado: ev('t-pas').classList.contains('evento--passado') && !ev('t-pas').querySelector('[data-evento-participar]'),
-        tardezinhaSemSelo: !ev('ev-tardezinha').querySelector('[data-evento-selo]') }; });
-    // só os eventos de teste (os reais, com outras datas, podem estar em qualquer lista)
-    const deTeste = (l) => l.filter(n => ['Dois dias', 'Hoje', 'Futuro', 'Passado', 'Tardezinha Inclusiva'].includes(n)).join('|');
-    check(deTeste(e1.proximos) === 'Dois dias|Hoje|Futuro|Tardezinha Inclusiva' && deTeste(e1.anteriores) === 'Passado' && e1.secao, `eventos: ordem/seções ${JSON.stringify(e1)}`);
-    check(e1.selos.join('|') === 'Acontecendo agora|É hoje!|Faltam 22 dias|Já aconteceu' && e1.passado && e1.tardezinhaSemSelo, `eventos: selos ${JSON.stringify(e1)}`);
-    // quando "Eventos anteriores" aparece, o título dela também é revelado ao rolar
-    await d.locator('[data-eventos-anteriores] .secao__cabeca').scrollIntoViewIfNeeded(); await d.waitForTimeout(500);
-    check(await d.locator('[data-eventos-anteriores] .secao__cabeca').evaluate(e => e.classList.contains('visivel')), 'eventos: título de "Eventos anteriores" não foi revelado');
-    await d.evaluate(() => scrollTo(0, 0));
+    const e1 = await d.evaluate(() => ({
+      lista: [...document.querySelectorAll('[data-eventos] > li .evento__titulo')].map(h => h.textContent.trim()),
+      selos: Object.fromEntries([...document.querySelectorAll('[data-eventos] [data-evento]')].map(e => [e.querySelector('.evento__titulo').textContent.trim(), e.querySelector('[data-evento-selo]')?.textContent || ''])),
+      semBotao: !document.getElementById('t-pas2')?.closest('[data-evento]').querySelector('[data-evento-participar]') }));
+    const deTeste = (l) => l.filter(x => ['Dois dias', 'Passado visível', 'Hoje', 'Futuro', 'Tardezinha Inclusiva', 'Passado', 'Ainda não publicado', 'Sem data e expirado'].includes(x)).join('|');
+    check(deTeste(e1.lista) === 'Passado visível|Dois dias|Hoje|Futuro|Tardezinha Inclusiva', `eventos: janela/ordem ${JSON.stringify(e1.lista)}`);
+    check(e1.selos['Dois dias'] === 'Acontecendo agora' && e1.selos['Hoje'] === 'É hoje!' && e1.selos['Futuro'] === 'Faltam 22 dias' && e1.selos['Passado visível'] === 'Já aconteceu' && e1.semBotao && !e1.selos['Tardezinha Inclusiva'], `eventos: selos ${JSON.stringify(e1.selos)}`);
     await d.locator('[data-evento]:has(#t-fut) .evento__cartaz .galeria__item').click();
     const lb = await d.evaluate(() => ({ aberto: document.getElementById('lightbox').open, src: document.querySelector('.lightbox__img')?.getAttribute('src') || '' }));
     check(lb.aberto && lb.src.endsWith('foto-05-g.webp'), `eventos: cartaz não abriu no lightbox ${JSON.stringify(lb)}`);
     check(!errosD.length, `eventos: erros no console ${errosD.join(' | ')}`);
+    // Festival real: visível até 23/11/2026 e some em 24/11/2026
+    for (const [dia, esperado] of [[23, true], [24, false]]) {
+      const c = await b.newContext(); const pg = await c.newPage(); await pg.clock.setFixedTime(new Date(2026, 10, dia, 10, 0, 0));
+      await pg.goto(BASE + EVENTOS, { waitUntil: 'domcontentloaded' });
+      check((await pg.locator('#ev-festival-2026').count() > 0) === esperado, `festival em ${dia}/11: visível deveria ser ${esperado}`); await c.close(); }
     await ctxD.close(); }
   // CSS com versão na URL (a Cloudflare guarda .css por horas): mesma ?v= em todas as páginas
   { const vs = new Set(); for (const pg of PAGINAS.concat(['404.html'])) {

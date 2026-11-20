@@ -41,11 +41,23 @@ confirmar.
 - Otimize em `assets/img/fotos/otimizadas/cartaz-AAAAMMDD-nome-{480,g}.{webp,jpg}`.
 - Nunca amplie a imagem além do tamanho original.
 
-## O que a página faz sozinha (`assets/js/eventos.js`)
-- **Ordem:** os próximos eventos ficam por data, e os "data a confirmar" vêm depois.
-- **Selos:** "É hoje!", "É amanhã!", "Faltam N dias" ou "Acontecendo agora".
-- **Quando o evento termina:**
-  - ele vai para "Eventos anteriores", seção que só aparece se houver algum;
-  - recebe o selo "Já aconteceu";
-  - perde o botão de participar.
-- **Sem JS:** tudo aparece como foi escrito.
+## Quando o card aparece e some (`assets/js/eventos.js`)
+Atributos no `<article data-evento>` (datas `AAAA-MM-DD`):
+
+| Atributo | Para quê | Se omitir |
+|---|---|---|
+| `data-inicio` | dia do evento | evento "data a confirmar" |
+| `data-fim` | último dia do evento | igual a `data-inicio` |
+| `data-publicar` | primeiro dia em que o card aparece | aparece já |
+| `data-sumir` | **último dia** em que o card aparece; no dia seguinte some sozinho | igual a `data-fim` |
+
+Exemplo: começa dia 22, quer que fique até dia 23 → `data-inicio="2026-11-22" data-sumir="2026-11-23"` (some no dia 24).
+
+- **Selos:** "Faltam N dias", "É amanhã!", "É hoje!", "Acontecendo agora" e, se ainda estiver na janela depois do fim,
+  "Já aconteceu" (sem o botão de participar).
+- **Ordem:** os eventos com data ficam em ordem, e os "data a confirmar" vêm depois.
+- **Desempenho:** o script roda uma vez, ao abrir a página, sem temporizadores nem requisições.
+- **Limites:**
+  - quem navega sem JavaScript continua vendo o card até ele ser apagado do HTML;
+  - vale apagar o `<li>` e o JSON-LD depois de um tempo, para manter o arquivo limpo.
+- **Cache:** ao mudar o `eventos.js`, troque o `?v=` dele na página, porque a Cloudflare guarda `.js` por horas.

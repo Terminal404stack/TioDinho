@@ -1,14 +1,16 @@
 /* =========================================================
    eventos.js — agenda da página Eventos (aprimoramento progressivo).
-   Sem JS, os cards aparecem como foram escritos no HTML.
-   Com JS: ordena por data, move para "Eventos anteriores" o que já
-   terminou e mostra um selo com quanto falta ("É hoje!", "Faltam 5 dias").
-   Datas vêm de data-inicio / data-fim (AAAA-MM-DD) no <article data-evento>.
-   Modelo de evento e regras: docs/eventos.md
+   Cada <article data-evento> pode ter (datas AAAA-MM-DD, horário local):
+     data-inicio   dia do evento (obrigatório para eventos com data)
+     data-fim      último dia do evento (padrão: data-inicio)
+     data-publicar primeiro dia em que o card aparece (padrão: já aparece)
+     data-sumir    último dia em que o card aparece (padrão: data-fim)
+   Fora dessa janela o card é removido da página. Também ordena por data e
+   mostra um selo ("É hoje!", "Faltam 5 dias"). Roda uma vez, ao carregar:
+   sem temporizadores nem requisições, não pesa na página.
+   Modelo e regras: docs/eventos.md
    ========================================================= */
 const lista = document.querySelector('[data-eventos]');
-const secaoAnteriores = document.querySelector('[data-eventos-anteriores]');
-const listaAnteriores = secaoAnteriores?.querySelector('ol');
 const avisoVazio = document.querySelector('[data-eventos-vazio]');
 
 const DIA = 24 * 60 * 60 * 1000;
@@ -23,52 +25,45 @@ function diasEntre(de, ate) {
   return Math.round((ate - de) / DIA);
 }
 
-function selo(evento, texto, classeExtra = '') {
-  let el = evento.querySelector('[data-evento-selo]');
-  if (!el) {
-    el = document.createElement('p');
-    el.setAttribute('data-evento-selo', '');
-    evento.querySelector('.evento__corpo')?.prepend(el);
-  }
-  el.className = ['etiqueta', classeExtra].filter(Boolean).join(' ');
+function selo(evento, texto) {
+  const el = document.createElement('p');
+  el.setAttribute('data-evento-selo', '');
+  el.className = 'etiqueta etiqueta--amarela';
   el.textContent = texto;
+  evento.querySelector('.evento__corpo')?.prepend(el);
 }
 
-if (lista && secaoAnteriores && listaAnteriores) {
+if (lista) {
   const agora = new Date();
   const hoje = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
-  const proximos = [];
-  const anteriores = [];
+  const comData = [];
   const semData = [];
 
   [...lista.children].forEach((item) => {
     const evento = item.querySelector('[data-evento]');
-    const inicio = dataLocal(evento?.dataset.inicio);
-    if (!evento || !inicio) { semData.push(item); return; }
-    const fim = dataLocal(evento.dataset.fim) || inicio;
+    if (!evento) return;
+    const d = evento.dataset;
+    const inicio = dataLocal(d.inicio);
+    const fim = dataLocal(d.fim) || inicio;
+    const publicar = dataLocal(d.publicar);
+    const sumir = dataLocal(d.sumir) || fim;
 
-    if (diasEntre(hoje, fim) < 0) {
-      evento.classList.add('evento--passado');
-      evento.querySelectorAll('[data-evento-participar]').forEach((el) => el.remove());
-      selo(evento, 'Já aconteceu');
-      anteriores.push({ item, inicio });
-      return;
-    }
+    // Fora da janela de exibição: o card sai da página
+    if ((publicar && hoje < publicar) || (sumir && hoje > sumir)) { item.remove(); return; }
+    if (!inicio) { semData.push(item); return; }
+
     const faltam = diasEntre(hoje, inicio);
-    if (faltam <= 0) selo(evento, faltam === 0 ? 'É hoje!' : 'Acontecendo agora', 'etiqueta--amarela');
-    else if (faltam === 1) selo(evento, 'É amanhã!', 'etiqueta--amarela');
-    else selo(evento, `Faltam ${faltam} dias`, 'etiqueta--amarela');
-    proximos.push({ item, inicio });
+    if (hoje > fim) selo(evento, 'Já aconteceu');
+    else if (faltam <= 0) selo(evento, faltam === 0 ? 'É hoje!' : 'Acontecendo agora');
+    else if (faltam === 1) selo(evento, 'É amanhã!');
+    else selo(evento, `Faltam ${faltam} dias`);
+    if (hoje > fim) evento.querySelectorAll('[data-evento-participar]').forEach((el) => el.remove());
+    comData.push({ item, inicio });
   });
 
-  // Próximos: do mais perto ao mais longe; eventos "data a confirmar" vêm depois
-  proximos.sort((a, b) => a.inicio - b.inicio);
-  lista.append(...proximos.map((p) => p.item), ...semData);
-
-  // Anteriores: do mais recente ao mais antigo
-  anteriores.sort((a, b) => b.inicio - a.inicio);
-  listaAnteriores.append(...anteriores.map((p) => p.item));
-  secaoAnteriores.hidden = listaAnteriores.children.length === 0;
+  // Do mais perto ao mais longe; eventos "data a confirmar" vêm depois
+  comData.sort((a, b) => a.inicio - b.inicio);
+  lista.append(...comData.map((p) => p.item), ...semData);
 
   if (avisoVazio) avisoVazio.hidden = lista.children.length > 0;
 }
