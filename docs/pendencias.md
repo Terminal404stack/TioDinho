@@ -12,7 +12,7 @@ indica onde entra quando for confirmado.
 | 5 | Datas da Tardezinha Inclusiva e outros eventos | "Data a confirmar" / "Datas e detalhes em breve" | `f9N8KaE8WP.html` (página de Eventos pronta em 19/11/2026; ver `docs/eventos.md`) |
 | 6 | Números de impacto (alunos, anos de projeto, eventos) | Não exibidos (contadores animados previstos na skill) | `index.html` |
 | 7 | Certificações / formação do Professor Dinho | Não exibidas | `x2dKgtNI0v.html` |
-| 8 | Parceiros e apoiadores | "Parceiros em breve" | `HMktb9HjQE.html` |
+| 8 | Parceiros e apoiadores | ✅ Patrocinadores oficiais publicados em 20/11/2026 (Terminal404 e Besouro Capoeira), página `Pbmns2SGtY.html`, sem links (pedido do usuário) | `Pbmns2SGtY.html` |
 | 9 | Prestação de contas / destinação de recursos | "Em preparação" | `R7JvqK3bng.html` → Transparência |
 | 10 | Aviso de privacidade | ✅ **Publicado** (`Rgw7Xw9lXM.html`, link no rodapé) com texto factual sobre o que o site faz. Recomendada revisão institucional/jurídica | `Rgw7Xw9lXM.html` |
 | 11 | CNPJ / dados jurídicos (se houver) | Não exibidos | Rodapé |

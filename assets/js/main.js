@@ -60,7 +60,7 @@ function iniciarMenu() {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !painel.hidden) fechar();
   });
-  window.matchMedia('(min-width: 1100px)').addEventListener('change', (e) => {
+  window.matchMedia('(min-width: 1240px)').addEventListener('change', (e) => {
     if (e.matches && !painel.hidden) fechar(false);
   });
 }

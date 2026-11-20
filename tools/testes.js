@@ -1,6 +1,6 @@
 const { chromium } = require('playwright');
 const BASE = process.env.BASE || 'http://localhost:8080/';
-const PAGINAS = ['index.html','x2dKgtNI0v.html','CznFDg5A5K.html','HMktb9HjQE.html','f9N8KaE8WP.html','R7JvqK3bng.html','tYXytz9wxv.html','Rgw7Xw9lXM.html'];
+const PAGINAS = ['index.html','x2dKgtNI0v.html','CznFDg5A5K.html','HMktb9HjQE.html','f9N8KaE8WP.html','R7JvqK3bng.html','Pbmns2SGtY.html','tYXytz9wxv.html','Rgw7Xw9lXM.html'];
 const EVENTOS = 'f9N8KaE8WP.html';
 const PRODUCAO = 'https://sercapoeira.com.br/';
 const LARGURAS = [320, 375, 640, 768, 1024, 1440, 1920];
@@ -181,10 +181,10 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
   for (const w of [375, 1440]) { const q = await (await b.newContext({ viewport: { width: w, height: 900 } })).newPage(); const er = []; q.on('pageerror', e => er.push(e.message));
     await q.goto(BASE + '404.html', { waitUntil: 'networkidle' });
     const r4 = await q.evaluate(() => ({ h1: document.querySelectorAll('h1').length, over: document.documentElement.scrollWidth - innerWidth, links: document.querySelectorAll('.lista-404 a').length, noindex: !!document.querySelector('meta[name=robots][content=noindex]') }));
-    check(r4.h1 === 1 && r4.over <= 0 && r4.links === 7 && r4.noindex && !er.length, `404@${w}: ${JSON.stringify(r4)} ${er}`); }
+    check(r4.h1 === 1 && r4.over <= 0 && r4.links === 8 && r4.noindex && !er.length, `404@${w}: ${JSON.stringify(r4)} ${er}`); }
   check((await p.request.get(BASE + 'robots.txt')).status() === 200, 'robots.txt ausente');
   // cabeçalho: logo à esquerda, menu no centro, CTA à direita (simétrico)
-  for (const w of [1100, 1440, 1920]) { const q = await (await b.newContext({ viewport: { width: w, height: 900 } })).newPage(); await q.goto(BASE + 'index.html');
+  for (const w of [1240, 1440, 1920]) { const q = await (await b.newContext({ viewport: { width: w, height: 900 } })).newPage(); await q.goto(BASE + 'index.html');
     const c = await q.evaluate(() => { const g = s => document.querySelector(s).getBoundingClientRect(); const m = g('.marca'), n = g('.nav-principal ul'), a = g('.cabecalho__acoes'); return { esq: m.left, dir: innerWidth - a.right, centro: Math.abs(n.left + n.width / 2 - innerWidth / 2), bg: getComputedStyle(document.querySelector('.marca')).backgroundColor }; });
     check(Math.abs(c.esq - c.dir) < 2 && c.centro < 2 && c.bg === 'rgba(0, 0, 0, 0)', `cabeçalho@${w}: ${JSON.stringify(c)}`); }
   // Revisão de código (18/11): correções que não podem voltar
@@ -266,7 +266,7 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
   for (const arq of ['foto-26-480.webp', 'foto-26-480.jpg', 'foto-26-g.webp', 'foto-26-g.jpg']) {
     const r = await p.request.get(BASE + 'assets/img/fotos/otimizadas/' + arq); check(r.status() === 200 && (await r.body()).length > 10000, `arquivo ${arq} ausente ou vazio`); }
   // Fotos em todas as páginas (exceto o aviso de privacidade): carregadas, com alt, sem deformar
-  { const minimo = { 'index.html': 6, 'x2dKgtNI0v.html': 4, 'CznFDg5A5K.html': 5, 'HMktb9HjQE.html': 2, 'f9N8KaE8WP.html': 5, 'R7JvqK3bng.html': 3, 'tYXytz9wxv.html': 3 };
+  { const minimo = { 'index.html': 6, 'x2dKgtNI0v.html': 4, 'CznFDg5A5K.html': 5, 'HMktb9HjQE.html': 2, 'f9N8KaE8WP.html': 5, 'Pbmns2SGtY.html': 2, 'R7JvqK3bng.html': 3, 'tYXytz9wxv.html': 3 };
     const ctxM = await b.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' }); const q = await ctxM.newPage();
     for (const [pg, min] of Object.entries(minimo)) {
       await q.goto(BASE + pg, { waitUntil: 'networkidle' }); await rolar(q); await q.waitForLoadState('networkidle');
@@ -274,8 +274,8 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
       check(r.length >= min && r.every(i => i.ok && i.alt), `${pg}: fotos em moldura ${r.length}/${min} ${JSON.stringify(r.filter(i => !i.ok || !i.alt))}`); }
     await q.goto(BASE + 'HMktb9HjQE.html'); check(await q.locator('.galeria__item').count() === 22, 'galeria: esperadas 22 fotos');
     await ctxM.close(); }
-  // Página de Eventos: menu em todas as páginas, cabeçalho em 1100px, sem JS e lógica de datas (relógio fixo)
-  { const MENU = ['Início', 'Sobre', 'Capoeira Inclusiva', 'Projetos', 'Eventos', 'Ajude', 'Contato'];
+  // Página de Eventos: menu em todas as páginas, cabeçalho em 1240px, sem JS e lógica de datas (relógio fixo)
+  { const MENU = ['Início', 'Sobre', 'Capoeira Inclusiva', 'Projetos', 'Eventos', 'Ajude', 'Patrocinadores', 'Contato'];
     const ctxE = await b.newContext({ viewport: { width: 1440, height: 900 } }); const q = await ctxE.newPage();
     for (const pg of PAGINAS.concat(['404.html'])) {
       await q.goto(BASE + pg);
@@ -286,11 +286,11 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
         ev: [...document.querySelectorAll('.nav-principal a, #menu-mobile ol a, .rodape nav a')].filter(a => a.getAttribute('href') === ev).length }), EVENTOS);
       check(m.desk.join('|') === MENU.join('|') && m.rod.join('|') === MENU.join('|') && m.cel.join('|') === MENU.map((t, i) => `0${i + 1}${t}`).join('|') && m.ev === 3, `${pg}: menu/rodapé ${JSON.stringify(m)}`);
     }
-    for (const w of [1100, 1180, 1280]) {
+    for (const w of [1240, 1280, 1366]) {
       await q.setViewportSize({ width: w, height: 800 }); await q.goto(BASE + EVENTOS);
       const c = await q.evaluate(() => { const r = (sel) => document.querySelector(sel).getBoundingClientRect(); const m = r('.marca'), n = r('.nav-principal ul'), a = r('.cabecalho__acoes');
         return { sobrepoe: m.right > n.left || n.right > a.left, altura: Math.round(n.height), sobra: document.documentElement.scrollWidth - innerWidth }; });
-      check(!c.sobrepoe && c.altura < 60 && c.sobra <= 0, `cabeçalho@${w} com 7 itens: ${JSON.stringify(c)}`);
+      check(!c.sobrepoe && c.altura < 60 && c.sobra <= 0, `cabeçalho@${w} com 8 itens: ${JSON.stringify(c)}`);
     }
     await ctxE.close();
     // Sem JS: Tardezinha visível com "Data a confirmar"

@@ -1,6 +1,6 @@
 const { chromium } = require('playwright');
 const BASE = process.env.BASE || 'http://localhost:8080/';
-const PAGS = ['index','x2dKgtNI0v','CznFDg5A5K','HMktb9HjQE','f9N8KaE8WP','R7JvqK3bng','tYXytz9wxv','Rgw7Xw9lXM'].concat(process.argv[2] ? process.argv[2].split(',') : []);
+const PAGS = ['index','x2dKgtNI0v','CznFDg5A5K','HMktb9HjQE','f9N8KaE8WP','R7JvqK3bng','Pbmns2SGtY','tYXytz9wxv','Rgw7Xw9lXM'].concat(process.argv[2] ? process.argv[2].split(',') : []);
 (async () => {
  const b = await chromium.launch(); const achados = [];
  for (const w of [375, 1440]) {

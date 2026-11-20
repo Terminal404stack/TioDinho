@@ -928,3 +928,12 @@
   .eventos__vazio { padding: 20px 0; color: var(--fg-suave); }
   .eventos + .aviso { margin-top: clamp(20px, 3vw, 32px); }
 }
+
+@layer componentes {
+  /* ---------- Patrocinadores ---------- */
+  .moldura--quadrada { aspect-ratio: 1; }
+  .patrocinadores { list-style: none; padding: 0; display: grid; gap: clamp(24px, 4vw, 48px); grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+  .patrocinador { display: grid; gap: 14px; align-content: start; max-width: 520px; }
+  .patrocinador__nome { font-size: clamp(1.5rem, 2.4vw, 2rem); }
+  .patrocinador p { color: var(--fg-suave); }
+}

@@ -2,6 +2,12 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-20 — Página de Patrocinadores
+- `Pbmns2SGtY.html`: Terminal404 (empresa do usuário) e Besouro Capoeira, só imagens (sem links, pedido do usuário).
+  Imagens em `assets/img/patrocinadores/*-{480,g}`; originais em `docs/identidade/patrocinadores/`.
+- Menu com 8 itens: desktop a partir de **1240px** (layout.css + main.js), celular 01–08, rodapé, 404, link em Ajude/Parcerias.
+- CSS `?v=20261120b`, `main.js?v=20261120b`. Testes 849/849, pentest 83 OK.
+
 ## 2026-11-20 — Eventos somem sozinhos
 - Pedido: cada evento com janela de exibição e sumir automaticamente. `eventos.js` agora usa `data-publicar`/`data-sumir`
   (padrão: some no dia seguinte ao fim) e **remove** o card; seção "Eventos anteriores" e `.evento--passado` removidas.
