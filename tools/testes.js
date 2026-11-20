@@ -318,13 +318,15 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
         selos: ['t-dois', 't-hoje', 't-fut', 't-pas'].map(id => ev(id).querySelector('[data-evento-selo]')?.textContent || ''),
         passado: ev('t-pas').classList.contains('evento--passado') && !ev('t-pas').querySelector('[data-evento-participar]'),
         tardezinhaSemSelo: !ev('ev-tardezinha').querySelector('[data-evento-selo]') }; });
-    check(e1.proximos.join('|') === 'Dois dias|Hoje|Futuro|Tardezinha Inclusiva' && e1.anteriores.join('|') === 'Passado' && e1.secao, `eventos: ordem/seções ${JSON.stringify(e1)}`);
+    // só os eventos de teste (os reais, com outras datas, podem estar em qualquer lista)
+    const deTeste = (l) => l.filter(n => ['Dois dias', 'Hoje', 'Futuro', 'Passado', 'Tardezinha Inclusiva'].includes(n)).join('|');
+    check(deTeste(e1.proximos) === 'Dois dias|Hoje|Futuro|Tardezinha Inclusiva' && deTeste(e1.anteriores) === 'Passado' && e1.secao, `eventos: ordem/seções ${JSON.stringify(e1)}`);
     check(e1.selos.join('|') === 'Acontecendo agora|É hoje!|Faltam 22 dias|Já aconteceu' && e1.passado && e1.tardezinhaSemSelo, `eventos: selos ${JSON.stringify(e1)}`);
     // quando "Eventos anteriores" aparece, o título dela também é revelado ao rolar
     await d.locator('[data-eventos-anteriores] .secao__cabeca').scrollIntoViewIfNeeded(); await d.waitForTimeout(500);
     check(await d.locator('[data-eventos-anteriores] .secao__cabeca').evaluate(e => e.classList.contains('visivel')), 'eventos: título de "Eventos anteriores" não foi revelado');
     await d.evaluate(() => scrollTo(0, 0));
-    await d.locator('.evento__cartaz .galeria__item').click();
+    await d.locator('[data-evento]:has(#t-fut) .evento__cartaz .galeria__item').click();
     const lb = await d.evaluate(() => ({ aberto: document.getElementById('lightbox').open, src: document.querySelector('.lightbox__img')?.getAttribute('src') || '' }));
     check(lb.aberto && lb.src.endsWith('foto-05-g.webp'), `eventos: cartaz não abriu no lightbox ${JSON.stringify(lb)}`);
     check(!errosD.length, `eventos: erros no console ${errosD.join(' | ')}`);

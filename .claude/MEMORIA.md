@@ -2,6 +2,11 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-20 — 2º Festival Inclusivo de Capoeira na agenda
+- Dados do usuário: 22/11/2026 9h, Colégio Sarah Dawsey (grafia do cartaz), Av. Rubens Pinto da Silva, 505, Santa Efigênia,
+  JF; realização Tio Dinho & Equipe, supervisão Mestre Léo. Cartaz recortado (sem faixas azuis) em `cartaz-20261122-festival-*`.
+  JSON-LD Event validado. Teste de datas passou a filtrar só os eventos de teste. Testes 776/776.
+
 ## 2026-11-19 — Página de Eventos
 - Nova página `f9N8KaE8WP.html` (agenda); menu "Projetos e Eventos" separado em "Projetos" + "Eventos" nas 9 páginas
   (celular 01–07, rodapé, lista da 404). Card `.evento` + `assets/js/eventos.js` (ordena, move passados, selos).
