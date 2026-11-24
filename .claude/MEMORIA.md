@@ -8,6 +8,7 @@
 - 16 fotos escolhidas → `festival-2026-01..16-{480,g}` (originais CAPOEIRA-39,54,57,66,118,183,246,102,385,391,131,129,417,461,463,413).
 - Seção `#festival-2026` na página Eventos (galeria + lightbox) e "Patrocinadores do evento" (19 logos do zip, aviso
   "não são patrocinadores fixos"). Logos 3 e 5 do zip vieram corrompidos (preto) → fora; pedir de novo.
+- Logos do evento: fundo preto (transparência perdida no WhatsApp) removido por script (alfa pelo brilho + desfaz mistura com preto); WebP + PNG transparentes, sem quadro preto. CSS `?v=20261124b`.
 - Card e JSON-LD do festival removidos (evento passou); cartaz apagado. Link na Início. CSS `?v=20261124`. Testes 932/932.
 
 ## 2026-11-20 — Página de Patrocinadores
