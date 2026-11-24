@@ -2,6 +2,9 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-24 — Logos ainda pretos em produção = cache
+- Cloudflare servia o WebP antigo (mesmo nome). Regra: **ao trocar uma imagem mantendo o nome, use `?v=`** (logos do evento `?v=20261124b`). Linhas divisórias no bloco de patrocinadores do evento. CSS `?v=20261124c`.
+
 ## 2026-11-24 — "Como foi" o 2º Festival + patrocinadores do evento
 - Drive (pasta pública, 549 fotos): ambiente "TioDinho" ganhou drive.google.com, drive.usercontent.google.com e
   lh3.googleusercontent.com; listagem via `embeddedfolderview`, miniaturas `/thumbnail?id=…&sz=w400/w1600`.

@@ -333,7 +333,7 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
   { const c = await b.newContext({ viewport: { width: 1440, height: 900 } }); const q = await c.newPage();
     await q.goto(BASE + EVENTOS, { waitUntil: 'networkidle' }); await rolar(q); await q.waitForLoadState('networkidle');
     const f = await q.evaluate(() => { const s = document.getElementById('festival-2026');
-      return { fotos: s.querySelectorAll('.galeria__item').length, logos: [...s.querySelectorAll('.patrocinadores-evento__lista img')].map(i => i.complete && i.naturalWidth > 0), aviso: /não são patrocinadores fixos/.test(s.textContent) }; });
+      return { fotos: s.querySelectorAll('.galeria__item').length, logos: [...s.querySelectorAll('.patrocinadores-evento__lista img')].map(i => i.complete && i.naturalWidth > 0 && /\?v=\d{8}/.test(i.currentSrc)), aviso: /não são patrocinadores fixos/.test(s.textContent) }; });
     check(f.fotos === 16 && f.logos.length === 19 && f.logos.every(Boolean) && f.aviso, `festival 2026: ${JSON.stringify({ ...f, logos: f.logos.length })}`);
     await q.locator('#festival-2026 .galeria__item').first().click();
     const lb = await q.evaluate(() => ({ aberto: document.getElementById('lightbox').open, cont: document.querySelector('.lightbox__contador').textContent }));
