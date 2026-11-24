@@ -2,6 +2,14 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-24 — "Como foi" o 2º Festival + patrocinadores do evento
+- Drive (pasta pública, 549 fotos): ambiente "TioDinho" ganhou drive.google.com, drive.usercontent.google.com e
+  lh3.googleusercontent.com; listagem via `embeddedfolderview`, miniaturas `/thumbnail?id=…&sz=w400/w1600`.
+- 16 fotos escolhidas → `festival-2026-01..16-{480,g}` (originais CAPOEIRA-39,54,57,66,118,183,246,102,385,391,131,129,417,461,463,413).
+- Seção `#festival-2026` na página Eventos (galeria + lightbox) e "Patrocinadores do evento" (19 logos do zip, aviso
+  "não são patrocinadores fixos"). Logos 3 e 5 do zip vieram corrompidos (preto) → fora; pedir de novo.
+- Card e JSON-LD do festival removidos (evento passou); cartaz apagado. Link na Início. CSS `?v=20261124`. Testes 932/932.
+
 ## 2026-11-20 — Página de Patrocinadores
 - `Pbmns2SGtY.html`: Terminal404 (empresa do usuário) e Besouro Capoeira, só imagens (sem links, pedido do usuário).
   Imagens em `assets/img/patrocinadores/*-{480,g}`; originais em `docs/identidade/patrocinadores/`.

@@ -328,12 +328,16 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
     const lb = await d.evaluate(() => ({ aberto: document.getElementById('lightbox').open, src: document.querySelector('.lightbox__img')?.getAttribute('src') || '' }));
     check(lb.aberto && lb.src.endsWith('foto-05-g.webp'), `eventos: cartaz não abriu no lightbox ${JSON.stringify(lb)}`);
     check(!errosD.length, `eventos: erros no console ${errosD.join(' | ')}`);
-    // Festival real: visível até 23/11/2026 e some em 24/11/2026
-    for (const [dia, esperado] of [[23, true], [24, false]]) {
-      const c = await b.newContext(); const pg = await c.newPage(); await pg.clock.setFixedTime(new Date(2026, 10, dia, 10, 0, 0));
-      await pg.goto(BASE + EVENTOS, { waitUntil: 'domcontentloaded' });
-      check((await pg.locator('#ev-festival-2026').count() > 0) === esperado, `festival em ${dia}/11: visível deveria ser ${esperado}`); await c.close(); }
     await ctxD.close(); }
+  // Eventos: "Como foi" o 2º Festival (galeria no lightbox) e patrocinadores do evento (não fixos)
+  { const c = await b.newContext({ viewport: { width: 1440, height: 900 } }); const q = await c.newPage();
+    await q.goto(BASE + EVENTOS, { waitUntil: 'networkidle' }); await rolar(q); await q.waitForLoadState('networkidle');
+    const f = await q.evaluate(() => { const s = document.getElementById('festival-2026');
+      return { fotos: s.querySelectorAll('.galeria__item').length, logos: [...s.querySelectorAll('.patrocinadores-evento__lista img')].map(i => i.complete && i.naturalWidth > 0), aviso: /não são patrocinadores fixos/.test(s.textContent) }; });
+    check(f.fotos === 16 && f.logos.length === 19 && f.logos.every(Boolean) && f.aviso, `festival 2026: ${JSON.stringify({ ...f, logos: f.logos.length })}`);
+    await q.locator('#festival-2026 .galeria__item').first().click();
+    const lb = await q.evaluate(() => ({ aberto: document.getElementById('lightbox').open, cont: document.querySelector('.lightbox__contador').textContent }));
+    check(lb.aberto && lb.cont === '1 de 16', `festival 2026: lightbox ${JSON.stringify(lb)}`); await c.close(); }
   // CSS com versão na URL (a Cloudflare guarda .css por horas): mesma ?v= em todas as páginas
   { const vs = new Set(); for (const pg of PAGINAS.concat(['404.html'])) {
       const html = await (await p.request.get(BASE + pg)).text(); const links = [...html.matchAll(/rel="stylesheet" href="assets\/css\/[a-z]+\.css\?v=(\d{8}[a-z]?)"/g)];
