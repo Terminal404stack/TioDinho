@@ -2,6 +2,9 @@
 
 > Uma entrada curta por sessão: data, o que foi feito, decisões, pendências. Mais novo no topo.
 
+## 2026-11-25 — Patrocinadores: só Terminal404
+- Besouro Capoeira removida (pedido do usuário; original guardado em docs). Logo nova da Terminal404 (transparente) em `terminal404-{480,g}.{webp,png}?v=20261125`, moldura `.moldura--logo` sem fundo.
+
 ## 2026-11-24 — Logos ainda pretos em produção = cache
 - Cloudflare servia o WebP antigo (mesmo nome). Regra: **ao trocar uma imagem mantendo o nome, use `?v=`** (logos do evento `?v=20261124b`). Linhas divisórias no bloco de patrocinadores do evento. CSS `?v=20261124c`.
 

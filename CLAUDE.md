@@ -19,7 +19,7 @@ CznFDg5A5K.html          Capoeira Inclusiva  index.html e 404.html precisam mant
 HMktb9HjQE.html          Projetos
 f9N8KaE8WP.html          Eventos (agenda; modelo em docs/eventos.md)
 R7JvqK3bng.html          Ajude
-Pbmns2SGtY.html          Patrocinadores (Terminal404 e Besouro Capoeira; originais em docs/identidade/patrocinadores/)
+Pbmns2SGtY.html          Patrocinadores (Terminal404; Besouro removida em 25/11/2026; originais em docs/identidade/patrocinadores/)
 tYXytz9wxv.html          Contato
 Rgw7Xw9lXM.html          Aviso de privacidade (link no rodapé)
 404.html (descobre a pasta do site: /TioDinho/ no GitHub Pages ou raiz), robots.txt, sitemap.xml, _config.yml (exclusões do GitHub Pages)

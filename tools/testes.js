@@ -266,7 +266,7 @@ const rolar = (p) => p.evaluate(async () => { document.documentElement.style.scr
   for (const arq of ['foto-26-480.webp', 'foto-26-480.jpg', 'foto-26-g.webp', 'foto-26-g.jpg']) {
     const r = await p.request.get(BASE + 'assets/img/fotos/otimizadas/' + arq); check(r.status() === 200 && (await r.body()).length > 10000, `arquivo ${arq} ausente ou vazio`); }
   // Fotos em todas as páginas (exceto o aviso de privacidade): carregadas, com alt, sem deformar
-  { const minimo = { 'index.html': 6, 'x2dKgtNI0v.html': 4, 'CznFDg5A5K.html': 5, 'HMktb9HjQE.html': 2, 'f9N8KaE8WP.html': 5, 'Pbmns2SGtY.html': 2, 'R7JvqK3bng.html': 3, 'tYXytz9wxv.html': 3 };
+  { const minimo = { 'index.html': 6, 'x2dKgtNI0v.html': 4, 'CznFDg5A5K.html': 5, 'HMktb9HjQE.html': 2, 'f9N8KaE8WP.html': 5, 'Pbmns2SGtY.html': 1, 'R7JvqK3bng.html': 3, 'tYXytz9wxv.html': 3 };
     const ctxM = await b.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' }); const q = await ctxM.newPage();
     for (const [pg, min] of Object.entries(minimo)) {
       await q.goto(BASE + pg, { waitUntil: 'networkidle' }); await rolar(q); await q.waitForLoadState('networkidle');
